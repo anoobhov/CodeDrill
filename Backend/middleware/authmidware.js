@@ -1,4 +1,4 @@
-const { jwt } = require("jsonwebtoken")
+const jwt = require("jsonwebtoken")
 const User = require("../schema/user")
 const redisClient = require("../database/redis")
 
