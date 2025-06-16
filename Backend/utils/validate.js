@@ -1,4 +1,5 @@
 const validate = (data)=>{
+    try{
     const mandatoryData = ['firstName',"emailId",'password']
     const IsAllowed = mandatoryData.every((k)=>Object.keys(data).includes(k))
     
@@ -7,6 +8,10 @@ const validate = (data)=>{
 
     if(!validator.isEmail(data.emailId))
         throw new Error("Invalid Email");
+}catch(err)
+{
+    res.send("error"+err.message)
+}
 }
 
 module.exports = validate
