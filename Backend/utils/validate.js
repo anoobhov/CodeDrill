@@ -1,3 +1,5 @@
+const validator = require("validator")
+
 const validate = (data)=>{
     try{
     const mandatoryData = ['firstName',"emailId",'password']
