@@ -12,8 +12,9 @@ const register = async(req,res)=>{
         req.body.password = await bcrypt.hash(password,10)
 
         const user = await User.create(req.body)
-        const token = jwt.sign({_id:user._id,emailId:user.emailId},process.env.JWTKEY,{expiresIn:60*60})
-        res.cookie = ('token',token,{maxAge:60*60*1000})
+        req.body.role = 'user'
+        const token = jwt.sign({_id:user._id,emailId:user.emailId,role:'user'},process.env.JWTKEY,{expiresIn:60*60})
+        res.cookie('token',token,{maxAge:60*60*1000})
         res.status(201).send("Registered!!")
     }catch(err){
         res.send("Error: "+err.message)
@@ -32,7 +33,7 @@ const login = async(req,res)=>{
         if(!match)
             throw new Error("Invalid Credentials")
         
-        const token = jwt.sign({_id:user._id,emailId:user.emailId},process.env.JWTKEY,{expiresIn:60*60})
+        const token = jwt.sign({_id:user._id,emailId:user.emailId,role:user.role},process.env.JWTKEY,{expiresIn:60*60})
         res.cookie = ('token',token,{maxAge:60*60*1000})
         res.status(201).send("Logged In!!")    
 }catch(err)
@@ -55,6 +56,8 @@ const logout = async (req,res) => {
         res.send('error: '+error.message)
     }
 }
+
+
 module.exports = {
     register,
     login,

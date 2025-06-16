@@ -8,3 +8,6 @@ const authmidware = require("../middleware/authmidware")
 authRouter.post("/register",register)
 authRouter.post("/login",login)
 authRouter.post("/logout",authmidware,logout)
+
+
+module.exports = authRouter
