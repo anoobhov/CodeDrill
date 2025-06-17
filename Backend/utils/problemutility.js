@@ -9,47 +9,12 @@ const getLanguageById = (lang)=>{
     return language[lang.toLowerCase()];
 }
 
-
 const submitBatch = async (submissions)=>{
-const options = {
-  method: 'GET',
-  url: 'https://judge0-ce.p.rapidapi.com/about',
-  headers: {
-    'x-rapidapi-key': '11d7d90583msh9d6335a356a0773p13a5c2jsn6d7d24d7f9a2',
-    'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
-  },
-  data: {
-    submissions
-  }
-};
-
-
-async function fetchdata() {
-  try {
-    const response = await axios.request(options)
-    return response.data
-  } catch (error) {
-    console.error("error"+error)
-  }
-}
-return await fetchdata();
-
-}
-
-const waiting = async(timer)=>{
-  setTimeout(()=>{
-    return 1;
-  },timer);
-}
-
-const submitToken = async (submissions) => {
-  
-
 const options = {
   method: 'POST',
   url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
   params: {
-    base64_encoded: 'true'
+    base64_encoded: 'false'
   },
   headers: {
     'x-rapidapi-key': '11d7d90583msh9d6335a356a0773p13a5c2jsn6d7d24d7f9a2',
@@ -61,7 +26,41 @@ const options = {
   }
 };
 
-async function fetchData() {
+
+async function getToken() {
+  try {
+    const response = await axios.request(options)
+    return response.data
+  } catch (error) {
+    console.error("error"+error)
+  }
+}
+return await getToken();
+
+}
+
+const waiting = async(timer)=>{
+  setTimeout(()=>{
+    return 1;
+  },timer);
+}
+
+const submitToken = async (resultToken) => {
+const options = {
+  method: 'GET',
+  url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
+  params: {
+    tokens: resultToken.join(","),
+    base64_encoded: 'false',
+    fields: '*'
+  },
+  headers: {
+    'x-rapidapi-key': '11d7d90583msh9d6335a356a0773p13a5c2jsn6d7d24d7f9a2',
+    'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
+  }
+};
+
+async function fetchResultviaTokens() {
 	try {
 		const response = await axios.request(options);
 		return response.data;
@@ -73,7 +72,7 @@ async function fetchData() {
 
  while(true){
 
- const result =  await fetchData();
+ const result =  await fetchResultviaTokens();
 
   const IsResultObtained =  result.submissions.every((r)=>r.status_id>2);
 

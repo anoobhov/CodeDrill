@@ -1,11 +1,11 @@
 const express = require("express")
 const authmidware = require("../middleware/authmidware")
 const adminmidware = require("../middleware/adminmidware")
-
+const problemCreate = require("../controller/problemcreate")
 const problemRouter = express.Router()
 
 //admin can do that
-problem.post("/create",authmidware,adminmidware,problemCreate)
+problemRouter.post("/create",authmidware,adminmidware,problemCreate)
 // problem.patch("/:id",problemUpdate)
 // problem.delete("/:id",problemDelete)
 

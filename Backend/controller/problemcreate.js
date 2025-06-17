@@ -27,7 +27,7 @@ const problemCreate = async (req,res) => {
 
 
         const submitResult = await submitBatch(submissions);
-        // console.log(submitResult);
+        console.log(submitResult);
 
         const resultToken = submitResult.map((value)=> value.token);
 
@@ -35,7 +35,7 @@ const problemCreate = async (req,res) => {
         
        const testResult = await submitToken(resultToken);
 
-      //  console.log(testResult);
+       console.log(testResult);
 
        for(const test of testResult){
         if(test.status_id!=3){
@@ -55,7 +55,7 @@ const problemCreate = async (req,res) => {
 
       res.status(201).send("Problem Saved Successfully");
     }catch (error) {
-        res.status(400).send("Error: "+err);
+        res.status(400).send("Error: "+error);
     }
 }
 
