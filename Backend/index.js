@@ -3,6 +3,7 @@ const express = require("express")
 const app = express()
 require("dotenv").config()
 const authRouter = require("./routes/AuthRoute")
+const problemRouter = require("./routes/problemRoute")
 const main = require("./database/maindb")
 const redisClient = require("./database/redis")
 
@@ -10,12 +11,7 @@ const redisClient = require("./database/redis")
 app.use(express.json())
 app.use(cookieParser())
 app.use("/auth",authRouter)
-// main()
-// .then(async () => {
-//     app.listen(process.env.PORT,()=>{
-//         console.log("Port activated: ")
-//     })
-// })
+app.use("/problem",problemRouter)
 
 const InitializeConnection = async()=>{
     try {

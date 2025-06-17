@@ -57,9 +57,26 @@ const logout = async (req,res) => {
     }
 }
 
+const adminRegister= async (req,res)=>{
+    try {
+       if(req.result.role!='admin'){
+        throw new Error("Access Forbidden")
+    } 
+    validate(req.body)
+    const {password} = req.body
+    req.body.password=await bcrypt(password,10)
+    const user = await User.create(req.body)
+    const token = jwt.sign({_id:user._id,emailId:user.emailId,role:user.role},process.env.JWTKEY,{expiresIn:60*60})
+    res.cookie("token",token,{maxAge:60*60*1000})
+    res.status(201).send("User registed successfully")
+    } catch (error) {
+        res.send("Error: "+error.message)
+    }
 
+}
 module.exports = {
     register,
     login,
-    logout
+    logout,
+    adminRegister
 }
