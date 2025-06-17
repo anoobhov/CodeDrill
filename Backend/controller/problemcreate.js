@@ -1,5 +1,5 @@
 const {getLanguageById,submitBatch,submitToken} = require("../utils/problemutility")
-
+const Problem = require("../schema/problem")
 const problemCreate = async (req,res) => {
     const {title,description,difficulty,tags,
         visibleTestCases,hiddenTestCases,startCode,
@@ -8,13 +8,6 @@ const problemCreate = async (req,res) => {
     try {
          
       for(const {language,completeCode} of referenceSolution){
-         
-
-        // source_code:
-        // language_id:
-        // stdin: 
-        // expectedOutput:
-
         const languageId = getLanguageById(language);
           
         // I am creating Batch submission
@@ -55,7 +48,7 @@ const problemCreate = async (req,res) => {
 
       res.status(201).send("Problem Saved Successfully");
     }catch (error) {
-        res.status(400).send("Error: "+error);
+        res.status(400).send("Error:hnm "+error);
     }
 }
 
