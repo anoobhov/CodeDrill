@@ -36,6 +36,11 @@ return await fetchdata();
 
 }
 
+const waiting = async(timer)=>{
+  setTimeout(()=>{
+    return 1;
+  },timer);
+}
 
 const submitToken = async (submissions) => {
   
