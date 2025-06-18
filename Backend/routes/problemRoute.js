@@ -1,17 +1,18 @@
 const express = require("express")
 const authmidware = require("../middleware/authmidware")
 const adminmidware = require("../middleware/adminmidware")
-const problemCreate = require("../controller/problemcreate")
+const {problemCreate,problemUpdate,problemDelete,problemFetch,getAllProblem,submitCode} = require("../controller/problemcontrol")
 const problemRouter = express.Router()
 
 //admin can do that
-problemRouter.post("/create",authmidware,adminmidware,problemCreate)
-// problem.patch("/:id",problemUpdate)
-// problem.delete("/:id",problemDelete)
+problemRouter.post("/problemcreate",authmidware,adminmidware,problemCreate)
+problem.put("/problemUpdate/:id",authmidware,adminmidware,problemUpdate)
+problem.delete("/problemDelete/:id",authmidware,adminmidware,problemDelete)
 
 // //everyone can do that
-// problemRouter.get("/:id",problemFetch);
-// problemRouter.get("/", getAllProblem);
+problemRouter.get("/:id",authmidware,problemFetch);
+problemRouter.get("/allproblems",authmidware,getAllProblem);
+problemRouter.post("/submit/:id",authmidware,submitCode)
 // problemRouter.get("/user", solvedProblem);
 
 module.exports = problemRouter
