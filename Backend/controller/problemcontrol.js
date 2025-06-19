@@ -224,6 +224,10 @@ const submitCode = async (req,res) => {
     submittedCode.memory = memory;
     await submittedCode.save()
 
+    if(!req.result.problemSolved.includes(problemId)){
+      req.result.problemSolved.push(problemId)
+      await req.result.save()
+    }
 
     res.send(submittedCode)
   } catch (error) {
@@ -231,4 +235,56 @@ const submitCode = async (req,res) => {
   }
 }
 
-module.exports = {problemCreate,problemUpdate,problemDelete,problemFetch,getAllProblem,submitCode}
+const runCode = async (req,res) => {
+  try {
+    const userId = req.result._id
+    const problemId = req.params.id
+    const {language,code}=req.body
+
+    if(!userId||!problemId||!language||!code)
+      throw new Error("Some fields are missing")
+
+    //fetching so that i can get hidden test cases...
+    const problem =  await Problem.findById(problemId);
+
+    //Now submitting the code to Judge0
+    const languageId = getLanguageById(language)
+    const submissions=problem.visibleTestCases.map((testcase)=>({
+        source_code:code,
+        language_id: languageId,
+        stdin: testcase.input,
+        expected_output: testcase.output
+    }))
+    const submitResult = await submitBatch(submissions);
+    
+    const resultToken = submitResult.map((value)=> value.token);
+
+    const testResult = await submitToken(resultToken);
+    res.send(testResult)
+  } catch (error) {
+    res.send("Error"+error)
+  }
+}
+
+const solvedProblem = async (req,res)=> {
+  try {
+    const userId = req.result._id
+    const user = await User.findById(userId).populate({
+    path:'problemSolved',
+    select:'title difficulty tags'
+  })
+  res.status(200).send(user.problemSolved)
+  } catch (error) {
+    res.send("Problem Db error")
+  }
+}
+
+module.exports = {problemCreate,
+  problemUpdate,
+  problemDelete,
+  problemFetch,
+  getAllProblem,
+  submitCode,
+  runCode,
+  solvedProblem
+}

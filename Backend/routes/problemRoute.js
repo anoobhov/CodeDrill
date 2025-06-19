@@ -1,7 +1,7 @@
 const express = require("express")
 const authmidware = require("../middleware/authmidware")
 const adminmidware = require("../middleware/adminmidware")
-const {problemCreate,problemUpdate,problemDelete,problemFetch,getAllProblem,submitCode} = require("../controller/problemcontrol")
+const {problemCreate,problemUpdate,problemDelete,problemFetch,getAllProblem,submitCode,solvedProblem} = require("../controller/problemcontrol")
 const problemRouter = express.Router()
 
 //admin can do that
@@ -13,6 +13,6 @@ problem.delete("/problemDelete/:id",authmidware,adminmidware,problemDelete)
 problemRouter.get("/:id",authmidware,problemFetch);
 problemRouter.get("/allproblems",authmidware,getAllProblem);
 problemRouter.post("/submit/:id",authmidware,submitCode)
-// problemRouter.get("/user", solvedProblem);
+problemRouter.get("/user",authmidware, solvedProblem);
 
 module.exports = problemRouter
