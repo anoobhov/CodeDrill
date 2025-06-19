@@ -6,8 +6,8 @@ const problemRouter = express.Router()
 
 //admin can do that
 problemRouter.post("/problemcreate",authmidware,adminmidware,problemCreate)
-problem.put("/problemUpdate/:id",authmidware,adminmidware,problemUpdate)
-problem.delete("/problemDelete/:id",authmidware,adminmidware,problemDelete)
+problemRouter.put("/problemUpdate/:id",authmidware,adminmidware,problemUpdate)
+problemRouter.delete("/problemDelete/:id",authmidware,adminmidware,problemDelete)
 
 // //everyone can do that
 problemRouter.get("/:id",authmidware,problemFetch);
