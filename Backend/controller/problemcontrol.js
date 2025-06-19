@@ -279,6 +279,19 @@ const solvedProblem = async (req,res)=> {
   }
 }
 
+const submissionsPerProblem = async (req,res) => {
+  try {
+    const userId = req.result._id
+    const problemId = req.params.pid
+
+    const ans = await Submissions.find({userId,problemId})
+    if(ans.length==0)
+      res.send("No submission till now")
+    res.send(ans)
+  } catch (error) {
+    res.send("Error"+err)
+  }
+}
 module.exports = {problemCreate,
   problemUpdate,
   problemDelete,
@@ -286,5 +299,6 @@ module.exports = {problemCreate,
   getAllProblem,
   submitCode,
   runCode,
-  solvedProblem
+  solvedProblem,
+  submissionsPerProblem
 }

@@ -43,5 +43,11 @@ const userSchema = new Schema({
     timestamps:true
 })
 
+// when a user deletes his account delete his corres submissions
+userSchema.post('findOneAndDelete', async function (userInfo) {
+    if (userInfo) {
+      await mongoose.model('submission').deleteMany({ userId: userInfo._id });
+    }
+});
 const User = mongoose.model("user",userSchema)
 module.exports = User
