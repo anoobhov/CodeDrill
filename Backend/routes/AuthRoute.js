@@ -11,4 +11,16 @@ authRouter.post("/logout",authmidware,logout)
 authRouter.post("/admin",authmidware,adminmidware,adminRegister)
 authRouter.delete("/deleteProfile",authmidware,deleteProfile)
 
+authRouter.get('/check',authmidware,(req,res)=>{
+    const reply = {
+        firstName:req.result.firstName,
+        emailId:req.result.emailId,
+        _id:req.result._id
+    }
+    res.status(200).json({
+        user:reply,
+        message:"valid user"
+    })
+})
+
 module.exports = authRouter

@@ -1,0 +1,185 @@
+import {createAsyncThunk,createSlice}from "@reduxjs/toolkit"
+import axiosClient from "./utils/axiosClient"
+
+export const registerUser = createAsyncThunk(
+    'auth/register',
+    async(userData,{rejectWithValue})=>{
+        try{
+            //sending post req to backend api
+            const response = await axiosClient.post('/auth/register',userData)
+            return response.data.user
+        }catch(error){
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const loginUser = createAsyncThunk(
+    'auth/login',
+    async(userData,{rejectWithValue})=>{
+        try {
+//axios supermacy
+//             const response = await fetch('/user/register', {
+//              method: 'POST',
+//              headers: {
+//              'Content-Type': 'application/json'
+//              },
+//              body: JSON.stringify(userData)
+// });
+//              const data = await response.json(); 
+
+
+//extra note:-
+//axios object loook like this:-
+// {
+//   data: {...},  // this is the actual server response
+//   status: 200,
+//   headers: {...},
+//   config: {...},
+//   request: {...}
+// }
+            const response = await axiosClient.post('/auth/login',userData)
+           
+            return response.data.user
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const checkAuth = createAsyncThunk(
+    'auth/check',
+    async (_,{rejectWithValue}) => {
+        try {
+            const response = await axiosClient.get('/auth/check')
+            return response.data.user
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const logoutUser = createAsyncThunk(
+    'auth/logout',
+    async (_,{rejectWithValue}) => {
+        try {
+            await axiosClient.post('/auth/logout')
+            return null
+        } catch (error) {
+            
+        }
+    }
+)
+const authSlice = createSlice({
+    name:'auth',
+    initialState:{
+        user:null,
+        isAuthenticated:false,
+        loading:false,
+        error:null
+    },
+    reducer:{},
+    extraReducers:(builder)=>{
+        builder
+        .addCase(registerUser.pending,(state)=>{
+            state.loading=true,
+            state.error=null
+        })
+        //actions
+        //{
+//   type: 'auth/register/fulfilled',
+//   payload: { user data here }
+// }
+
+        .addCase(registerUser.fulfilled,(state,action)=>{
+            state.loading=false,
+            state.isAuthenticated=!!action.payload
+            // handles edge case when object is null
+            // u can also write state.isAuthenicated = true instead
+            state.user=action.payload
+        })
+        .addCase(registerUser.rejected,(state,action)=>{
+            state.loading=false,
+            state.error=action.payload?.message||"Something went wrong"
+            state.isAuthenticated=false
+            state.user=null
+        })
+
+        .addCase(loginUser.pending,(state)=>{
+            state.loading=true,
+            state.error=null
+        })
+        .addCase(loginUser.fulfilled,(state,action)=>{
+            state.loading=false
+            state.isAuthenticated=!!action.payload
+            state.user=action.payload
+        })
+        .addCase(loginUser.rejected,(state,action)=>{
+            state.loading=false
+            state.error=action.payload?.message||"Something went wrong"
+            state.isAuthenticated=false
+            state.user=null
+        })
+        // Check Auth Cases
+      .addCase(checkAuth.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = !!action.payload;
+        state.user = action.payload;
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || 'Something went wrong';
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+  
+      // Logout User Cases
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || 'Something went wrong';
+        state.isAuthenticated = false;
+        state.user = null;
+      });
+    }
+})
+
+export default authSlice.reducer
+
+//Shouldn't it be authSlice.extraReducers?
+//Because inside createSlice we are defining extraReducers, so why are we exporting .reducer?
+// ✅ The answer:
+// createSlice() actually returns an object that contains:
+
+// {
+//   name: 'auth',
+//   reducer: <your final reducer function>,
+//   actions: <auto-generated actions>,
+//   caseReducers: <internal reducers>,
+//   getInitialState: <initial state>,
+//   ...
+// }
+
+// Inside createSlice(), both reducers and extraReducers are merged together automatically to 
+// build one complete reducer function.
+
+// The .reducer property on authSlice is the final combined reducer function that Redux wants 
+// in the store.
+
+// ✅ Why not extraReducers?
+// extraReducers is only a part of your slice configuration.
+
+// You cannot directly export extraReducers — it's not a full reducer function.

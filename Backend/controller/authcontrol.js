@@ -10,7 +10,7 @@ const register = async(req,res)=>{
         validate(req.body)
         const {password} = req.body
         req.body.password = await bcrypt.hash(password,10)
-
+        // console.log("Enterd register")
         const user = await User.create(req.body)
         req.body.role = 'user'
         const token = jwt.sign({_id:user._id,emailId:user.emailId,role:'user'},process.env.JWTKEY,{expiresIn:60*60})
@@ -18,6 +18,7 @@ const register = async(req,res)=>{
         res.status(201).send("Registered!!")
     }catch(err){
         res.send("Error: "+err.message)
+        console.log(err.message)
     }
 }
 

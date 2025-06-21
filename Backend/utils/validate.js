@@ -4,7 +4,7 @@ const validate = (data)=>{
     try{
     const mandatoryData = ['firstName',"emailId",'password']
     const IsAllowed = mandatoryData.every((k)=>Object.keys(data).includes(k))
-    
+    // console.log("enter validation")
     if(!IsAllowed)
         throw new Error("Incomplete Credentials")
 
