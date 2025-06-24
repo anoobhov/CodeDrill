@@ -101,6 +101,7 @@ function Login() {
 
   const onSubmit = (data) => {
     dispatch(loginUser(data));
+    console.log(data)
   };
 
   return (

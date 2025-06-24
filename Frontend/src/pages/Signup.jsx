@@ -29,8 +29,10 @@ function Signup(){
       }
     },[isAuthenticated])
 
+
     const onSubmit = (data)=>{
-    dispatch(registerUser(data))   
+    dispatch(registerUser(data)) 
+    
  }
     return(
        <div className="min-h-screen flex items-center justify-center p-4">

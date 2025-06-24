@@ -38,6 +38,7 @@ export const loginUser = createAsyncThunk(
 //   config: {...},
 //   request: {...}
 // }
+// console.log(userData)
             const response = await axiosClient.post('/auth/login',userData)
            
             return response.data.user

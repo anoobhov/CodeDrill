@@ -42,12 +42,19 @@ import { checkAuth } from "./authSlice"
 
 function App() {
 
-  const {isAuthenticated}=useSelector((state)=>state.auth)
+  const {isAuthenticated,loading}=useSelector((state)=>state.auth)
   const dispatch = useDispatch()
 
   useEffect(()=>{
     dispatch(checkAuth())
   },[dispatch])
+
+    if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">
+      <span className="loading loading-spinner loading-lg"></span>
+    </div>;
+  }
+
   return(
     <>
     <BrowserRouter>
@@ -83,14 +90,10 @@ export default App
 
 // ✅ Why don’t we directly call store.getState() or store.dispatch()?
 // Because:
-
 // Redux works outside of React.
 
 // React hooks like useSelector() make sure that:
-
 // Your component automatically re-renders when that piece of state changes.
-
 // It stays inside React’s reactivity system.
-
 // Cleaner functional component code.
 

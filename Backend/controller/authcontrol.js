@@ -12,10 +12,23 @@ const register = async(req,res)=>{
         req.body.password = await bcrypt.hash(password,10)
         // console.log("Enterd register")
         const user = await User.create(req.body)
+        if(!user){
+            
+        }
+
         req.body.role = 'user'
+
+         const reply = {
+        firstName: user.firstName,
+        emailId: user.emailId,
+        _id: user._id
+    }
         const token = jwt.sign({_id:user._id,emailId:user.emailId,role:'user'},process.env.JWTKEY,{expiresIn:60*60})
         res.cookie('token',token,{maxAge:60*60*1000})
-        res.status(201).send("Registered!!")
+        res.status(201).json({
+            user:reply,
+            message:"Registered Successfully"
+        })
     }catch(err){
         res.send("Error: "+err.message)
         console.log(err.message)
@@ -25,21 +38,35 @@ const register = async(req,res)=>{
 const login = async(req,res)=>{
     try{
         const {emailId,password} = req.body
+        // console.log(emailId,password)
         if(!emailId || !password)
             throw new Error("Incomplete Credentials")
 
         const user = await User.findOne({emailId})
+        console.log(user.password)
         const match = bcrypt.compare(password,user.password)
 
         if(!match)
             throw new Error("Invalid Credentials")
-        
+
+        const reply = {
+            firstName: user.firstName,
+            emailId: user.emailId,
+            _id: user._id
+        }
+
         const token = jwt.sign({_id:user._id,emailId:user.emailId,role:user.role},process.env.JWTKEY,{expiresIn:60*60})
         res.cookie('token',token,{maxAge:60*60*1000})
-        res.status(201).send("Logged In!!")    
+        res.status(201).json({
+            user:reply,
+            message:"Logged In successfully"
+        })   
+        console.log("logged in") 
 }catch(err)
 {
     res.send("error"+err.message)
+    console.log("error"+err.message)
+
 }
 }
 
