@@ -10,7 +10,7 @@ problemRouter.put("/problemUpdate/:id",authmidware,adminmidware,problemUpdate)
 problemRouter.delete("/problemDelete/:id",authmidware,adminmidware,problemDelete)
 
 // //everyone can do that
-problemRouter.get("/:id",authmidware,problemFetch);
+problemRouter.get("/problembyId/:id",authmidware,problemFetch);
 problemRouter.get("/allproblems",authmidware,getAllProblem);
 problemRouter.post("/submit/:id",authmidware,submitCode)
 problemRouter.get("/user",authmidware, solvedProblem);
