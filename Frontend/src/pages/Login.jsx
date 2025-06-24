@@ -100,8 +100,13 @@ function Login() {
   }, [isAuthenticated, navigate]);
 
   const onSubmit = (data) => {
+    try{
     dispatch(loginUser(data));
     console.log(data)
+    }catch(error)
+    {
+      alert("Eroor"+error)
+    }
   };
 
   return (

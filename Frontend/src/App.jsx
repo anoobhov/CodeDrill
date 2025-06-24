@@ -60,7 +60,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* if already logged in navigate to homepage */}
-        <Route path="/" element={isAuthenticated?<Homepage/>:<Navigate to='/signup'/>}></Route>
+        <Route path="/" element={isAuthenticated?<Homepage/>:<Navigate to='/login'/>}></Route>
         <Route path='/login' element={isAuthenticated?<Navigate to='/'/>: <Login/>}></Route>
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
       </Routes>

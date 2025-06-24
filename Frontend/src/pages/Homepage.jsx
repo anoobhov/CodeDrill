@@ -20,16 +20,18 @@ function Homepage(){
     useEffect(()=>{
         const fetchProblems = async () => {
             try {
-                const {data}=await axiosClient.get('problem/allproblems')
+                console.log("Hello")
+                const {data}=await axiosClient.get('/problem/allproblems')
                 setProblems(data)
             } catch (error) {
-                console.error("Error fetching problem: "+error)
+                alert("Error occured: "+error)
+                // console.error("Error fetching problem: "+error)
             }
         }
 
         const fetchSolvedProblems = async () => {
             try {
-                const {data}=await axiosClient.get("problem/user")
+                const {data}=await axiosClient.get("/problem/user")
                 setSolvedproblems(data)
             } catch (error) {
                 console.error('error fetching solved problems: '+error)
@@ -47,7 +49,7 @@ function Homepage(){
 
     const filterproblems = problems.filter((problem)=>{
         const  difficultyMatch = filters.difficulty === 'all' || problem.difficulty ===filters.difficulty
-        const  tagMatch = filters.difficulty === 'all' || problem.tags ===filters.tags
+        const  tagMatch = filters.difficulty === 'all' || problem.tag ===filters.tag
         const  statusMatch = filters.difficulty === 'all' || solvedproblems.some(sp=>sp._id === problem._id)
         return difficultyMatch&&tagMatch&&statusMatch
     })
