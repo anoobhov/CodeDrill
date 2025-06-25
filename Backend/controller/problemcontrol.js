@@ -1,6 +1,7 @@
 const {getLanguageById,submitBatch,submitToken} = require("../utils/problemutility")
 const Problem = require("../schema/problem")
 const Submissions = require("../schema/submission")
+const User = require("../schema/user")
 
 const problemCreate = async (req,res) => {
     const {title,description,difficulty,tags,
@@ -139,13 +140,11 @@ const problemFetch = async (req,res) => {
 const getAllProblem = async (req,res) => {
     try {
       const selected_problem = await Problem.find({}).select('_id title difficulty tags');
-      // console.log(selected_problem)
       if(selected_problem.length==0)
         throw new Error("NO problem db")
       res.status(201).send(selected_problem);
     }catch (error) {
             console.log("heelo")
-// error is here
         res.status(400).send("Error:hnm "+error);
     }
 }
@@ -278,7 +277,7 @@ const solvedProblem = async (req,res)=> {
   })
   res.status(200).send(user.problemSolved)
   } catch (error) {
-    res.send("Problem Db error")
+    res.send("Problem Db error"+error)
   }
 }
 
