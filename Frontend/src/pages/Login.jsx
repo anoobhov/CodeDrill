@@ -156,6 +156,15 @@ function Login() {
               </button>
             </div>
           </form>
+          {/* Signup redirect */}
+          <div className="text-center mt-6">
+            <span className="text-sm">
+              Don't have an account?{' '}
+              <NavLink to="/signup" className="link link-primary">
+                Login
+              </NavLink>
+            </span>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import {BrowserRouter,Routes,Route, Navigate} from "react-router"
 import Login from "./pages/Login"
-import Signup from "./pages/signup"
+import Signup from "./pages/Signup"
+import AdminPanel from "./pages/Adminpage"
 import Homepage from "./pages/Homepage"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
@@ -63,6 +64,7 @@ function App() {
         <Route path="/" element={isAuthenticated?<Homepage/>:<Navigate to='/login'/>}></Route>
         <Route path='/login' element={isAuthenticated?<Navigate to='/'/>: <Login/>}></Route>
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
+        <Route path="/admin" element={<AdminPanel/>}></Route>
       </Routes>
     </BrowserRouter>
     </>

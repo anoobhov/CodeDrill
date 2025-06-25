@@ -87,6 +87,15 @@ function Signup(){
             </div>
 
                 </form>
+                {/* Login Re-direct */}
+                <div className="text-center mt-6">
+            <span className="text-sm">
+              Already have an account?{' '}
+              <NavLink to="/login" className="link link-primary">
+                Login
+              </NavLink>
+            </span>
+          </div>
             </div>
 
         </div>
