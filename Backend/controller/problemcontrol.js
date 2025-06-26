@@ -158,6 +158,10 @@ const submitCode = async (req,res) => {
     if(!userId||!problemId||!language||!code)
       throw new Error("Some fields are missing")
 
+    if(language==='cpp')
+        language='c++'
+      
+
     //fetching so that i can get hidden test cases...
     const problem =  await Problem.findById(problemId);
 
@@ -245,6 +249,9 @@ const runCode = async (req,res) => {
 
     if(!userId||!problemId||!language||!code)
       throw new Error("Some fields are missing")
+
+    if(language==='cpp')
+        language='c++'
 
     //fetching so that i can get hidden test cases...
     const problem =  await Problem.findById(problemId);

@@ -6,6 +6,8 @@ import Homepage from "./pages/Homepage"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { checkAuth } from "./authSlice"
+import ProblemPage from "./pages/ProblemPage"
+import Test from "../0notes/testing"
 
 
 // 1️⃣ What is store?
@@ -65,6 +67,9 @@ function App() {
         <Route path='/login' element={isAuthenticated?<Navigate to='/'/>: <Login/>}></Route>
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
         <Route path="/admin" element={<AdminPanel/>}></Route>
+        <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
+        {/* <Route path="/testing" element={<Test/>}></Route> */}
+
       </Routes>
     </BrowserRouter>
     </>
