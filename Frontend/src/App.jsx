@@ -1,13 +1,16 @@
 import {BrowserRouter,Routes,Route, Navigate} from "react-router"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
-import AdminPanel from "./pages/Adminpage"
+import AdminPage from "./pages/Adminpage"
+import ProblemCreation from "./components/ProbCreate"
+import ProblemDelete from "./components/ProbDelete"
 import Homepage from "./pages/Homepage"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { checkAuth } from "./authSlice"
 import ProblemPage from "./pages/ProblemPage"
-import Test from "../0notes/testing"
+
+// import Test from "../0notes/testing"
 
 
 // 1️⃣ What is store?
@@ -66,8 +69,13 @@ function App() {
         <Route path="/" element={isAuthenticated?<Homepage/>:<Navigate to='/login'/>}></Route>
         <Route path='/login' element={isAuthenticated?<Navigate to='/'/>: <Login/>}></Route>
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
-        <Route path="/admin" element={<AdminPanel/>}></Route>
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
+
+        {/* Admin Stuffs */}
+        <Route path="/admin" element={<AdminPage/>}></Route>
+        <Route path="/admin/create" element={<ProblemCreation/>}></Route>
+        <Route path="/admin/delete" element={<ProblemDelete/>}></Route>
+        
         {/* <Route path="/testing" element={<Test/>}></Route> */}
 
       </Routes>
