@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
+import HintAi from '../components/HintAi';
 
 
 const ProblemPage = () => {
@@ -177,6 +178,12 @@ const ProblemPage = () => {
           >
             Submissions
           </button>
+          <button 
+            className={`tab ${activeLeftTab === 'HintAi' ? 'tab-active' : ''}`}
+            onClick={() => setActiveLeftTab('HintAi')}
+          >
+            HintAi
+            </button>
         </div>
 
         {/* Left Content */}
@@ -251,6 +258,15 @@ const ProblemPage = () => {
                   <h2 className="text-xl font-bold mb-4">My Submissions</h2>
                   <div className="text-gray-500">
                     Your submission history will appear here.
+                  </div>
+                </div>
+              )}
+
+              {activeLeftTab === 'HintAi' && (
+                <div className="prose max-w-none">
+                  <h2 className="text-xl font-bold mb-4">Ask AI</h2>
+                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
+                    <HintAi problem={problem}></HintAi>
                   </div>
                 </div>
               )}
