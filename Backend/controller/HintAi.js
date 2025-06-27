@@ -5,12 +5,12 @@ const ai = new GoogleGenAI({apiKey:process.env.GEMINI_API});
 
 const HintAi = (req,res)=>{
 try{
-    const {message,title,description,testCases,startCode} = req.body
+    const {messages,title,description,testCases,startCode} = req.body
 
 async function main() {
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: message,
+    contents: messages,
     config: {
       systemInstruction: 
 `You are an expert Data Structures and Algorithms (DSA) tutor specializing in helping users solve coding problems. 

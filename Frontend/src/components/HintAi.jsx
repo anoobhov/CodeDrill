@@ -40,7 +40,7 @@ const { register, handleSubmit, reset,formState: {errors} } = useForm();
             console.error("API Error:", error);
             setMessages(prev => [...prev, { 
                 role: 'model', 
-                parts:[{text: "Error from AI Chatbot"}]
+                parts:[{text: "Error from AI Chatbot\n" + error}]
             }]);
         }
     };
