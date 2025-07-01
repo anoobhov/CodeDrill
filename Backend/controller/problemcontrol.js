@@ -132,14 +132,17 @@ const problemFetch = async (req,res) => {
       const selected_problem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution ')
       if(!selected_problem)
         throw new Error("Id isn't db")
+      
       const videos = await SolutionVideo.findOne({problemId:id});
       if(videos)  {  
     // paid user
-        selected_problem.secureUrl = videos.secureUrl;
-        selected_problem.thumbnailUrl = videos.thumbnailUrl;
-        selected_problem.duration = videos.duration;
-            
-        return res.status(200).send(selected_problem);
+        const responseData = {
+        ...selected_problem.toObject(),
+        secureUrl:videos.secureUrl,
+        thumbnailUrl : videos.thumbnailUrl,
+        duration : videos.duration,
+       } 
+        return res.status(200).send(responseData);
       }
         res.status(201).send(selected_problem);
     }catch (error) {
