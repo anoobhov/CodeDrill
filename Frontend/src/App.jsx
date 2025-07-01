@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { checkAuth } from "./authSlice"
 import ProblemPage from "./pages/ProblemPage"
+import VideoControl from "./components/VideoControl"
+import VideoUpload from "./components/VideoUpload"
 
 // import Test from "../0notes/testing"
 
@@ -72,9 +74,11 @@ function App() {
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
 
         {/* Admin Stuffs */}
-        <Route path="/admin" element={<AdminPage/>}></Route>
-        <Route path="/admin/create" element={<ProblemCreation/>}></Route>
-        <Route path="/admin/delete" element={<ProblemDelete/>}></Route>
+        <Route path="/admin" element={isAuthenticated && user?.role === 'admin' ?<AdminPage/>: <Navigate to="/" />}></Route>
+        <Route path="/admin/create" element={isAuthenticated && user?.role === 'admin' ?<ProblemCreation/>: <Navigate to="/" />}></Route>
+        <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ?<ProblemDelete/> : <Navigate to="/"/>}></Route>
+        <Route path="/admin/video" element={isAuthenticated && user?.role === 'admin' ? <VideoControl /> : <Navigate to="/" />} />
+        <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <VideoUpload /> : <Navigate to="/" />} />
         
         {/* <Route path="/testing" element={<Test/>}></Route> */}
 

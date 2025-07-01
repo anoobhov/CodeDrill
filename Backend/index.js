@@ -4,6 +4,7 @@ const app = express()
 require("dotenv").config()
 const authRouter = require("./routes/AuthRoute")
 const problemRouter = require("./routes/problemRoute")
+const videoRouter = require("./routes/videoRouter")
 const main = require("./database/maindb")
 const redisClient = require("./database/redis")
 const cors = require('cors')
@@ -18,6 +19,7 @@ app.use(cookieParser())
 
 app.use("/auth",authRouter)
 app.use("/problem",problemRouter)
+app.use("/video",videoRouter);
 
 const InitializeConnection = async()=>{
     try {

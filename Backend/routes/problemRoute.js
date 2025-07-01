@@ -17,6 +17,8 @@ problemRouter.post("/submit/:id",authmidware,submitCode)
 problemRouter.post("/run/:id",authmidware,runCode)
 problemRouter.get("/user",authmidware, solvedProblem);
 problemRouter.get("/submissions/:pid",authmidware,submissionsPerProblem)
+
+// Other Features
 problemRouter.post("/chat",authmidware,HintAi)
 
 module.exports = problemRouter

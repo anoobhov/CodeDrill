@@ -1,4 +1,4 @@
-import {Plus,Edit,Trash2} from "lucide-react"
+import {Plus,Edit,Trash2, Video} from "lucide-react"
 import { NavLink } from "react-router";
 
 function Adminpage()
@@ -30,6 +30,15 @@ function Adminpage()
       color: 'btn-error',
       bgColor: 'bg-error/10',
       route: '/admin/delete'
+    },
+    {
+      id: 'upload',
+      title: 'Video Solution',
+      description: 'Upload and delete Video Solutions',
+      icon: Video,
+      color: 'btn-success',
+      bgColor: 'bg-success/10',
+      route: '/admin/video'
     }
   ]
 
