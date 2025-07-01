@@ -2,6 +2,7 @@ const {getLanguageById,submitBatch,submitToken} = require("../utils/problemutili
 const Problem = require("../schema/problem")
 const Submissions = require("../schema/submission")
 const User = require("../schema/user")
+const SolutionVideo = require('../schema/videometadata')
 
 const problemCreate = async (req,res) => {
     const {title,description,difficulty,tags,
@@ -131,6 +132,16 @@ const problemFetch = async (req,res) => {
       const selected_problem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution ')
       if(!selected_problem)
         throw new Error("Id isn't db")
+      const videos = await SolutionVideo.findOne({problemId:id});
+      if(videos){    
+    // paid user
+   selected_problem.secureUrl = videos.secureUrl;
+   selected_problem.cloudinaryPublicId = videos.cloudinaryPublicId;
+   selected_problem.thumbnailUrl = videos.thumbnailUrl;
+   selected_problem.duration = videos.duration;
+
+   return res.status(200).send(selected_problem);
+   }
       res.status(201).send(selected_problem);
     }catch (error) {
         res.status(400).send("Error:hnm "+error);
