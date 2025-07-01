@@ -50,7 +50,7 @@ import VideoUpload from "./components/VideoUpload"
 
 function App() {
 
-  const {isAuthenticated,loading}=useSelector((state)=>state.auth)
+  const {isAuthenticated,user,loading}=useSelector((state)=>state.auth)
   const dispatch = useDispatch()
 
   useEffect(()=>{

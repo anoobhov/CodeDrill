@@ -133,16 +133,15 @@ const problemFetch = async (req,res) => {
       if(!selected_problem)
         throw new Error("Id isn't db")
       const videos = await SolutionVideo.findOne({problemId:id});
-      if(videos){    
+      if(videos)  {  
     // paid user
-   selected_problem.secureUrl = videos.secureUrl;
-   selected_problem.cloudinaryPublicId = videos.cloudinaryPublicId;
-   selected_problem.thumbnailUrl = videos.thumbnailUrl;
-   selected_problem.duration = videos.duration;
-
-   return res.status(200).send(selected_problem);
-   }
-      res.status(201).send(selected_problem);
+        selected_problem.secureUrl = videos.secureUrl;
+        selected_problem.thumbnailUrl = videos.thumbnailUrl;
+        selected_problem.duration = videos.duration;
+            
+        return res.status(200).send(selected_problem);
+      }
+        res.status(201).send(selected_problem);
     }catch (error) {
         res.status(400).send("Error:hnm "+error);
     }

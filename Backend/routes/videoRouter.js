@@ -7,5 +7,6 @@ const {generateUploadSignature,saveVideoMetadata,deleteVideo} = require("../cont
 
 videoRouter.get('upload/:problemId',authmidware,adminmidware,generateUploadSignature)
 videoRouter.post('/save',authmidware,adminmidware,saveVideoMetadata)
-videoRouter.delete('delete/:problemId',authmidware,adminmidware,deleteVideo)
+videoRouter.delete('/delete/:problemId',authmidware,adminmidware,deleteVideo)
 
+module.exports = videoRouter;
