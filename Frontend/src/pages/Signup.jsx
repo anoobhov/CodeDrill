@@ -3,8 +3,10 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import {z } from "zod"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
+import { NavLink } from "react-router"
 import { useEffect } from "react"
 import { registerUser } from "../authSlice"
+import AnimateBg from "../components/bg_animation"
 const signupSchema = z.object({
     firstName:z.string().min(3,"Minimum 3 characters"),
     emailId:z.string().email("Invalid Email"),
@@ -36,7 +38,8 @@ function Signup(){
  }
     return(
        <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="card w-96 bg-base-100 shadow-xl">
+        <AnimateBg/>
+        <div className="card w-96 shadow-xl bg-white/10 backdrop-blur-lg border border-white/20">
             <div className="card-body">
                 <h2 className="card-title justify-center text-3xl">CodeDrill</h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +92,7 @@ function Signup(){
                 </form>
                 {/* Login Re-direct */}
                 <div className="text-center mt-6">
-            <span className="text-sm">
+            <span className="text-sm bg-gray-700 shadow-xl p-2">
               Already have an account?{' '}
               <NavLink to="/login" className="link link-primary">
                 Login
