@@ -1,9 +1,18 @@
-import {Plus,Edit,Trash2, Video} from "lucide-react"
+import {Plus,Edit,Trash2, Video,CalendarDays} from "lucide-react"
 import { NavLink } from "react-router";
 
 function Adminpage()
 {
   const adminOptions = [
+    {
+      id: 'potd',
+      title: 'Problem of the Day',
+      description: 'Choose Problem of the Day',
+      icon: CalendarDays,
+      color: 'btn-success',
+      bgColor: 'bg-success/10',
+      route: '/admin/potd'
+    },
     {
       id:"create",
       title: 'Create Problem',
@@ -39,7 +48,8 @@ function Adminpage()
       color: 'btn-success',
       bgColor: 'bg-success/10',
       route: '/admin/video'
-    }
+    },
+    
   ]
 
   return(

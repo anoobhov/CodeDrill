@@ -11,6 +11,7 @@ import { checkAuth } from "./authSlice"
 import ProblemPage from "./pages/ProblemPage"
 import VideoControl from "./components/VideoControl"
 import VideoUpload from "./components/VideoUpload"
+import POTD from "./components/POTD"
 
 // import Test from "../0notes/testing"
 
@@ -79,6 +80,7 @@ function App() {
         <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ?<ProblemDelete/> : <Navigate to="/"/>}></Route>
         <Route path="/admin/video" element={isAuthenticated && user?.role === 'admin' ? <VideoControl /> : <Navigate to="/" />} />
         <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <VideoUpload /> : <Navigate to="/" />} />
+        <Route path="/admin/potd/" element={isAuthenticated && user?.role === 'admin' ? <POTD /> : <Navigate to="/" />} />
         
         {/* <Route path="/testing" element={<Test/>}></Route> */}
 

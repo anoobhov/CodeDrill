@@ -10,7 +10,7 @@ const problemCreate = async (req,res) => {
         referenceSolution, problemCreator
     } = req.body;
     try {
-         
+         console.log("Hello ji")
       for(const {language,completeCode} of referenceSolution){
         const languageId = getLanguageById(language);
           
@@ -123,6 +123,35 @@ const problemDelete = async (req,res) => {
         res.status(400).send("Error:hnm "+error);
     }
 }
+
+const POTD_update = async (req,res) => {
+  const {id} = req.params
+  
+  try {
+    if(!id)
+      throw new Error("Id doesn't exist:")
+
+    await Problem.updateMany({ potd: true }, { $set: { potd: false } });
+    await Problem.findByIdAndUpdate(id, { potd: true });
+    res.json({
+      message:"POTD Set Successfully",
+      potdID:id
+    })
+    console.log(id)
+  } catch (error) {
+    res.send("error POTD: "+error)
+  }
+}
+const POTD_get = async (req,res) => {
+  
+  try {
+    const potd = await Problem.findOne({ potd: true });
+    res.send(potd._id)
+  } catch (error) {
+    res.send("error POTD: "+error)
+  }
+}
+
 
 const problemFetch = async (req,res) => {
     const {id} = req.params
@@ -317,6 +346,8 @@ const submissionsPerProblem = async (req,res) => {
 module.exports = {problemCreate,
   problemUpdate,
   problemDelete,
+  POTD_update,
+  POTD_get,
   problemFetch,
   getAllProblem,
   submitCode,

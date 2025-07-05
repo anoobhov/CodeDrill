@@ -59,7 +59,7 @@ const AnimateBg = () => {
       {icons.map((Icon, i) => (
         <div
           key={i}
-          className={`absolute animate-float w-100 h-100 ${colors[i % colors.length]}`}
+          className={`absolute w-100 h-100 ${colors[i % colors.length]}`}
           style={{
             top: positions[i].top,
             left: positions[i].left,

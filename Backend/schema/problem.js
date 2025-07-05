@@ -76,6 +76,11 @@ const problemSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref:'user',
         required:true
+    },
+    potd:{
+        type:Boolean,
+        required:true,
+        default:false,
     }
 })
 

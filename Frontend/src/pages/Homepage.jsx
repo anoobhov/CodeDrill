@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import axiosClient from "../utils/axiosClient"
 import { logoutUser } from "../authSlice"
 import { NavLink } from 'react-router';
+import AnimateBg from "../components/bg_animation";
 
 
 function Homepage(){
@@ -10,6 +11,7 @@ function Homepage(){
     const dispatch = useDispatch()
     const {user}=useSelector((state)=>state.auth)
     const [problems,setProblems] = useState([])
+    const [potd,setPotd] = useState(null)
     const [solvedproblems,setSolvedproblems]=useState([])
     const [filters,setFilters] = useState({
         difficulty:"all",
@@ -20,7 +22,7 @@ function Homepage(){
     useEffect(()=>{
         const fetchProblems = async () => {
             try {
-                console.log("Hello")
+                // console.log("Hello")
                 const {data}=await axiosClient.get('/problem/allproblems')
                 setProblems(data)
             } catch (error) {
@@ -28,6 +30,24 @@ function Homepage(){
                 // console.error("Error fetching problem: "+error)
             }
         }
+
+        const fetchPOTD = async () => {
+    try {
+      const response = await axiosClient.get('/problem/potd');
+      console.log(response)
+      if (response.data) {
+        // setPotd(response.data.potdID);
+        const potd_id = response.data
+        setPotd(potd_id)
+      } else {
+        console.warn("No POTD ID found in response.");
+      }
+    } catch (err) {
+      console.error("Failed to fetch POTD:", err);
+    }
+  };
+
+  
 
         const fetchSolvedProblems = async () => {
             try {
@@ -40,6 +60,7 @@ function Homepage(){
         fetchProblems()
         if(user)
             fetchSolvedProblems()
+        fetchPOTD();
     },[user])
 
     const handleLogout = () =>{
@@ -62,19 +83,26 @@ function Homepage(){
         }
     }
     return(
-        <div className="min-h-screen bg-base-200">
+        <div className="min-h-screen">
+            <AnimateBg/>
             {/* nav bar */}
             <nav className="navbar bg-base-100 shadow-lg px-4">
                 <div className="flex-1">
-                    <NavLink to="/" className="btn btn-ghost text-xl">CodeDrill</NavLink>
+                    <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
+                </div>
+                {/* Problem of the day */}
+
+                <div className="flex-1">
+                    <NavLink to={`/problem/${potd}`} className="btn btn-ghost text-sm transition-all duration-200 ease-in-out hover:scale-105 hover:tracking-normal">&lt;Problem Of the Day/&gt;</NavLink>
                 </div>
                 <div className="flex-none gap-4">
                     <div className="dropdown dropdown-end">
-                        <div tabIndex={0} className="btn btn-ghost">
+                        <div tabIndex={0} className="btn btn-ghost transition-all duration-300 ease-in-out hover:scale-105 hover:tracking-wider">
                             {user?.firstName}
                         </div>
                         <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                         <li><button onClick={handleLogout}>Logout</button></li>
+                        {user.role=='admin'&&<li><NavLink to="/admin">Admin</NavLink></li>}
                         </ul>
                     </div>
                 </div>

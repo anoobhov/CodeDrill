@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axiosClient from "../utils/axiosClient"
 
-const ProblemDelete = () =>{
+const POTD = () =>{
     const [problems,setProblems] = useState([])
     const [loading,setLoading] = useState(true)
     const [error,setError] = useState(false)
@@ -21,15 +21,14 @@ const ProblemDelete = () =>{
         fetchProblems()
     },[])
 
-    const handleDelete = async(id)=>{
+    const handleSubmit = async(id)=>{
 
-        if (!window.confirm('Are you sure you want to delete this problem?')) return;
+        if (!window.confirm('Are you sure you want to make this problem POTD?')) return;
 
         try{
-            await axiosClient.delete(`problem/problemDelete/${id}`)
-            setProblems(problems.filter(problem=>problem._id!=id))
+            await axiosClient.get(`problem/potd_update/${id}`)
         }catch(error){
-            setError("Error while Deleting Problem: "+error)
+            setError("Error while selecting POTD : "+error)
         }
     }
 
@@ -59,7 +58,7 @@ const ProblemDelete = () =>{
   return(
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Delete Problems</h1>
+        <h1 className="text-3xl font-bold">Select Problem</h1>
       </div>
 
       <div className="overflow-x-auto">
@@ -97,10 +96,10 @@ const ProblemDelete = () =>{
                 <td>
                   <div className="flex space-x-2">
                     <button 
-                      onClick={() => handleDelete(problem._id)}
-                      className="btn btn-sm btn-error"
+                      onClick={() => handleSubmit(problem._id)}
+                      className="btn btn-sm btn-soft"
                     >
-                      Delete
+                      Select
                     </button>
                   </div>
                 </td>
@@ -113,4 +112,4 @@ const ProblemDelete = () =>{
   )
 }
 
-export default ProblemDelete
+export default POTD
