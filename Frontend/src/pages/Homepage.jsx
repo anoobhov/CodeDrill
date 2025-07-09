@@ -101,6 +101,7 @@ function Homepage(){
                             {user?.firstName}
                         </div>
                         <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                        <li><NavLink>My Profile</NavLink></li>
                         <li><button onClick={handleLogout}>Logout</button></li>
                         {user.role=='admin'&&<li><NavLink to="/admin">Admin</NavLink></li>}
                         </ul>
@@ -112,7 +113,7 @@ function Homepage(){
                 {/* filter */}
                 <div className="flex flex-wrap gap-4 mb-6">
                     <select
-                    className="select select-bordered"
+                    className="select select-secondary"
                     value={filters.status}
                     onChange={(e)=>setFilters({...filters,status:e.target.value})}>
                         <option value='all'>All Problems</option>
@@ -120,7 +121,7 @@ function Homepage(){
                     </select>
 
                     <select
-                    className="select select-bordered"
+                    className="select select-accent"
                     value={filters.difficulty}
                     onChange={(e)=>setFilters({...filters,difficulty:e.target.value})}>
                         <option value='all'>All Difficulties</option>
@@ -130,7 +131,7 @@ function Homepage(){
                     </select>
                     
                     <select
-                    className="select select-bordered"
+                    className="select select-info"
                     value={filters.tag}
                     onChange={(e)=>setFilters({...filters,tag:e.target.value})}>
                         <option value='all'>All tags</option>
@@ -140,15 +141,31 @@ function Homepage(){
                     </select>
                     
                 </div>
+                {/* Search Bar */}
+                <label className="input w-full outline-none border-none">
+  <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <g
+      strokeLinejoin="round"
+      strokeLinecap="round"
+      strokeWidth="2.5"
+      fill="none"
+      stroke="currentColor"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.3-4.3"></path>
+    </g>
+  </svg>
+  <input type="search" className="grow" placeholder="Search Problems" />
+                </label>
                 {/* Problem Lists */}
                 <div className="grid gap-4">
-                    {filterproblems.map(problem => (
-            <div key={problem._id} className="card bg-base-100 shadow-xl">
+                    {/* {filterproblems.map((problem,index) => (
+            <div key={problem._id} className={`card bg-base-100 shadow-xl`}>
               <div className="card-body">
                 <div className="flex items-center justify-between">
                   <h2 className="card-title">
                     <NavLink to={`/problem/${problem._id}`} className="hover:text-primary">
-                      {problem.title}
+                      {index+1}. {problem.title}
                     </NavLink>
                   </h2>
                   {solvedproblems.some(sp => sp._id === problem._id) && (
@@ -162,16 +179,66 @@ function Homepage(){
                 </div>
                 
                 <div className="flex gap-2">
-                  <div className={`badge ${difficultyBadgeColor(problem.difficulty)}`}>
+                  <div className={`badge badge-soft ${difficultyBadgeColor(problem.difficulty)}`}>
                     {problem.difficulty}
                   </div>
-                  <div className="badge badge-info">
+                  <div className="badge badge-dash badge-info">
                     {problem.tags}
                   </div>
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
+
+          <div className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          <thead>
+            <tr>
+              <th className="w-1/12">#</th>
+              <th className="w-4/12">Title</th>
+              <th className="w-2/12">Difficulty</th>
+              <th className="w-3/12">Tags</th>
+              <th className="w-2/12">Starred</th>
+            </tr>
+          </thead>
+          <tbody>
+            {problems.map((problem, index) => (
+              <tr key={problem._id}>
+                <td>{index + 1}</td>
+                <td className="font-bold hover:text-primary"><NavLink to={`/problem/${problem._id}`} className="hover:text-primary">
+                    {problem.title}
+                    </NavLink></td>
+                <td>
+                  <span className={`badge badge-soft ${
+                    problem.difficulty === 'easy' 
+                      ? 'badge-success' 
+                      : problem.difficulty === 'medium' 
+                        ? 'badge-warning' 
+                        : 'badge-error'
+                  }`}>
+                    {problem.difficulty}
+                  </span>
+                </td>
+                <td>
+                  <span className="badge badge-info">
+                    {problem.tags}
+                  </span>
+                </td>
+                <td>
+                  <div className="flex space-x-2">
+                    <button 
+                      onClick={() => handleDelete(problem._id)}
+                      className="btn btn-sm btn-error"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
                 </div>
         </div>
         </div>

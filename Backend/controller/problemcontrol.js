@@ -216,7 +216,7 @@ const submitCode = async (req,res) => {
       status:"pending",
       testCasesTotal:problem.hiddenTestCases.length
     })
-
+    // console.log(submittedCode)
     //Now submitting the code to Judge0
     const languageId = getLanguageById(language)
     const submissions=problem.hiddenTestCases.map((testcase)=>({
@@ -253,8 +253,16 @@ const submitCode = async (req,res) => {
     for(test of testResult)
     {
       if(test.status_id==3){
-      testCasesPassed++,
-      runtime+=ParseFloat(test.runtime)
+      testCasesPassed++;
+      let parsedRuntime = parseFloat(test.runtime);
+
+        if (!isNaN(parsedRuntime)) {
+        runtime += parsedRuntime;
+  } else {
+  
+  // Optional: Set default or skip
+  runtime=0
+}
       memory=Math.max(memory,test.memory)
       }else if(test.status_id==4){
         status='wrong'
@@ -279,12 +287,15 @@ const submitCode = async (req,res) => {
 
     res.send(submittedCode)
   } catch (error) {
-    res.send("Error"+error)
+    console.log(error)
+    res.send("Error: "+error)
   }
 }
 
 const runCode = async (req,res) => {
   try {
+    // console.log(req)
+    // console.log("First")
     const userId = req.result._id
     const problemId = req.params.id
     const {language,code}=req.body
@@ -311,8 +322,10 @@ const runCode = async (req,res) => {
     const resultToken = submitResult.map((value)=> value.token);
 
     const testResult = await submitToken(resultToken);
+    console.log(testResult)
     res.send(testResult)
   } catch (error) {
+    console.log(error)
     res.send("Error"+error)
   }
 }

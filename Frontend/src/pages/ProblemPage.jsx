@@ -85,7 +85,7 @@ const ProblemPage = () => {
         code,
         language: selectedLanguage
       });
-
+      console.log(response)
       setRunResult(response.data);
       setLoading(false);
       setActiveRightTab('testcase');
@@ -366,9 +366,11 @@ const ProblemPage = () => {
                     className={`btn btn-outline btn-sm ${loading ? 'loading' : ''}`}
                     onClick={handleRun}
                     disabled={loading}
-                  >
-                    Run
-                  </button>
+                  > Run</button>
+                    </div>
+                   
+                  
+                  <div className="flex gap-2">
                   <button
                     className={`btn btn-primary btn-sm ${loading ? 'loading' : ''}`}
                     onClick={handleSubmitCode}
