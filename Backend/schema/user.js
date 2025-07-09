@@ -34,6 +34,9 @@ const userSchema = new Schema({
     problemSolved:{
         type:[String]
     },
+    likedProblem:{
+        type:[String]
+    },
     password:{
         type:String,
         required:true

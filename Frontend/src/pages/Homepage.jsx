@@ -4,6 +4,7 @@ import axiosClient from "../utils/axiosClient"
 import { logoutUser } from "../authSlice"
 import { NavLink } from 'react-router';
 import AnimateBg from "../components/bg_animation";
+import { ThumbsUp } from "lucide-react";
 
 
 function Homepage(){
@@ -86,7 +87,7 @@ function Homepage(){
         <div className="min-h-screen">
             <AnimateBg/>
             {/* nav bar */}
-            <nav className="navbar bg-base-100 shadow-lg px-4">
+            <nav className="navbar bg-base-100 shadow-lg px-4 fixed top-0 left-0 z-40">
                 <div className="flex-1">
                     <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
                 </div>
@@ -111,13 +112,14 @@ function Homepage(){
             {/* Main contents */}
             <div className="container mx-auto p-4">
                 {/* filter */}
-                <div className="flex flex-wrap gap-4 mb-6">
+                <div className="flex flex-wrap gap-4 mb-1 mt-15">
                     <select
                     className="select select-secondary"
                     value={filters.status}
                     onChange={(e)=>setFilters({...filters,status:e.target.value})}>
                         <option value='all'>All Problems</option>
                         <option value='solved'>Solved Problems</option>
+                        <option value='liked'>Liked Problems</option>
                     </select>
 
                     <select
@@ -142,7 +144,7 @@ function Homepage(){
                     
                 </div>
                 {/* Search Bar */}
-                <label className="input w-full outline-none border-none">
+                <label className="input w-full outline-none border-none mt-2">
   <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <g
       strokeLinejoin="round"
@@ -195,11 +197,11 @@ function Homepage(){
           <thead>
             <tr>
               <th className="w-1/12">#</th>
-              <th className="w-4/12">Title</th>
+              <th className="w-6/12">Title</th>
               <th className="w-2/12">Difficulty</th>
-              <th className="w-3/12">Tags</th>
-              <th className="w-1/12">Starred</th>
-              <th className="w-1/12">Likes</th>
+              <th className="w-2/12">Tags</th>
+              {/* <th className="w-1/12">Starred</th> */}
+              <th className="w-3/12"><ThumbsUp width={50} height={20}/></th>
             </tr>
           </thead>
           <tbody>
@@ -224,15 +226,6 @@ function Homepage(){
                   <span className="badge  ">
                     {problem.tags}
                   </span>
-                </td>
-                <td>
-                  <div className="flex space-x-2">
-                    <button 
-                      className="btn btn-sm btn-error"
-                    >
-                      star
-                    </button>
-                  </div>
                 </td>
                 <td>
                   <span className="badge">
