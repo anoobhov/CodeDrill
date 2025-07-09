@@ -181,7 +181,7 @@ const problemFetch = async (req,res) => {
 
 const getAllProblem = async (req,res) => {
     try {
-      const selected_problem = await Problem.find({}).select('_id title difficulty tags');
+      const selected_problem = await Problem.find({}).select('_id title difficulty tags likes');
       if(selected_problem.length==0)
         throw new Error("NO problem db")
       res.status(201).send(selected_problem);

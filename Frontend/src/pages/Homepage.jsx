@@ -74,14 +74,14 @@ function Homepage(){
         const  statusMatch = filters.difficulty === 'all' || solvedproblems.some(sp=>sp._id === problem._id)
         return difficultyMatch&&tagMatch&&statusMatch
     })
-    const difficultyBadgeColor = (difficulty)=>{
-        switch(difficulty.toLowerCase()){
-            case 'easy':return 'badge-success'
-            case 'medium':return 'badge-warning'
-            case 'hard':return 'badge-error'
-            default:return 'badge-neutral'
-        }
-    }
+    // const difficultyBadgeColor = (difficulty)=>{
+    //     switch(difficulty.toLowerCase()){
+    //         case 'easy':return 'badge-success'
+    //         case 'medium':return 'badge-warning'
+    //         case 'hard':return 'badge-error'
+    //         default:return 'badge-neutral'
+    //     }
+    // }
     return(
         <div className="min-h-screen">
             <AnimateBg/>
@@ -198,7 +198,8 @@ function Homepage(){
               <th className="w-4/12">Title</th>
               <th className="w-2/12">Difficulty</th>
               <th className="w-3/12">Tags</th>
-              <th className="w-2/12">Starred</th>
+              <th className="w-1/12">Starred</th>
+              <th className="w-1/12">Likes</th>
             </tr>
           </thead>
           <tbody>
@@ -220,19 +221,23 @@ function Homepage(){
                   </span>
                 </td>
                 <td>
-                  <span className="badge badge-info">
+                  <span className="badge  ">
                     {problem.tags}
                   </span>
                 </td>
                 <td>
                   <div className="flex space-x-2">
                     <button 
-                      onClick={() => handleDelete(problem._id)}
                       className="btn btn-sm btn-error"
                     >
-                      Delete
+                      star
                     </button>
                   </div>
+                </td>
+                <td>
+                  <span className="badge">
+                    {problem.likes}
+                  </span>
                 </td>
               </tr>
             ))}

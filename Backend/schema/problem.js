@@ -17,7 +17,7 @@ const problemSchema = new Schema({
     },
     tags:{
         type:String,
-        enum:['array','linkedList','graph','dp'],
+        enum:['array','linkedList','graph','dp',"string","math","bitwise"],
         required:true
     },
     visibleTestCases:[
@@ -81,6 +81,10 @@ const problemSchema = new Schema({
         type:Boolean,
         required:true,
         default:false,
+    },
+    likes:{
+        type:Number,
+        default:0
     }
 })
 
