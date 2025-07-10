@@ -335,7 +335,7 @@ const solvedProblem = async (req,res)=> {
     const userId = req.result._id
     const user = await User.findById(userId).populate({
     path:'problemSolved',
-    select:'title difficulty tags'
+    select:'_id title difficulty tags likes'
   })
   res.status(200).send(user.problemSolved)
   } catch (error) {

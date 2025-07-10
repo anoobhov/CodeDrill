@@ -24,22 +24,17 @@ function Homepage(){
     useEffect(()=>{
         const fetchProblems = async () => {
             try {
-                // console.log("Hello")
                 const {data}=await axiosClient.get('/problem/allproblems')
                 setProblems(data)
-                // setDisplayedProblems(data)
             } catch (error) {
                 alert("Error occured: "+error)
-                // console.error("Error fetching problem: "+error)
             }
         }
 
         const fetchPOTD = async () => {
     try {
       const response = await axiosClient.get('/problem/potd');
-      // console.log(response)
       if (response.data) {
-        // setPotd(response.data.potdID);
         const potd_id = response.data
         setPotd(potd_id)
       } else {
