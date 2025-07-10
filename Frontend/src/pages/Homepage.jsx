@@ -12,12 +12,15 @@ function Homepage(){
     const dispatch = useDispatch()
     const {user}=useSelector((state)=>state.auth)
     const [problems,setProblems] = useState([])
+    // const [sortState, setSortState] = useState('none'); // 'none' | 'asc' | 'desc'
+    // const [displayedProblems, setDisplayedProblems] = useState([]);
     const [potd,setPotd] = useState(null)
     const [solvedproblems,setSolvedproblems]=useState([])
     const [filters,setFilters] = useState({
         difficulty:"all",
         status:"all",
-        tag:"all"
+        tag:"all",
+        likes:"none"
     })
 
     useEffect(()=>{
@@ -26,6 +29,7 @@ function Homepage(){
                 // console.log("Hello")
                 const {data}=await axiosClient.get('/problem/allproblems')
                 setProblems(data)
+                // setDisplayedProblems(data)
             } catch (error) {
                 alert("Error occured: "+error)
                 // console.error("Error fetching problem: "+error)
@@ -68,13 +72,31 @@ function Homepage(){
         dispatch(logoutUser())
         setSolvedproblems([])
     }
+    
+
 
     const filterproblems = problems.filter((problem)=>{
         const  difficultyMatch = filters.difficulty === 'all' || problem.difficulty ===filters.difficulty
         const  tagMatch = filters.tag === 'all' || problem.tags ===filters.tag
-        const  statusMatch = filters.status === 'all' ||(filters.status === 'solved'&& solvedproblems.some(sp=>sp._id === problem._id))|| (filters.status === 'unsolved' && !solvedproblems.some(sp => sp._id === problem._id));
-        return difficultyMatch&&tagMatch&&statusMatch
+        const  statusMatch = filters.status === 'all' ||(filters.status === 'solved'&& solvedproblems.some(sp=>sp._id === problem._id))|| 
+                (filters.status === 'unsolved' && !solvedproblems.some(sp => sp._id === problem._id));
+        const  likesOrder = filters.likes === 'none' || filters.likes === 'desc'&&problems.sort((a, b) => b.likes - a.likes)||
+                filters.likes === 'asc'&&problems.sort((a, b) => a.likes - b.likes)
+        return difficultyMatch&&tagMatch&&statusMatch&&likesOrder
     })
+
+
+    const handleThumbsClick = () => {
+  if (filters.likes === 'none') {
+    setFilters({...filters,likes:'desc'})
+  } else if (filters.likes === 'desc') {
+    setFilters({...filters,likes:'asc'})
+  } else {
+   
+    // filterproblems = [...filterproblems]; // back to original
+    setFilters({...filters,likes:'none'})
+  }
+};
     // const difficultyBadgeColor = (difficulty)=>{
     //     switch(difficulty.toLowerCase()){
     //         case 'easy':return 'badge-success'
@@ -206,14 +228,16 @@ function Homepage(){
               <th className="w-2/12">Difficulty</th>
               <th className="w-2/12">Tags</th>
               {/* <th className="w-1/12">Starred</th> */}
-              <th className="w-3/12"><ThumbsUp width={50} height={20}/></th>
+              <th className="w-3/12" onClick={handleThumbsClick}>
+              <ThumbsUp width={50} height={20}/>
+              </th>
             </tr>
           </thead>
           <tbody>
             {filterproblems.map((problem, index) => (
               <tr key={problem._id}>
                 <td>{index + 1}</td>
-                <td className="font-bold group hover:text-primary"><NavLink to={`/problem/${problem._id}`}>
+                <td className="font-bold group hover:text-purple-500"><NavLink to={`/problem/${problem._id}`}>
                 <span className="before:content-[''] after:content-[''] group-hover:before:content-['<'] group-hover:after:content-['/>']">
                     {problem.title}</span>
                     </NavLink></td>
