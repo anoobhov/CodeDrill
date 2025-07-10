@@ -35,7 +35,7 @@ function Homepage(){
         const fetchPOTD = async () => {
     try {
       const response = await axiosClient.get('/problem/potd');
-      console.log(response)
+      // console.log(response)
       if (response.data) {
         // setPotd(response.data.potdID);
         const potd_id = response.data
@@ -71,8 +71,8 @@ function Homepage(){
 
     const filterproblems = problems.filter((problem)=>{
         const  difficultyMatch = filters.difficulty === 'all' || problem.difficulty ===filters.difficulty
-        const  tagMatch = filters.difficulty === 'all' || problem.tag ===filters.tag
-        const  statusMatch = filters.difficulty === 'all' || solvedproblems.some(sp=>sp._id === problem._id)
+        const  tagMatch = filters.tag === 'all' || problem.tags ===filters.tag
+        const  statusMatch = filters.status === 'all' ||(filters.status === 'solved'&& solvedproblems.some(sp=>sp._id === problem._id))|| (filters.status === 'unsolved' && !solvedproblems.some(sp => sp._id === problem._id));
         return difficultyMatch&&tagMatch&&statusMatch
     })
     // const difficultyBadgeColor = (difficulty)=>{
@@ -119,6 +119,7 @@ function Homepage(){
                     onChange={(e)=>setFilters({...filters,status:e.target.value})}>
                         <option value='all'>All Problems</option>
                         <option value='solved'>Solved Problems</option>
+                        <option value='unsolved'>UnSolved Problems</option>
                         <option value='liked'>Liked Problems</option>
                     </select>
 
@@ -139,6 +140,10 @@ function Homepage(){
                         <option value='all'>All tags</option>
                         <option value='array'>Array</option>
                         <option value='graph'>Graphs</option>
+                        <option value='string'>String</option>
+                        <option value='math'>Maths</option>
+                        <option value='bitwise'>Bitwise</option>
+                        <option value='linkedList'>Linked Lists</option>
                         <option value='dp'>DP</option>
                     </select>
                     
@@ -205,11 +210,12 @@ function Homepage(){
             </tr>
           </thead>
           <tbody>
-            {problems.map((problem, index) => (
+            {filterproblems.map((problem, index) => (
               <tr key={problem._id}>
                 <td>{index + 1}</td>
-                <td className="font-bold hover:text-primary"><NavLink to={`/problem/${problem._id}`} className="hover:text-primary">
-                    {problem.title}
+                <td className="font-bold group hover:text-primary"><NavLink to={`/problem/${problem._id}`}>
+                <span className="before:content-[''] after:content-[''] group-hover:before:content-['<'] group-hover:after:content-['/>']">
+                    {problem.title}</span>
                     </NavLink></td>
                 <td>
                   <span className={`badge badge-soft ${
