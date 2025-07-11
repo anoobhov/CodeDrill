@@ -158,7 +158,7 @@ const problemFetch = async (req,res) => {
     try {
       if(!id)
         throw new Error("Id doesn't exist:")
-      const selected_problem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution ')
+      const selected_problem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution likes')
       if(!selected_problem)
         throw new Error("Id isn't db")
       
@@ -330,6 +330,36 @@ const runCode = async (req,res) => {
   }
 }
 
+const problemlike = async(req,res)=>{
+  const userId = req.result._id
+  const {id} = req.params
+  try {
+    const user = await User.findById(userId)
+    const problem = await Problem.findById(id)
+
+    if (!user || !problem) return res.status(404).send("User or problem not found");
+
+    const alreadyLiked = user.likedProblem.includes(id)
+    if(alreadyLiked){
+      // Unlike it
+      user.likedProblem.pull(id)
+      problem.likes-=1
+    }else{
+      user.likedProblem.push(id)
+      problem.likes+=1
+    }
+    await user.save()
+    await problem.save()
+
+    res.status(200).json({
+      liked:!alreadyLiked,
+      totalLikes: problem.likes
+    })
+  } catch (error) {
+    
+  }
+}
+
 const solvedProblem = async (req,res)=> {
   try {
     const userId = req.result._id
@@ -363,6 +393,7 @@ module.exports = {problemCreate,
   POTD_get,
   problemFetch,
   getAllProblem,
+  problemlike,
   submitCode,
   runCode,
   solvedProblem,

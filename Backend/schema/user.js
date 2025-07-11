@@ -34,9 +34,10 @@ const userSchema = new Schema({
     problemSolved:{
         type:[String]
     },
-    likedProblem:{
-        type:[String]
-    },
+    likedProblem:[
+        { type: mongoose.Schema.Types.ObjectId, 
+        ref: 'problem' }
+    ],
     password:{
         type:String,
         required:true
