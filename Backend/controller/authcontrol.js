@@ -54,7 +54,8 @@ const login = async(req,res)=>{
             firstName: user.firstName,
             emailId: user.emailId,
             _id: user._id,
-            role:user.role
+            role:user.role,
+            // likedproblem:user.likedProblem
         }
 
         const token = jwt.sign({_id:user._id,emailId:user.emailId,role:user.role},process.env.JWTKEY,{expiresIn:60*60})

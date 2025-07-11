@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import HintAi from '../components/HintAi';
 import Editorial from '../components/Editorial';
+import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History} from 'lucide-react';
 
 
 const ProblemPage = () => {
@@ -27,7 +28,7 @@ const ProblemPage = () => {
       try {
         
         const response = await axiosClient.get(`/problem/problembyId/${problemId}`);
-        
+
         const initialCode = response.data.startCode.find((sc) => {
         
         if (sc.language == "C++" && selectedLanguage == 'cpp')
@@ -40,10 +41,10 @@ const ProblemPage = () => {
         return false;
         })?.initialCode || 'Hello';
 
-        console.log(initialCode);
+        // console.log(initialCode);
         setProblem(response.data);        
 
-        console.log(initialCode);
+        // console.log(initialCode);
         setCode(initialCode);
         setLoading(false);
         
@@ -101,6 +102,16 @@ const ProblemPage = () => {
     }
   };
 
+  const handleLike = async () => {
+    try {
+      const response = await axiosClient.get(`/problem/like/${problemId}`)
+      const {liked , totalLikes} = response.data
+      problem.push(liked)
+      problem.push(totalLikes)
+    } catch (error) {
+      
+    }
+  }
   const handleSubmitCode = async () => {
     setLoading(true);
     setSubmitResult(null);
@@ -159,31 +170,31 @@ const ProblemPage = () => {
             className={`tab ${activeLeftTab === 'description' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('description')}
           >
-            Description
+            <NotebookText />Description
           </button>
           <button 
             className={`tab ${activeLeftTab === 'editorial' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('editorial')}
           >
-            Editorial
+           <TvMinimalPlay /> Editorial
           </button>
           <button 
             className={`tab ${activeLeftTab === 'solutions' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('solutions')}
           >
-            Solutions
+            <Users/>Solutions
           </button>
           <button 
             className={`tab ${activeLeftTab === 'submissions' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('submissions')}
           >
-            Submissions
+            <History/>Submissions
           </button>
           <button 
             className={`tab ${activeLeftTab === 'HintAi' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('HintAi')}
           >
-            HintAi
+           <HandHelping /> HintAi
             </button>
         </div>
 
@@ -222,6 +233,7 @@ const ProblemPage = () => {
                       ))}
                     </div>
                   </div>
+                  <div className='absolute bottom-5 left-4 font-bold text-white flex btn btn-dash btn-neutral p-1'><ThumbsUp/>{problem.likes}</div>
                 </div>
               )}
 

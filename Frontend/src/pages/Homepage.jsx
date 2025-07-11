@@ -14,6 +14,7 @@ function Homepage(){
     const [problems,setProblems] = useState([])
     const [potd,setPotd] = useState(null)
     const [solvedproblems,setSolvedproblems]=useState([])
+    const [likedproblems,setlikedproblems]=useState([])
     const [filters,setFilters] = useState({
         difficulty:"all",
         status:"all",
@@ -32,18 +33,18 @@ function Homepage(){
         }
 
         const fetchPOTD = async () => {
-    try {
-      const response = await axiosClient.get('/problem/potd');
-      if (response.data) {
-        const potd_id = response.data
-        setPotd(potd_id)
-      } else {
-        console.warn("No POTD ID found in response.");
-      }
-    } catch (err) {
-      console.error("Failed to fetch POTD:", err);
-    }
-  };
+          try {
+              const response = await axiosClient.get('/problem/potd');
+              if (response.data) {
+                const potd_id = response.data
+                setPotd(potd_id)
+              } else {
+                console.warn("No POTD ID found in response.");
+              }
+            }         catch (err) {
+            console.error("Failed to fetch POTD:", err);
+        }
+     };
 
   
 
@@ -59,6 +60,18 @@ function Homepage(){
         if(user)
             fetchSolvedProblems()
         fetchPOTD();
+
+
+        const fetchLikedProblems = async () => {
+          try {
+            const {data} = await axiosClient.get(`/problem/likedproblems`)
+            setlikedproblems(data)
+            // console.log(likedproblems)
+          } catch (error) {
+            console.error('error fetching solved problems: '+error)
+          }
+        }
+        fetchLikedProblems()
     },[user])
 
     const handleLogout = () =>{
@@ -72,11 +85,11 @@ function Homepage(){
         const  difficultyMatch = filters.difficulty === 'all' || problem.difficulty ===filters.difficulty
         const  tagMatch = filters.tag === 'all' || problem.tags ===filters.tag
         const  statusMatch = filters.status === 'all' ||(filters.status === 'solved'&& solvedproblems.some(sp=>sp._id === problem._id))|| 
-                (filters.status === 'unsolved' && !solvedproblems.some(sp => sp._id === problem._id));
+                (filters.status === 'unsolved' && !solvedproblems.some(sp => sp._id === problem._id))||
+                (filters.status === 'liked'&& likedproblems.some(sp=>sp._id === problem._id));
         return difficultyMatch&&tagMatch&&statusMatch
     })
-
-
+    // console.log(likedproblems)
 
     if (filters.likes === 'desc') {
     filterproblems.sort((a, b) => b.likes - a.likes);
@@ -92,14 +105,7 @@ function Homepage(){
     setFilters({...filters,likes:'none'})
   }
 };
-    // const difficultyBadgeColor = (difficulty)=>{
-    //     switch(difficulty.toLowerCase()){
-    //         case 'easy':return 'badge-success'
-    //         case 'medium':return 'badge-warning'
-    //         case 'hard':return 'badge-error'
-    //         default:return 'badge-neutral'
-    //     }
-    // }
+    const likedIds = likedproblems.map(p => p._id.toString())
     return(
         <div className="min-h-screen">
             <AnimateBg/>
@@ -272,7 +278,7 @@ function Homepage(){
                   </span>
                 </td>
                 <td>
-                  <span className="badge">
+                  <span className={`badge ${likedIds.includes(problem._id.toString()) ? 'badge-success' : ''}`}>
                     {problem.likes}
                   </span>
                 </td>

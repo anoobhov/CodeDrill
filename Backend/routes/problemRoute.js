@@ -12,7 +12,9 @@ const {problemCreate,
     runCode,
     POTD_update,
     POTD_get,
-    problemlike} = require("../controller/problemcontrol")
+    problemlike,
+    allproblemlike
+} = require("../controller/problemcontrol")
 const HintAi = require("../controller/HintAi")
 const problemRouter = express.Router()
 
@@ -29,6 +31,7 @@ problemRouter.get("/potd",authmidware,POTD_get);
 problemRouter.post("/submit/:id",authmidware,submitCode)
 problemRouter.post("/run/:id",authmidware,runCode)
 problemRouter.get("/like/:id",authmidware,problemlike)
+problemRouter.get("/likedproblems",authmidware,allproblemlike)
 problemRouter.get("/user",authmidware, solvedProblem);
 problemRouter.get("/submissions/:pid",authmidware,submissionsPerProblem)
 

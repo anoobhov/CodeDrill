@@ -360,6 +360,22 @@ const problemlike = async(req,res)=>{
   }
 }
 
+const allproblemlike = async (req,res) => {
+  try
+  {const userId = req.result._id
+
+    const user = await User.findById(userId).populate({
+      path:'likedProblem',
+      select:'_id'
+    })
+
+    res.status(200).json(user.likedProblem)
+  }
+    catch(error)
+    {
+      res.send("Liked Problens error: "+error.message)
+    }
+}
 const solvedProblem = async (req,res)=> {
   try {
     const userId = req.result._id
@@ -394,6 +410,7 @@ module.exports = {problemCreate,
   problemFetch,
   getAllProblem,
   problemlike,
+  allproblemlike,
   submitCode,
   runCode,
   solvedProblem,
