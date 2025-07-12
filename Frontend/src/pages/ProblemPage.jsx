@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import HintAi from '../components/HintAi';
 import Editorial from '../components/Editorial';
-import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History} from 'lucide-react';
+import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck} from 'lucide-react';
 
 
 const ProblemPage = () => {
@@ -431,18 +431,22 @@ const ProblemPage = () => {
                   <div>
                     {runResult.success ? (
                       <div>
-                        <h4 className="font-bold">✅ All test cases passed!</h4>
-                        <p className="text-sm mt-2">Runtime: {runResult.runtime+" sec"}</p>
-                        <p className="text-sm">Memory: {runResult.memory+" KB"}</p>
+                        <h4 className="font-bold flex items-center gap-1"><BookCheck /> All test cases passed!</h4>
+                        <p className="text-sm mt-2 flex items-center gap-1"><Timer/> Runtime: {runResult.runtime+" sec"}</p>
+                        <p className="text-sm flex items-center gap-1"><Cpu/> Memory: {runResult.memory+" KB"}</p>
                         
                         <div className="mt-4 space-y-2">
                           {runResult.testCases.map((tc, i) => (
-                            <div key={i} className="bg-base-100 p-3 rounded text-xs">
+                            <div key={i} className="bg-gray-200 p-5 rounded text-s w-142">
                               <div className="font-mono">
+                                <div className='inline'><strong><Terminal className='inline'/>TestCase:</strong> {i+1}</div>
+                                <hr></hr>
                                 <div><strong>Input:</strong> {tc.stdin}</div>
                                 <div><strong>Expected:</strong> {tc.expected_output}</div>
                                 <div><strong>Output:</strong> {tc.stdout}</div>
-                                <div className={'text-green-600'}>
+                                <div><strong>Runtime:</strong> {tc.time} sec</div>
+                                <div><strong>Memory:</strong> {tc.memory} KB</div>
+                                <div className={'text-green-500'}>
                                   {'✓ Passed'}
                                 </div>
                               </div>
@@ -455,8 +459,10 @@ const ProblemPage = () => {
                         <h4 className="font-bold">❌ Error</h4>
                         <div className="mt-4 space-y-2">
                           {runResult.testCases?.map((tc, i) => (
-                            <div key={i} className="bg-base-100 p-3 rounded text-xs">
+                            <div key={i} className="bg-gray-200 p-5 rounded text-s w-142">
                               <div className="font-mono">
+                                <div className='inline'><strong><Terminal className='inline'/>TestCase:</strong> {i+1}</div>
+                                <hr></hr>
                                 <div><strong>Input:</strong> {tc.stdin}</div>
                                 <div><strong>Expected:</strong> {tc.expected_output}</div>
                                 <div><strong>Output:</strong> {tc.stdout}</div>
