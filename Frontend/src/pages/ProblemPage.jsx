@@ -10,6 +10,8 @@ import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History} from 'l
 
 const ProblemPage = () => {
   const [problem, setProblem] = useState(null);
+  const [isLiked,setIsLiked] = useState(false)
+  const [likedProblems,setLikedProblems] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState('javascript');
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -55,6 +57,13 @@ const ProblemPage = () => {
     };
 
     fetchProblem();
+
+
+    const fetchUserLikes = async()=>{
+      const {data} = await axiosClient.get('/problem/likedproblems')
+      setLikedProblems(data)
+    }
+    fetchUserLikes()
   }, [problemId]);
 
   // Update code when language changes
@@ -64,6 +73,18 @@ const ProblemPage = () => {
       setCode(initialCode);
     }
   }, [selectedLanguage, problem]);
+
+
+  useEffect(() => {
+  if (problem && likedProblems.length > 0) {
+    const likedIds = likedProblems.map(p => p._id.toString());
+    if (likedIds.includes(problem._id.toString())) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }
+}, [problem, likedProblems]);
 
   const handleEditorChange = (value) => {
     setCode(value || '');
@@ -106,8 +127,10 @@ const ProblemPage = () => {
     try {
       const response = await axiosClient.get(`/problem/like/${problemId}`)
       const {liked , totalLikes} = response.data
-      problem.push(liked)
-      problem.push(totalLikes)
+      setProblem(prev => ({ ...prev, likes: totalLikes }));
+      setIsLiked(liked)
+      console.log(isLiked)
+      // setProblem(problem.push(totalLikes))
     } catch (error) {
       
     }
@@ -160,6 +183,11 @@ const ProblemPage = () => {
     );
   }
 
+ 
+// const likedIds = likedProblems.map(p => p._id.toString())
+//   if(likedIds.includes(problem._id.toString())){
+//     setIsLiked(true)
+//   }
   return (
     <div className="h-screen flex bg-base-100">
       {/* Left Panel */}
@@ -233,7 +261,7 @@ const ProblemPage = () => {
                       ))}
                     </div>
                   </div>
-                  <div className='absolute bottom-5 left-4 font-bold text-white flex btn btn-dash btn-neutral p-1'><ThumbsUp/>{problem.likes}</div>
+                  <div className={`absolute bottom-5 left-4 font-bold text-white flex btn ${isLiked? "btn-secondary": "btn-primary" } p-1`} onClick={handleLike}><ThumbsUp/>{problem.likes}</div>
                 </div>
               )}
 
