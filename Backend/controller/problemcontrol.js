@@ -250,27 +250,21 @@ const submitCode = async (req,res) => {
     let status = 'accepted';
     let errorMessage = null;
 
-    for(test of testResult)
-    {
-      if(test.status_id==3){
-      testCasesPassed++;
-      let parsedRuntime = parseFloat(test.runtime);
-
-        if (!isNaN(parsedRuntime)) {
-        runtime += parsedRuntime;
-  } else {
-  
-  // Optional: Set default or skip
-  runtime=0
-}
-      memory=Math.max(memory,test.memory)
-      }else if(test.status_id==4){
-        status='wrong'
-        errorMessage=test.stderr
-      }else{
-        status='error'
-        errorMessage=test.stderr
-      }
+    for(const test of testResult){
+        if(test.status_id==3){
+           testCasesPassed++;
+           runtime = runtime+parseFloat(test.time)
+           memory = Math.max(memory,test.memory);
+        }else{
+          if(test.status_id==4){
+            status = 'error'
+            errorMessage = test.stderr
+          }
+          else{
+            status = 'wrong'
+            errorMessage = test.stderr
+          }
+        }
     }
     
     submittedCode.status   = status;
@@ -285,7 +279,14 @@ const submitCode = async (req,res) => {
       await req.result.save()
     }
 
-    res.send(submittedCode)
+    const accepted = (status == 'accepted')
+    res.status(201).json({
+      accepted,
+      totalTestCases: submittedCode.testCasesTotal,
+      passedTestCases: testCasesPassed,
+      runtime,
+      memory
+    });
   } catch (error) {
     console.log(error)
     res.send("Error: "+error)
@@ -294,8 +295,6 @@ const submitCode = async (req,res) => {
 
 const runCode = async (req,res) => {
   try {
-    // console.log(req)
-    // console.log("First")
     const userId = req.result._id
     const problemId = req.params.id
     const {language,code}=req.body
@@ -322,8 +321,28 @@ const runCode = async (req,res) => {
     const resultToken = submitResult.map((value)=> value.token);
 
     const testResult = await submitToken(resultToken);
-    console.log(testResult)
-    res.send(testResult)
+    // console.log(testResult)
+    let testCasesPassed = 0;
+    let runtime = 0;
+    let memory = 0;
+    let status = true;
+    let errorMessage = null;
+    for(const test of testResult){
+        if(test.status_id==3){
+           testCasesPassed++;
+           runtime = runtime+parseFloat(test.time)
+           memory = Math.max(memory,test.memory);
+        }else{
+            status = false
+            errorMessage = test.stderr
+          }
+        }
+    res.status(201).json({
+    success:status,
+    testCases: testResult,
+    runtime,
+    memory
+   });
   } catch (error) {
     console.log(error)
     res.send("Error"+error)
