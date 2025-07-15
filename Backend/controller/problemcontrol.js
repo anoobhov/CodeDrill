@@ -158,7 +158,7 @@ const problemFetch = async (req,res) => {
     try {
       if(!id)
         throw new Error("Id doesn't exist:")
-      const selected_problem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases startCode referenceSolution likes')
+      const selected_problem = await Problem.findById(id).select('_id title description difficulty tags visibleTestCases hiddenTestCases startCode referenceSolution likes')
       if(!selected_problem)
         throw new Error("Id isn't db")
       

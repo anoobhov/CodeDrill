@@ -3,6 +3,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import AdminPage from "./pages/Adminpage"
 import ProblemCreation from "./components/ProbCreate"
+import ProblemUpdation from "./components/ProbUpdate"
 import ProblemDelete from "./components/ProbDelete"
 import Homepage from "./pages/Homepage"
 import { useDispatch, useSelector } from "react-redux"
@@ -12,6 +13,7 @@ import ProblemPage from "./pages/ProblemPage"
 import VideoControl from "./components/VideoControl"
 import VideoUpload from "./components/VideoUpload"
 import POTD from "./components/POTD"
+import ProblemUpdationList from "./components/ProbUpdateList"
 
 // import Test from "../0notes/testing"
 
@@ -77,6 +79,8 @@ function App() {
         {/* Admin Stuffs */}
         <Route path="/admin" element={isAuthenticated && user?.role === 'admin' ?<AdminPage/>: <Navigate to="/" />}></Route>
         <Route path="/admin/create" element={isAuthenticated && user?.role === 'admin' ?<ProblemCreation/>: <Navigate to="/" />}></Route>
+        <Route path="/admin/update" element={isAuthenticated && user?.role === 'admin' ?<ProblemUpdationList/>: <Navigate to="/" />}></Route>
+        <Route path="/admin/updateproblem/:problemId" element={isAuthenticated && user?.role === 'admin' ?<ProblemUpdation/>: <Navigate to="/" />}></Route>
         <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ?<ProblemDelete/> : <Navigate to="/"/>}></Route>
         <Route path="/admin/video" element={isAuthenticated && user?.role === 'admin' ? <VideoControl /> : <Navigate to="/" />} />
         <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <VideoUpload /> : <Navigate to="/" />} />

@@ -3,13 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {useNavigate} from 'react-router'
 import axiosClient from "../utils/axiosClient";
-
+import { useEffect, useState } from "react";
+import { useParams } from 'react-router';
 //making the problem Schema
 const problemSchema = z.object({
     title:z.string().min(1,"Title is Missing"),
     description:z.string().min(1,"Description is Required"),
     difficulty:z.enum(['easy','medium','hard']),
-    tags:z.enum(['array',"dp",'linkedlist',"graph","math","bitwise"]),
+    tags:z.enum(['array','linkedList','graph','dp',"string","math","bitwise"]),
     visibleTestCases:z.array(
         z.object({
             input:z.string().min(1,"Input is missing"),
@@ -26,27 +27,32 @@ const problemSchema = z.object({
     ).min(1,'atleast 1 hidden case is required'),
     startCode: z.array(
     z.object({
-      language: z.enum(['C++', 'Python', 'JavaScript']),
-      initialCode: z.string().min(1, 'Initial code is required')
+      language: z.string(),
+      initialCode: z.string()
     })
-  ).length(3, 'All three languages required'),
+  ),
   referenceSolution: z.array(
     z.object({
-      language: z.enum(['C++', 'Python', 'JavaScript']),
-      completeCode: z.string().min(1, 'Complete code is required')
+      language: z.string(),
+      completeCode: z.string()
     })
-  ).length(3, 'All three languages required')
+  )
 })
 
 
 
-function ProblemCreation() {
+function ProblemUpdation() {
   const navigate = useNavigate()
+
+  const [problem,setProblem] = useState(null)
+  let {problemId} = useParams()
+
   const {
     register,
     control,
     handleSubmit,
-    formState:{errors}
+    formState:{errors},
+    reset
   } = useForm({
     resolver:zodResolver(problemSchema),
     defaultValues:{
@@ -79,21 +85,55 @@ function ProblemCreation() {
     name: 'hiddenTestCases'
   });
 
+
+  useEffect(() => {
+  const fetchProblem = async () => {
+    const { data } = await axiosClient.get(`/problem/problembyId/${problemId}`);
+    setProblem(data);
+    // console.log(data)
+    // Set the form with fetched values
+    reset({
+      title: data.title || '',
+      description: data.description || '',
+      difficulty: data.difficulty || 'easy',
+      tags: data.tags || 'array',
+      visibleTestCases: data.visibleTestCases || [],
+      hiddenTestCases: data.hiddenTestCases || [],
+      startCode: data.startCode || [
+        { language: 'C++', initialCode: '' },
+        { language: 'Python', initialCode: '' },
+        { language: 'JavaScript', initialCode: '' }
+      ],
+      referenceSolution: data.referenceSolution || [
+        { language: 'C++', completeCode: '' },
+        { language: 'Python', completeCode: '' },
+        { language: 'JavaScript', completeCode: '' }
+      ]
+    });
+  };
+
+  fetchProblem();
+}, [problemId, reset]);
+
   const onSubmit = async (data) => {
     try {
-      await axiosClient.post('/problem/problemcreate',data) 
-      alert('Problem Created')
-      navigate('/')
+      const hehe = await axiosClient.put(`/problem/problemUpdate/${problemId}`,data)
+      console.log(hehe)
+      // console.log("hello")
+      alert('Problem Updated')
+      navigate(`problem/problembyId/${problemId}`)
     } catch (errors) {
-      alert(`Errorsssssssssss: ${errors.response?.data?.message || errors.message}`);
+      alert(`Error: ${errors.response?.data?.message || errors.message}`);
     }
   }
 
+  if (!problem) return <div>Loading problem...</div>;
   return(
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Create New Problem</h1>
+      <h1 className="text-3xl font-bold mb-6">Update the Problem</h1>
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit,(errors) => {
+  console.log("Validation Errors:", errors);})} className="space-y-6">
     <div className="card bg-base-100 shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
           <div className="space-y-4">
@@ -103,6 +143,7 @@ function ProblemCreation() {
               </label>
               <input
                 {...register('title')}
+                // defaultValue={problem.title}
                 className={`input input-bordered ${errors.title && 'input-error'}`}
               />
               {errors.title && (
@@ -116,6 +157,7 @@ function ProblemCreation() {
               </label>
               <textarea
                 {...register('description')}
+                // defaultValue={problem.description}
                 className={`textarea textarea-bordered h-32 ${errors.description && 'textarea-error'}`}
               />
               {errors.description && (
@@ -130,6 +172,7 @@ function ProblemCreation() {
                 </label>
                 <select
                   {...register('difficulty')}
+                  // defaultValue={problem.difficulty}
                   className={`select select-bordered ${errors.difficulty && 'select-error'}`}
                 >
                   <option value="easy">Easy</option>
@@ -144,14 +187,13 @@ function ProblemCreation() {
                 </label>
                 <select
                   {...register('tags')}
+                  // defaultValue={problem.tags}
                   className={`select select-bordered ${errors.tags && 'select-error'}`}
                 >
                   <option value="array">Array</option>
                   <option value="linkedList">Linked List</option>
                   <option value="graph">Graph</option>
                   <option value="dp">DP</option>
-                  <option value="math">Maths</option>
-                  <option value="bitwise">Bitwise</option>
                 </select>
               </div>
             </div>
@@ -291,11 +333,11 @@ function ProblemCreation() {
         </div>
 
         <button type="submit" className="btn btn-primary w-full">
-          Create Problem
+          Update Problem
         </button>
       </form>
     </div>
   )
 }
 
-export default ProblemCreation
+export default ProblemUpdation
