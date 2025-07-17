@@ -12,7 +12,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 bg-base-100 shadow-md border-r p-4">
+    <div className="w-64 h-screen bg-base-100 shadow-md border-r p-4 fixed top-0 left-0 z-50">
       <h2 className="text-2xl font-bold mb-6 flex items-center text-base-content"><LayoutDashboard/>Admin Panel</h2>
       <ul className="space-y-4">
         {menu.map((item) => {
