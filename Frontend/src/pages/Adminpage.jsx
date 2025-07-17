@@ -1,5 +1,6 @@
 import {Plus,Edit,Trash2, Video,CalendarDays} from "lucide-react"
 import { NavLink } from "react-router";
+import AdminStats from "../components/admindashboard";
 
 function Adminpage()
 {
@@ -63,6 +64,7 @@ function Adminpage()
           <p className="text-base-content/70 text-lg">
             Manage coding problems on your platform
           </p>
+          <AdminStats/>
         </div>
 
         {/* Admin Options Grid */}
