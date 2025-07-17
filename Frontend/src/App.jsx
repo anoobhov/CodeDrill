@@ -90,7 +90,7 @@ function App() {
         <Route path="potd" element={<POTD />} />
       </Route>
     ) : (
-      <Route path="/admin/*" element={<Navigate to="/admin" />} />
+      <Route path="/admin/*" element={<Navigate to="/" />} />
     )}
         {/* <Route path="/testing" element={<Test/>}></Route> */}
 

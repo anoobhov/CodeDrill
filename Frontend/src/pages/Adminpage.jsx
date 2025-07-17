@@ -1,4 +1,4 @@
-import {Plus,Edit,Trash2, Video,CalendarDays,LayoutDashboard} from "lucide-react"
+import {LayoutDashboard} from "lucide-react"
 import { NavLink } from "react-router";
 import AdminStats from "../components/admindashboard";
 
@@ -16,7 +16,7 @@ function Adminpage()
             </h1>
   <hr className="my-2 border-base-content" />
 </div>
-          <h1>Problem Distribution</h1>
+          
           <AdminStats/>
         </div>
       </div>

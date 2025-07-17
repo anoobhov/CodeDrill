@@ -5,12 +5,14 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 function AdminStats(){
 
     const [pieData,setPieData] = useState([])
+    const [admindata, setAdmindata] = useState(null)
     const COLORS = ['#4CAF50', '#FF9800', '#F44336']
     useEffect(()=>{
         const fetchStats = async () => {
             try {
                 const {data} = await axiosClient.get("/admin/userStats")
-                const {easyprob,mediumprob,hardprob} = data
+                const {easyprob,mediumprob,hardprob,totalSubmissions,adminSince,admin_problems,totalUsers} = data
+                setAdmindata({totalUsers,totalSubmissions,adminSince,admin_problems,easyprob,mediumprob,hardprob})
                 setPieData([
                     {name:"Easy",value:easyprob},
                     {name:"Medium",value:mediumprob},
@@ -24,8 +26,18 @@ function AdminStats(){
         fetchStats()
     },[])
 
+    if(!admindata) return <h1>Loding Stats</h1>
     return(
+      <>
+      <div className="flex p-2">
+            Users: {admindata.totalUsers}
+            Problems: {(admindata.easyprob)+(admindata.mediumprob)+(admindata.hardprob)}
+            Submissions: {admindata.totalSubmissions}
+            Joined Since: {admindata.adminSince}
+            Problem Created by U: {admindata.admin_problems}
+          </div>
         <div className="w-full flex justify-center items-center">
+          <h1>Problem Distribution</h1>
       <PieChart width={500} height={300}>
         <Pie
           data={pieData}
@@ -53,6 +65,7 @@ function AdminStats(){
   </text>
       </PieChart>
     </div>
+    </>
     )
 }
 
