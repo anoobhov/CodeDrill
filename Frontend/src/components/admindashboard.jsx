@@ -29,13 +29,26 @@ function AdminStats(){
     if(!admindata) return <h1>Loding Stats</h1>
     return(
       <>
-      <div className="flex p-2">
-            Users: {admindata.totalUsers}
-            Problems: {(admindata.easyprob)+(admindata.mediumprob)+(admindata.hardprob)}
-            Submissions: {admindata.totalSubmissions}
-            Joined Since: {admindata.adminSince}
-            Problem Created by U: {admindata.admin_problems}
-          </div>
+      <div className="bg-white shadow-md rounded-2xl p-4 max-w-4xl mx-auto mt-4">
+  <h2 className="text-xl font-semibold mb-3 text-gray-800">Admin Dashboard Summary</h2>
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-gray-700">
+    <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
+      <span className="font-medium">Total Users:</span> {admindata.totalUsers}
+    </div>
+    <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
+      <span className="font-medium">Total Problems:</span> {admindata.easyprob + admindata.mediumprob + admindata.hardprob}
+    </div>
+    <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
+      <span className="font-medium">Total Submissions:</span> {admindata.totalSubmissions}
+    </div>
+    <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
+      <span className="font-medium">Joined Since:</span> {admindata.adminSince}
+    </div>
+    <div className="bg-gray-100 p-3 rounded-lg shadow-sm">
+      <span className="font-medium">Problems Created by You:</span> {admindata.admin_problems}
+    </div>
+  </div>
+</div>
         <div className="w-full flex justify-center items-center">
           <h1>Problem Distribution</h1>
       <PieChart width={500} height={300}>

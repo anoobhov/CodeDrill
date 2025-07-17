@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router';
-import {Plus,Edit,Trash2, Video,CalendarDays, ArrowUpNarrowWide} from "lucide-react"
+import {Plus,Edit,Trash2, Video,CalendarDays, ArrowUpNarrowWide,LayoutDashboard} from "lucide-react"
 const Sidebar = () => {
   const { pathname } = useLocation();
 
@@ -13,7 +13,7 @@ const Sidebar = () => {
 
   return (
     <div className="w-64 bg-base-100 shadow-md border-r p-4">
-      <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
+      <h2 className="text-2xl font-bold mb-6 flex items-center text-base-content"><LayoutDashboard/>Admin Panel</h2>
       <ul className="space-y-4">
         {menu.map((item) => {
   const Icon = item.icon;
