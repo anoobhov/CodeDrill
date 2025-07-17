@@ -14,6 +14,7 @@ import VideoControl from "./components/VideoControl"
 import VideoUpload from "./components/VideoUpload"
 import POTD from "./components/POTD"
 import ProblemUpdationList from "./components/ProbUpdateList"
+import Layout from "./components/layout"
 
 // import Test from "../0notes/testing"
 
@@ -77,15 +78,20 @@ function App() {
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
 
         {/* Admin Stuffs */}
-        <Route path="/admin" element={isAuthenticated && user?.role === 'admin' ?<AdminPage/>: <Navigate to="/" />}></Route>
-        <Route path="/admin/create" element={isAuthenticated && user?.role === 'admin' ?<ProblemCreation/>: <Navigate to="/" />}></Route>
-        <Route path="/admin/update" element={isAuthenticated && user?.role === 'admin' ?<ProblemUpdationList/>: <Navigate to="/" />}></Route>
-        <Route path="/admin/updateproblem/:problemId" element={isAuthenticated && user?.role === 'admin' ?<ProblemUpdation/>: <Navigate to="/" />}></Route>
-        <Route path="/admin/delete" element={isAuthenticated && user?.role === 'admin' ?<ProblemDelete/> : <Navigate to="/"/>}></Route>
-        <Route path="/admin/video" element={isAuthenticated && user?.role === 'admin' ? <VideoControl /> : <Navigate to="/" />} />
-        <Route path="/admin/upload/:problemId" element={isAuthenticated && user?.role === 'admin' ? <VideoUpload /> : <Navigate to="/" />} />
-        <Route path="/admin/potd/" element={isAuthenticated && user?.role === 'admin' ? <POTD /> : <Navigate to="/" />} />
-        
+        {isAuthenticated && user?.role === 'admin' ? (
+      <Route path="/admin" element={<Layout/>}>
+        <Route index element={<AdminPage />} />
+        <Route path="create" element={<ProblemCreation />} />
+        <Route path="update" element={<ProblemUpdationList />} />
+        <Route path="updateproblem/:problemId" element={<ProblemUpdation />} />
+        <Route path="delete" element={<ProblemDelete />} />
+        <Route path="video" element={<VideoControl />} />
+        <Route path="upload/:problemId" element={<VideoUpload />} />
+        <Route path="potd" element={<POTD />} />
+      </Route>
+    ) : (
+      <Route path="/admin/*" element={<Navigate to="/admin" />} />
+    )}
         {/* <Route path="/testing" element={<Test/>}></Route> */}
 
       </Routes>
