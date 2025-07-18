@@ -11,6 +11,7 @@ import {
   Ampersand,
   GitPullRequestArrow,
   CodesandboxIcon,
+  BrainCircuit,
 } from "lucide-react";
 
 const icons = [
@@ -25,7 +26,8 @@ const icons = [
   Computer,
   Ampersand,
   GitPullRequestArrow,
-  CodesandboxIcon
+  CodesandboxIcon,
+  BrainCircuit
 ];
 
 const positions = [
@@ -41,6 +43,7 @@ const positions = [
   { top: "65%", left: "50%" },
   { top: "5%", left: "80%" },
   { top: "85%", left: "10%" },
+  { top: "85%", left: "30%" },
 ];
 
 //const sizes = ["w-8 h-8", "w-10 h-10", "w-13 h-13", "w-15 h-15", "w-20 h-20"];
