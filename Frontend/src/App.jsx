@@ -5,6 +5,7 @@ import AdminPage from "./pages/Adminpage"
 import ProblemCreation from "./components/ProbCreate"
 import ProblemUpdation from "./components/ProbUpdate"
 import ProblemDelete from "./components/ProbDelete"
+import ProblemSet from "./pages/ProblemSet"
 import Homepage from "./pages/Homepage"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
@@ -75,6 +76,7 @@ function App() {
         <Route path="/" element={isAuthenticated?<Homepage/>:<Navigate to='/login'/>}></Route>
         <Route path='/login' element={isAuthenticated?<Navigate to='/'/>: <Login/>}></Route>
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
+        <Route path="/problemset" element={<ProblemSet/>}></Route>
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
 
         {/* Admin Stuffs */}

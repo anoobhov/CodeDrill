@@ -1,5 +1,3 @@
-
-import React from "react";
 import {
   Code,
   Braces,
@@ -11,6 +9,8 @@ import {
   FolderCode,
   Computer,
   Ampersand,
+  GitPullRequestArrow,
+  CodesandboxIcon,
 } from "lucide-react";
 
 const icons = [
@@ -24,6 +24,8 @@ const icons = [
   FolderCode,
   Computer,
   Ampersand,
+  GitPullRequestArrow,
+  CodesandboxIcon
 ];
 
 const positions = [
@@ -37,6 +39,8 @@ const positions = [
   { top: "70%", left: "60%" },
   { top: "80%", left: "80%" },
   { top: "65%", left: "50%" },
+  { top: "5%", left: "80%" },
+  { top: "85%", left: "10%" },
 ];
 
 //const sizes = ["w-8 h-8", "w-10 h-10", "w-13 h-13", "w-15 h-15", "w-20 h-20"];
@@ -59,7 +63,7 @@ const AnimateBg = () => {
       {icons.map((Icon, i) => (
         <div
           key={i}
-          className={`absolute w-100 h-100 ${colors[i % colors.length]}`}
+          className={`absolute animate-float w-100 h-100 ${colors[i % colors.length]}`}
           style={{
             top: positions[i].top,
             left: positions[i].left,

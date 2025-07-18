@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import HintAi from '../components/HintAi';
 import Editorial from '../components/Editorial';
-import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck} from 'lucide-react';
+import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal} from 'lucide-react';
 import SubmissionHistory from '../components/SubmissionHistory';
 
 
@@ -495,10 +495,11 @@ const ProblemPage = () => {
                     {submitResult.accepted ? (
                       <div>
                         <h4 className="font-bold text-lg">🎉 Accepted</h4>
-                        <div className="mt-4 space-y-2">
-                          <p>Test Cases Passed: {submitResult.passedTestCases}/{submitResult.totalTestCases}</p>
-                          <p>Runtime: {submitResult.runtime + " sec"}</p>
-                          <p>Memory: {submitResult.memory + "KB"} </p>
+                        <div className="mt-4 space-y-2 bg-white rounded-2xl p-3">
+                          <p className='flex items-center gap-1'><TestTubeDiagonal/>Test Cases Passed: {submitResult.passedTestCases}/{submitResult.totalTestCases}</p>
+                          <hr></hr>
+                          <p className='flex items-center gap-1'><Timer/>Runtime: {submitResult.runtime + " sec"}</p>
+                          <p className='flex items-center gap-1'><Cpu/>Memory: {submitResult.memory + "KB"} </p>
                         </div>
                       </div>
                     ) : (
