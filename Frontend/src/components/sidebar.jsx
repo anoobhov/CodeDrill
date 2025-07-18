@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router';
-import {Plus,Edit,Trash2, Video,CalendarDays, ArrowUpNarrowWide,LayoutDashboard} from "lucide-react"
+import {Plus,Edit,Trash2, Video,CalendarDays, ArrowUpNarrowWide,LayoutDashboard, Home} from "lucide-react"
 const Sidebar = () => {
   const { pathname } = useLocation();
 
   const menu = [
+    { name: 'Home', path: '/',icon: Home },
     { name: 'Dashboard', path: '/admin',icon: ArrowUpNarrowWide },
     { name: 'Create Problem', path: '/admin/create',icon:Plus },
     { name: 'Update Problem', path: '/admin/update' ,icon: Edit },

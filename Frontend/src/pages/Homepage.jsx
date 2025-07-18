@@ -66,7 +66,6 @@ function Homepage(){
           try {
             const {data} = await axiosClient.get(`/problem/likedproblems`)
             setlikedproblems(data)
-            // console.log(likedproblems)
           } catch (error) {
             console.error('error fetching solved problems: '+error)
           }
@@ -78,9 +77,7 @@ function Homepage(){
         dispatch(logoutUser())
         setSolvedproblems([])
     }
-    
-
-
+   
     let filterproblems = problems.filter((problem)=>{
         const  difficultyMatch = filters.difficulty === 'all' || problem.difficulty ===filters.difficulty
         const  tagMatch = filters.tag === 'all' || problem.tags ===filters.tag
@@ -89,7 +86,6 @@ function Homepage(){
                 (filters.status === 'liked'&& likedproblems.some(sp=>sp._id === problem._id));
         return difficultyMatch&&tagMatch&&statusMatch
     })
-    // console.log(likedproblems)
 
     if (filters.likes === 'desc') {
     filterproblems.sort((a, b) => b.likes - a.likes);
@@ -189,37 +185,6 @@ function Homepage(){
                 </label>
                 {/* Problem Lists */}
                 <div className="grid gap-4">
-                    {/* {filterproblems.map((problem,index) => (
-            <div key={problem._id} className={`card bg-base-100 shadow-xl`}>
-              <div className="card-body">
-                <div className="flex items-center justify-between">
-                  <h2 className="card-title">
-                    <NavLink to={`/problem/${problem._id}`} className="hover:text-primary">
-                      {index+1}. {problem.title}
-                    </NavLink>
-                  </h2>
-                  {solvedproblems.some(sp => sp._id === problem._id) && (
-                    <div className="badge badge-success gap-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Solved
-                    </div>
-                  )}
-                </div>
-                
-                <div className="flex gap-2">
-                  <div className={`badge badge-soft ${difficultyBadgeColor(problem.difficulty)}`}>
-                    {problem.difficulty}
-                  </div>
-                  <div className="badge badge-dash badge-info">
-                    {problem.tags}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))} */}
-
           <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
