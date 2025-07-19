@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+
+html{
+  background-color: rgb(0, 0, 0);
+}
 @keyframes float {
     0% {
       transform: translateY(0);
