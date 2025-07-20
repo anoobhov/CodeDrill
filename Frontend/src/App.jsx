@@ -16,6 +16,7 @@ import VideoUpload from "./components/VideoUpload"
 import POTD from "./components/POTD"
 import ProblemUpdationList from "./components/ProbUpdateList"
 import Layout from "./components/layout"
+import UserDash from "./pages/UserDashBoard"
 
 // import Test from "../0notes/testing"
 
@@ -78,6 +79,7 @@ function App() {
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
         <Route path="/problemset" element={<ProblemSet/>}></Route>
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
+        <Route path="/dashboard/:userId" element={<UserDash/>}></Route>
 
         {/* Admin Stuffs */}
         {isAuthenticated && user?.role === 'admin' ? (

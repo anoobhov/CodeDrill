@@ -12,7 +12,7 @@ function AdminStats(){
     useEffect(()=>{
         const fetchStats = async () => {
             try {
-                const {data} = await axiosClient.get("/admin/userStats")
+                const {data} = await axiosClient.get("/admin/adminstats")
                 const {easyprob,mediumprob,hardprob,totalSubmissions,adminSince,admin_problems,totalUsers} = data
                 setAdmindata({totalUsers,totalSubmissions,adminSince,admin_problems,easyprob,mediumprob,hardprob})
                 setPieData([

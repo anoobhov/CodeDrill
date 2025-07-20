@@ -21,7 +21,7 @@ app.use(cookieParser())
 app.use("/auth",authRouter)
 app.use("/problem",problemRouter)
 app.use("/video",videoRouter);
-app.use('/admin',adminRouter)
+app.use('/stats',adminRouter)
 
 const InitializeConnection = async()=>{
     try {

@@ -4,8 +4,10 @@ const adminmidware = require("../middleware/adminmidware")
 
 const adminRouter = express.Router()
 
-const {userStats} = require("../controller/adminstats")
-adminRouter.get("/userStats",authmidware,adminmidware,userStats)
+const {adminStats, userStats} = require("../controller/adminstats")
+
+adminRouter.get("/adminstats",authmidware,adminmidware,adminStats)
+adminRouter.get("/userstats",authmidware,userStats)
 
 
 module.exports = adminRouter

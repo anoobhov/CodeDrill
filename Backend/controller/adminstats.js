@@ -2,7 +2,7 @@ const User = require("../schema/user")
 const Problem = require("../schema/problem");
 const Submissions = require("../schema/submission");
 
-const userStats = async(req,res)=>{
+const adminStats = async(req,res)=>{
 try {
     const adminId = req.result._id
 
@@ -37,7 +37,53 @@ try {
 }
 }
 
+const userStats = async (req,res) => {
+  try {
+    const userId = req.result._id
+
+    // Counting the user
+    const user = await User.findById(userId).populate("problemSolved").lean()
+    const counts = {
+    easy: 0,
+    medium: 0,
+    hard: 0
+  };
+
+   user.problemSolved.forEach(problem=>{
+    const diff = problem.difficulty?.toLowerCase();
+    // console.log(diff)
+    counts[diff]++
+  })
 
 
+  // User since 
+  const userSince = user.createdAt.toLocaleDateString('en-IN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    });
 
-module.exports = {userStats}
+    user.createdAt = userSince
+    user.counts = counts
+    const [easyprob, mediumprob, hardprob] = await Promise.all([
+      Problem.countDocuments({ difficulty: "easy" }),
+      Problem.countDocuments({ difficulty: "medium" }),
+      Problem.countDocuments({ difficulty: "hard" }),
+    ]);
+    const totalprobs = {
+      easyprob,
+      mediumprob,
+      hardprob
+    }
+
+    const userTotalSubmissions = await Submissions.find({userId:user._id})
+    res.json({user,totalprobs})
+
+
+  } catch (error) {
+    
+  }
+}
+
+
+module.exports = {adminStats,userStats}

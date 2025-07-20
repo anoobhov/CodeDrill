@@ -7,6 +7,7 @@ import { Bomb,Users ,NotepadText, Flame} from "lucide-react";
 
 function Homepage(){
     const {user} = useSelector((state)=>state.auth)
+    // console.log(user)
     // const [scrolled,setScrolled] = useState(false)
     const dispatch = useDispatch()
     // useEffect(()=>{
@@ -39,7 +40,7 @@ function Homepage(){
         </div>
 
         <div className="flex-1">
-            <NavLink to="/dashboard/:id" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
+            <NavLink to={`/dashboard/${user._id}`} className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
         </div>
     </nav>
 
