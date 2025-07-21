@@ -76,8 +76,9 @@ const userStats = async (req,res) => {
       hardprob
     }
 
-    const userTotalSubmissions = await Submissions.find({userId:user._id})
-    res.json({user,totalprobs})
+    const userTotalSubmissions = await Submissions.find({userId:user._id}).populate("problemId","title")
+
+    res.json({user,totalprobs,userTotalSubmissions})
 
 
   } catch (error) {

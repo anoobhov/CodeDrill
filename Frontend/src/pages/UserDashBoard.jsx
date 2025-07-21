@@ -37,6 +37,7 @@ function UserDash() {
   const { user } = useSelector((state) => state.auth);
   const [userdata, setUserData] = useState(null);
   const [totalProblems, setTotalProblems] = useState(null);
+  const [submissions,setSubmissions] = useState(null)
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -44,6 +45,7 @@ function UserDash() {
       console.log(data)
       setUserData(data.user);
       setTotalProblems(data.totalprobs);
+      setSubmissions(data.userTotalSubmissions)
     };
     fetchUserData();
   }, []);
@@ -82,8 +84,48 @@ function UserDash() {
         </div>
 
         {/* Submission History */}
-        <div>
-          {/* To be added */}
+        <div className="mt-3 bg-pink-600">
+          {/* name */}
+          <h1 className="text-2xl font-semibold">Recent Submissions</h1>
+          <div className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          
+          <tbody>
+            {submissions.map((submission, index) => (
+              <tr key={submission._id}>
+                <th>{index + 1}</th>
+                <td>{submission.problemId.title}</td>
+                <td>
+                  <span className={`badge ${
+                    submission.status === 'accepted' 
+                      ? 'badge-success' 
+                      : submission.status === 'pending' 
+                        ? 'badge-warning' 
+                        : 'badge-error'
+                  }`}>
+                    {submission.status}
+                  </span>
+                </td>
+                <td>
+                  <span className="badge badge-outline">
+                    {new Date(submission.createdAt).toLocaleString("en-IN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+})}
+                  </span>
+                </td>
+
+                <td>
+                  <span className="badge badge-outline">
+                    {submission.runtime} | {submission.memory}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
         </div>
       </div>
     </div>
