@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosClient from "../utils/axiosClient";
+import { NavLink } from 'react-router';
 
 function ProgressBar({ solved, total, difficulty }) {
   const percentage = (solved / total) * 100;
@@ -55,6 +56,25 @@ function UserDash() {
   }
 
   return (
+<>
+<nav className="navbar fixed top-6 left-29 bg-gradient-to-r from-black-950 via-purple-950 to-black rounded-3xl p-3 w-[80%]">
+<div className="flex-1">
+            <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
+        </div>
+
+        <div className="flex-1">
+            <NavLink to="/problemset" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">Problems</NavLink>
+        </div>
+
+        <div className="flex-1">
+            <NavLink to="/AboutUs" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">About Us</NavLink>
+        </div>
+
+        <div className="flex-1">
+            <NavLink to={`/dashboard/${user._id}`} className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
+        </div>
+    </nav>
+
     <div className="grid grid-cols-[1fr_2fr] gap-4">
       {/* Left */}
       <div className="w-full h-full bg-amber-800 p-4 text-white">
@@ -129,6 +149,7 @@ function UserDash() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

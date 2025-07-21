@@ -4,7 +4,7 @@ import axiosClient from "../utils/axiosClient"
 import { logoutUser } from "../authSlice"
 import { NavLink } from 'react-router';
 import AnimateBg from "../components/bg_animation";
-import { ThumbsUp,ArrowUpDown,ArrowUp, ArrowDown } from "lucide-react";
+import { ThumbsUp,ArrowUpDown,ArrowUp, ArrowDown, LogOut, User, Shield } from "lucide-react";
 
 
 function ProblemSet(){
@@ -120,10 +120,13 @@ function ProblemSet(){
                         <div tabIndex={0} className="btn btn-ghost transition-all duration-300 ease-in-out hover:scale-105 hover:tracking-wider">
                             {user?.firstName}
                         </div>
-                        <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                        <li><NavLink>My Profile</NavLink></li>
-                        <li><button onClick={handleLogout}>Logout</button></li>
-                        {user?.role=='admin'&&<li><NavLink to="/admin">Admin</NavLink></li>}
+                        <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-black-100 rounded-box w-52">
+                        <li className="text-primary font-bold"><NavLink to='/dashboard'><User />My Profile</NavLink></li>
+                        
+                        {user?.role=='admin'&&<li className=" font-bold text-green-300"><NavLink to="/admin"><Shield/>Admin</NavLink></li>}
+                        <li><button onClick={handleLogout} className="font-bold text-red-500">
+                          <LogOut/>Logout</button>
+                          </li>
                         </ul>
                     </div>
                 </div>

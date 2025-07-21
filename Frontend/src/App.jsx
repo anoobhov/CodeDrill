@@ -79,7 +79,7 @@ function App() {
         <Route path='/signup' element={isAuthenticated?<Navigate to='/'/>: <Signup/>}></Route>
         <Route path="/problemset" element={<ProblemSet/>}></Route>
         <Route path="/problem/:problemId" element={<ProblemPage/>}></Route>
-        <Route path="/dashboard/:userId" element={<UserDash/>}></Route>
+        <Route path="/dashboard" element={<UserDash/>}></Route>
 
         {/* Admin Stuffs */}
         {isAuthenticated && user?.role === 'admin' ? (
