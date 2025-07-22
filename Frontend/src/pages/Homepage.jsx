@@ -40,7 +40,7 @@ function Homepage(){
         </div>
 
         <div className="flex-1">
-            <NavLink to={`/dashboard/${user._id}`} className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
+            <NavLink to={`/dashboard`} className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
         </div>
     </nav>
 

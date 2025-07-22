@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosClient from "../utils/axiosClient";
 import { NavLink } from 'react-router';
+import { Trophy, ChartNoAxesCombined } from "lucide-react";
 
 function ProgressBar({ solved, total, difficulty }) {
   const percentage = (solved / total) * 100;
@@ -9,24 +10,27 @@ function ProgressBar({ solved, total, difficulty }) {
   const getColor = (level) => {
     switch (level?.toLowerCase()) {
       case 'easy':
-        return 'bg-green-500';
+        return 'green-500';
       case 'medium':
-        return 'bg-orange-500';
+        return 'orange-500';
       case 'hard':
-        return 'bg-red-500';
+        return 'red-500';
       default:
-        return 'bg-blue-500'; // fallback
+        return 'blue-500'; // fallback
     }
   };
 
   return (
     <div className="w-full max-w-md p-2">
-      <div className="text-sm font-medium mb-1">
-        {solved} / {total} problems solved
+      <div className="flex justify-between">
+      {difficulty.toUpperCase()}:
+      <div className={`text-${getColor(difficulty)} text-sm font-medium mb-1 flex justify-end items-end px-3`}>
+        {solved} / {total}
       </div>
-      <div className="w-full bg-gray-300 rounded-full h-4">
+      </div>
+      <div className="w-full bg-gray-300 rounded-full h-2">
         <div
-          className={`${getColor(difficulty)} h-4 rounded-full transition-all duration-300`}
+          className={`bg-${getColor(difficulty)} h-2 rounded-full transition-all duration-300`}
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -43,7 +47,7 @@ function UserDash() {
   useEffect(() => {
     const fetchUserData = async () => {
       const { data } = await axiosClient.get("/stats/userstats");
-      console.log(data)
+      // console.log(data)
       setUserData(data.user);
       setTotalProblems(data.totalprobs);
       setSubmissions(data.userTotalSubmissions)
@@ -57,45 +61,29 @@ function UserDash() {
 
   return (
 <>
-<nav className="navbar fixed top-6 left-29 bg-gradient-to-r from-black-950 via-purple-950 to-black rounded-3xl p-3 w-[80%]">
-<div className="flex-1">
-            <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
-        </div>
-
-        <div className="flex-1">
-            <NavLink to="/problemset" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">Problems</NavLink>
-        </div>
-
-        <div className="flex-1">
-            <NavLink to="/AboutUs" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">About Us</NavLink>
-        </div>
-
-        <div className="flex-1">
-            <NavLink to={`/dashboard/${user._id}`} className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
-        </div>
-    </nav>
-
-    <div className="grid grid-cols-[1fr_2fr] gap-4">
+  <div className="grid grid-cols-[1fr_2fr] gap-4">
       {/* Left */}
-      <div className="w-full h-full bg-amber-800 p-4 text-white">
-        <div>{user.firstName}</div>
-        <hr />
-        <div>{user.emailId}</div>
-        <div>Joined Since {userdata.createdAt}</div>
+      <div className="w-full bg-gray-700 p-4 text-white border-2 mt-3 hover:shadow-2xl">
+        <div className="text-3xl font-bold mb-3">{user.firstName}'s Dashboard</div>
+        <span className="text-gray-300 ">Track your progress and improve your Skills</span>
+        <hr className="mt-2" />
+        <div className=" my-7 py-3">Email:<br></br> {user.emailId}</div>
+        <div className="py-3 my-7">Member Since: {userdata.createdAt}</div>
+        <div>Current Streak: </div>
       </div>
 
       {/* Right */}
-      <div className="w-full bg-blue-600 flex-col p-4 text-white">
+      <div className="w-full bg-black flex-col p-4 text-white">
         {/* Stats */}
-        <div className="border-2 bg-fuchsia-700 p-2 mb-4">
-          <h1 className="text-lg font-bold">Your Stats: </h1>
+        <div className="border-2 bg-gray-700 p-2 mb-4">
+          <h1 className="text-lg font-bold flex items-center text-yellow-400"><ChartNoAxesCombined/>Your Stats: </h1>
           <div className="p-2 border">
-            <h3 className="mb-2">Problems Solved:</h3>
-            <h1>Easy: </h1>
+            <h3 className="mb-2 flex items-center"><Trophy/>Problems Solved:</h3>
+            
             <ProgressBar solved={userdata.counts.easy} total={totalProblems.easyprob} difficulty="easy" />
-            <h1>Medium: </h1>
+            {/* <h1>Medium: </h1> */}
             <ProgressBar solved={userdata.counts.medium} total={totalProblems.mediumprob} difficulty="medium" />
-            <h1>Hard: </h1>
+            {/* <h1>Hard: </h1> */}
             <ProgressBar solved={userdata.counts.hard} total={totalProblems.hardprob} difficulty="hard" />
             <hr className="my-3" />
             <h3>Submission Success:</h3>
@@ -104,9 +92,10 @@ function UserDash() {
         </div>
 
         {/* Submission History */}
-        <div className="mt-3 bg-pink-600">
+        <div className="mt-3 bg-gray-700 border-2">
           {/* name */}
-          <h1 className="text-2xl font-semibold">Recent Submissions</h1>
+          <h1 className="text-2xl font-semibold py-2 ">Recent Submissions</h1>
+          <hr></hr>
           <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           
@@ -127,7 +116,7 @@ function UserDash() {
                   </span>
                 </td>
                 <td>
-                  <span className="badge badge-outline">
+                  <span className="badge">
                     {new Date(submission.createdAt).toLocaleString("en-IN", {
   year: "numeric",
   month: "long",
@@ -137,8 +126,9 @@ function UserDash() {
                 </td>
 
                 <td>
-                  <span className="badge badge-outline">
-                    {submission.runtime} | {submission.memory}
+                  <span className="text-gray-400 ">
+                    
+                    {submission.runtime} s | {submission.memory} KB
                   </span>
                 </td>
               </tr>
