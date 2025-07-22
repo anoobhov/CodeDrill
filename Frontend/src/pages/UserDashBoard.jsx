@@ -2,35 +2,49 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosClient from "../utils/axiosClient";
 import { NavLink } from 'react-router';
+import {Commet} from "react-loading-indicators"
 import { Trophy, ChartNoAxesCombined } from "lucide-react";
+import Nav from "../components/nav";
 
 function ProgressBar({ solved, total, difficulty }) {
   const percentage = (solved / total) * 100;
 
-  const getColor = (level) => {
+  const textgetColor = (level) => {
     switch (level?.toLowerCase()) {
       case 'easy':
-        return 'green-500';
+        return 'text-green-500';
       case 'medium':
-        return 'orange-500';
+        return 'text-orange-500';
       case 'hard':
-        return 'red-500';
+        return 'text-red-500';
       default:
-        return 'blue-500'; // fallback
+        return 'text-blue-500'; // fallback
     }
   };
 
+  const bggetColor = (level) => {
+    switch (level?.toLowerCase()) {
+      case 'easy':
+        return 'bg-green-500';
+      case 'medium':
+        return 'bg-orange-500';
+      case 'hard':
+        return 'bg-red-500';
+      default:
+        return 'bg-blue-400'; // fallback
+    }
+  };
   return (
     <div className="w-full max-w-md p-2">
       <div className="flex justify-between">
       {difficulty.toUpperCase()}:
-      <div className={`text-${getColor(difficulty)} text-sm font-medium mb-1 flex justify-end items-end px-3`}>
+      <div className={`${textgetColor(difficulty)} text-sm font-medium mb-1 flex justify-end items-end px-3`}>
         {solved} / {total}
       </div>
       </div>
       <div className="w-full bg-gray-300 rounded-full h-2">
         <div
-          className={`bg-${getColor(difficulty)} h-2 rounded-full transition-all duration-300`}
+          className={`${bggetColor(difficulty)} h-2 rounded-full transition-all duration-300`}
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -55,15 +69,19 @@ function UserDash() {
     fetchUserData();
   }, []);
 
-  if (!userdata || !totalProblems) {
-    return <h1 className="text-6xl">Loading data....................</h1>;
-  }
-
+if (!userdata || !totalProblems) {
+  return (
+    <div className="w-[100vw] h-[100vh] flex justify-center items-center">
+    <Commet color="#FFD700" size="large" text="" textColor="" />
+    </div>
+  )
+}
   return (
 <>
-  <div className="grid grid-cols-[1fr_2fr] gap-4">
+<Nav/>
+  <div className="grid grid-cols-[1fr_2fr] gap-4 mt-20 bg-cover bg-center bg-no-repeat">
       {/* Left */}
-      <div className="w-full bg-gray-700 p-4 text-white border-2 mt-3 hover:shadow-2xl">
+      <div className="h-[43%] inline-block bg-gray-700 p-4 text-white  mt-3 transition-all duration-300 inner-shadow-hover rounded-2xl">
         <div className="text-3xl font-bold mb-3">{user.firstName}'s Dashboard</div>
         <span className="text-gray-300 ">Track your progress and improve your Skills</span>
         <hr className="mt-2" />
@@ -73,11 +91,11 @@ function UserDash() {
       </div>
 
       {/* Right */}
-      <div className="w-full bg-black flex-col p-4 text-white">
+      <div className="w-full flex-col p-4 text-white rounded-2xl">
         {/* Stats */}
-        <div className="border-2 bg-gray-700 p-2 mb-4">
+        <div className=" bg-gray-700 p-2 mb-4 transition-all duration-300 inner-shadow-hover rounded-2xl">
           <h1 className="text-lg font-bold flex items-center text-yellow-400"><ChartNoAxesCombined/>Your Stats: </h1>
-          <div className="p-2 border">
+          <div className="p-2 border rounded-2xl">
             <h3 className="mb-2 flex items-center"><Trophy/>Problems Solved:</h3>
             
             <ProgressBar solved={userdata.counts.easy} total={totalProblems.easyprob} difficulty="easy" />
@@ -92,7 +110,7 @@ function UserDash() {
         </div>
 
         {/* Submission History */}
-        <div className="mt-3 bg-gray-700 border-2">
+        <div className="mt-3 bg-gray-700 rounded-2xl p-3 transition-all duration-300 inner-shadow-hover">
           {/* name */}
           <h1 className="text-2xl font-semibold py-2 ">Recent Submissions</h1>
           <hr></hr>

@@ -45,7 +45,7 @@ function Homepage(){
     </nav>
 
     {/* main */}
-        <div className="bg-gray-950 mt-30 min-h-[80vh] p-25 flex md:flex-row pb-5"
+        <div className="bg-gray-950 mt-30 min-h-[80vh] p-25 flex md:flex-row pb-5 "
         style={{ backgroundImage: "url('/wp2.jpg')" }}
         >
             

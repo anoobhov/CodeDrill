@@ -9,6 +9,7 @@ import Nav from "../components/nav";
 function ProblemSet(){
 
     const [problems,setProblems] = useState([])
+    const [potd,setPotd] = useState(null)
     const [solvedproblems,setSolvedproblems]=useState([])
     const [likedproblems,setlikedproblems]=useState([])
     const [filters,setFilters] = useState({
@@ -36,6 +37,20 @@ function ProblemSet(){
                 console.error('error fetching solved problems: '+error)
             }
         }
+        const fetchPOTD = async () => {
+          try {
+              const response = await axiosClient.get('/problem/potd');
+              if (response.data) {
+                const potd_id = response.data
+                setPotd(potd_id)
+              } else {
+                console.warn("No POTD ID found in response.");
+              }
+            }         catch (err) {
+            console.error("Failed to fetch POTD:", err);
+        }
+     };
+        fetchPOTD()
         fetchProblems()
         fetchSolvedProblems()
 
@@ -77,6 +92,7 @@ function ProblemSet(){
   }
 };
     const likedIds = likedproblems.map(p => p._id.toString())
+
     return(
         <div className="min-h-screen">
             <AnimateBg/>
@@ -87,7 +103,7 @@ function ProblemSet(){
                 {/* filter */}
                 <div className="flex flex-wrap gap-4 mb-1 mt-15">
                     <select
-                    className="select select-secondary"
+                    className="select select-secondary w-auto"
                     value={filters.status}
                     onChange={(e)=>setFilters({...filters,status:e.target.value})}>
                         <option value='all'>All Problems</option>
@@ -97,7 +113,7 @@ function ProblemSet(){
                     </select>
 
                     <select
-                    className="select select-accent"
+                    className="select select-accent w-auto"
                     value={filters.difficulty}
                     onChange={(e)=>setFilters({...filters,difficulty:e.target.value})}>
                         <option value='all'>All Difficulties</option>
@@ -107,7 +123,7 @@ function ProblemSet(){
                     </select>
                     
                     <select
-                    className="select select-info"
+                    className="select select-info w-auto"
                     value={filters.tag}
                     onChange={(e)=>setFilters({...filters,tag:e.target.value})}>
                         <option value='all'>All tags</option>
@@ -119,7 +135,11 @@ function ProblemSet(){
                         <option value='linkedList'>Linked Lists</option>
                         <option value='dp'>DP</option>
                     </select>
-                    
+                    <NavLink to={`/problem/${potd}`}>
+                 <button className="btn" >Problem of the day</button>
+                 </NavLink>
+                 
+                 <button className="btn">Sheets</button>   
                 </div>
                 {/* Search Bar */}
                 <label className="input w-full outline-none border-none mt-2">
