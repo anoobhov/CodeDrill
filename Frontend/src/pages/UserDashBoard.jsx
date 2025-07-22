@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axiosClient from "../utils/axiosClient";
 import { NavLink } from 'react-router';
-import {Commet} from "react-loading-indicators"
+
 import { Trophy, ChartNoAxesCombined } from "lucide-react";
 import Nav from "../components/nav";
+import AnimateBg from "../components/bg_animation";
+import Loading from "../components/loading";
 
 function ProgressBar({ solved, total, difficulty }) {
   const percentage = (solved / total) * 100;
@@ -71,17 +73,16 @@ function UserDash() {
 
 if (!userdata || !totalProblems) {
   return (
-    <div className="w-[100vw] h-[100vh] flex justify-center items-center">
-    <Commet color="#FFD700" size="large" text="" textColor="" />
-    </div>
+    <Loading/>
   )
 }
   return (
 <>
+<AnimateBg/>
 <Nav/>
   <div className="grid grid-cols-[1fr_2fr] gap-4 mt-20 bg-cover bg-center bg-no-repeat">
       {/* Left */}
-      <div className="h-[43%] inline-block bg-gray-700 p-4 text-white  mt-3 transition-all duration-300 inner-shadow-hover rounded-2xl">
+      <div className="h-[43%] inline-block bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border rounded-xl p-6 shadow-xl text-white  mt-3 transition-all duration-300 border-yellow-300 hover:shadow-xl shadow-amber-300">
         <div className="text-3xl font-bold mb-3">{user.firstName}'s Dashboard</div>
         <span className="text-gray-300 ">Track your progress and improve your Skills</span>
         <hr className="mt-2" />
@@ -93,8 +94,8 @@ if (!userdata || !totalProblems) {
       {/* Right */}
       <div className="w-full flex-col p-4 text-white rounded-2xl">
         {/* Stats */}
-        <div className=" bg-gray-700 p-2 mb-4 transition-all duration-300 inner-shadow-hover rounded-2xl">
-          <h1 className="text-lg font-bold flex items-center text-yellow-400"><ChartNoAxesCombined/>Your Stats: </h1>
+        <div className=" bg-gray-700 p-4 mb-4 transition-all duration-300 inner-shadow-hover rounded-2xl">
+          <h1 className="text-lg font-bold flex items-center text-yellow-400 pl-2 pb-2"><ChartNoAxesCombined/>Your Stats: </h1>
           <div className="p-2 border rounded-2xl">
             <h3 className="mb-2 flex items-center"><Trophy/>Problems Solved:</h3>
             

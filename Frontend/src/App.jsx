@@ -17,6 +17,7 @@ import POTD from "./components/POTD"
 import ProblemUpdationList from "./components/ProbUpdateList"
 import Layout from "./components/layout"
 import UserDash from "./pages/UserDashBoard"
+import Loading from "./components/loading"
 
 // import Test from "../0notes/testing"
 
@@ -64,9 +65,7 @@ function App() {
   },[dispatch])
 
     if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">
-      <span className="loading loading-spinner loading-lg"></span>
-    </div>;
+    return <Loading/>
   }
 
   return(

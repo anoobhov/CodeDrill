@@ -7,6 +7,7 @@ import HintAi from '../components/HintAi';
 import Editorial from '../components/Editorial';
 import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal} from 'lucide-react';
 import SubmissionHistory from '../components/SubmissionHistory';
+import Loading from '../components/loading';
 
 
 const ProblemPage = () => {
@@ -178,9 +179,7 @@ const ProblemPage = () => {
 
   if (loading && !problem) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+      <Loading/>
     );
   }
 

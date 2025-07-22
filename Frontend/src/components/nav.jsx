@@ -17,7 +17,8 @@ function Nav(){
                 </div>
                 <div className="flex flex-row items-center">
                     <div>
-                        <button className="btn">Problem Set</button>
+                        <NavLink to="/problemset">
+                        <button className="btn">Problem Set</button></NavLink>
                     </div>
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} className="btn transition-all duration-300 ease-in-out">

@@ -1,48 +1,11 @@
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { logoutUser } from "../authSlice"
 import { NavLink } from 'react-router';
 import { Bomb,Users ,NotepadText, Flame} from "lucide-react";
+import Nav from "../components/nav";
 
 
 function Homepage(){
-    const {user} = useSelector((state)=>state.auth)
-    // console.log(user)
-    // const [scrolled,setScrolled] = useState(false)
-    const dispatch = useDispatch()
-    // useEffect(()=>{
-    //     const handleScroll = ()=>{
-    //         setScrolled(window.scrollY>10)
-    //         window.addEventListener("scroll", handleScroll);
-    //     }
-    // },[])
-    return(<div>
-    {/* nav */}
-    <nav className="navbar fixed top-6 left-29 bg-gradient-to-r from-black-950 via-purple-950 to-black rounded-3xl p-3 w-[80%]">
-    {/* <nav
-      className={`fixed top-6 z-50 transition-all duration-500 ease-in-out 
-        ${scrolled
-          ? "w-full left-0 bg-transparent backdrop-blur-md border border-purple-400/30 shadow-lg px-6 rounded-none"
-          : "w-[80%] left-[10%] bg-gradient-to-br from-black via-purple-950 to-black px-6 rounded-3xl"
-        }
-      `}
-    > */}
-        <div className="flex-1">
-            <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
-        </div>
-
-        <div className="flex-1">
-            <NavLink to="/problemset" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">Problems</NavLink>
-        </div>
-
-        <div className="flex-1">
-            <NavLink to="/AboutUs" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">About Us</NavLink>
-        </div>
-
-        <div className="flex-1">
-            <NavLink to={`/dashboard`} className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">My Dashboard</NavLink>
-        </div>
-    </nav>
+return(<div>
+    <Nav/>
 
     {/* main */}
         <div className="bg-gray-950 mt-30 min-h-[80vh] p-25 flex md:flex-row pb-5 "
