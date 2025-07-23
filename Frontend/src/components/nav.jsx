@@ -2,7 +2,7 @@ import { LogOut, User, Shield } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from 'react-router';
 import { logoutUser } from "../authSlice"
-
+// import { useEffect } from "react";
 function Nav(){
     const dispatch = useDispatch()
     const {user} = useSelector((state)=>state.auth) 
@@ -10,8 +10,9 @@ function Nav(){
             dispatch(logoutUser())
         }
 
+
     return(
-    <nav className="navbar bg-base-100 shadow-lg px-4 fixed top-0 left-0 z-40">
+    <nav id="navbar" className="navbar bg-gradient-to-tr backdrop-blur-md bg-opacity-60 px-4 fixed top-0 left-0 z-40">
                 <div className="flex-1">
                     <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
                 </div>

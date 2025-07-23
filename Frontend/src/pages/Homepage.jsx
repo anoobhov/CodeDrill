@@ -4,12 +4,12 @@ import Nav from "../components/nav";
 
 
 function Homepage(){
-return(<div>
+return(<div className='bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900'>
     <Nav/>
 
     {/* main */}
-        <div className="bg-gray-950 mt-30 min-h-[80vh] p-25 flex md:flex-row pb-5 "
-        style={{ backgroundImage: "url('/wp2.jpg')" }}
+        <div className=" min-h-[100vh] p-25 pt-40 flex md:flex-row"
+        // style={{ backgroundImage: "url('/wp2.jpg')" }}
         >
             
 
@@ -39,26 +39,26 @@ return(<div>
 
 {/* features */}
 
-<div className="bg-black mt-5 p-3 text-center">
+<div className=" mt-5 p-3 text-center">
     <div className="text-5xl mb-5">Features</div>
     <span className="text-xl">Our platform is designed to help you master algorithms and ace technical interviews through deliberate practice and visual learning.</span>
     {/* cards */}
     <div className="flex gap-10 justify-center">
         {/* card */}
-    <div className="card bg-base-300 w-80 shadow-sm mt-3 border-white border-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-300">
+    <div className="card bg-gradient-to-tl from-yellow-400 via-white to-yellow-400 w-80 shadow-sm mt-3 border-white border-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-300">
   <figure className="pt-7">
         <Bomb className="bg-gray-400 p-1" width={50} height={50}/>
   </figure>
   <div className="card-body items-center text-center">
-    <h2 className="card-title text-2xl">Targeted Drills</h2>
-    <p className="text-gray-400">At CodeDrill, your problem sets aren’t random — they’re strategic loadouts, crafted by experienced drill instructors and field-tested by coding veterans.
+    <h2 className="card-title text-2xl text-black">Targeted Drills</h2>
+    <p className="text-gray-800">At CodeDrill, your problem sets aren’t random — they’re strategic loadouts, crafted by experienced drill instructors and field-tested by coding veterans.
 <br></br>
 Each mission is grouped by combat pattern (topic), threat level (difficulty), and engagement frequency (industry relevance) — ensuring your drills hit the mark every time.
 </p>
   </div>
 </div>
 
- <div className="card bg-base-300 w-80 shadow-sm mt-3 border-white border-1 hover:shadow-[0_0_10px_#0ff] hover:animate-pulse transition-all duration-300">
+ <div className="card bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900 w-80 shadow-sm mt-3 border-white border-1 hover:shadow-[0_0_10px_#0ff] hover:animate-pulse transition-all duration-300">
   <figure className="pt-7">
         <Bomb className="bg-gray-400 p-1" width={50} height={50}/>
   </figure>
@@ -73,13 +73,13 @@ From smart code reviews and encrypted hints to tactical debugging and logic reco
   </div>
 </div>
 
- <div className="card bg-base-300 w-80 mt-3 border-white border-1 hover:shadow-[0_0_10px_#0ff] hover:animate-pulse transition-all duration-300">
+ <div className="card bg-gradient-to-tl from-yellow-600 via-yellow-100 to-yellow-600 w-80 mt-3 border-white border-1 hover:shadow-[0_0_10px_#0ff] hover:animate-pulse transition-all duration-300">
   <figure className="pt-7">
         <Bomb className="bg-gray-400 p-1" width={50} height={50}/>🪖
   </figure>
   <div className="card-body items-center text-center">
-    <h2 className="card-title text-2xl">Code Drills</h2>
-    <p className="text-gray-400">No soldier enters the battlefield unarmed — and no coder should face a contest untrained.<br></br>Our drills aren’t just exercises — they’re battle simulations. Each coding challenge is handpicked, field-tested, and mission-ready — designed to forge your skills under pressure and transform you from a coding recruit into a logic commando.</p>
+    <h2 className="card-title text-2xl text-black">Code Drills</h2>
+    <p className="text-gray-800">No soldier enters the battlefield unarmed — and no coder should face a contest untrained.<br></br>Our drills aren’t just exercises — they’re battle simulations. Each coding challenge is handpicked, field-tested, and mission-ready — designed to forge your skills under pressure and transform you from a coding recruit into a logic commando.</p>
   </div>
 </div>
 </div>

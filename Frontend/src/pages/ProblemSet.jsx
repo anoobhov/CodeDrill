@@ -94,12 +94,12 @@ function ProblemSet(){
     const likedIds = likedproblems.map(p => p._id.toString())
 
     return(
-        <div className="min-h-screen">
+        <div className="min-h-screen ">
             <AnimateBg/>
             {/* nav bar */}
             <Nav/>
             {/* Main contents */}
-            <div className="container mx-auto p-4">
+            <div className="container mt-5 mx-auto p-4">
                 {/* filter */}
                 <div className="flex flex-wrap gap-4 mb-1 mt-15">
                     <select

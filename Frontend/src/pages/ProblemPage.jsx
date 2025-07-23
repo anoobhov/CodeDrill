@@ -8,6 +8,7 @@ import Editorial from '../components/Editorial';
 import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal} from 'lucide-react';
 import SubmissionHistory from '../components/SubmissionHistory';
 import Loading from '../components/loading';
+import Nav from '../components/nav';
 
 
 const ProblemPage = () => {
@@ -189,9 +190,10 @@ const ProblemPage = () => {
 //     setIsLiked(true)
 //   }
   return (
-    <div className="h-screen flex bg-base-100">
+    <div className="h-screen flex bg-gradient-to-r from-gray-600 to-black">
+      <Nav/>
       {/* Left Panel */}
-      <div className="w-1/2 flex flex-col border-r border-base-300">
+      <div className="w-1/2 flex flex-col border-r border-white">
         {/* Left Tabs */}
         <div className="tabs tabs-bordered bg-base-200 px-4">
           <button 
@@ -250,7 +252,7 @@ const ProblemPage = () => {
                     <h3 className="text-lg font-semibold mb-4">Examples:</h3>
                     <div className="space-y-4">
                       {problem.visibleTestCases.map((example, index) => (
-                        <div key={index} className="bg-base-200 p-4 rounded-lg">
+                        <div key={index} className="bg-base-200 p-4 ">
                           <h4 className="font-semibold mb-2">Example {index + 1}:</h4>
                           <div className="space-y-2 text-sm font-mono">
                             <div><strong>Input:</strong> {example.input}</div>
@@ -350,7 +352,7 @@ const ProblemPage = () => {
                   {['javascript', 'java', 'cpp'].map((lang) => (
                     <button
                       key={lang}
-                      className={`btn btn-sm ${selectedLanguage === lang ? 'btn-primary' : 'btn-ghost'}`}
+                      className={`btn btn-sm ${selectedLanguage === lang ? 'text-primary' : 'btn-ghost'}`}
                       onClick={() => handleLanguageChange(lang)}
                     >
                       {lang === 'cpp' ? 'C++' : lang === 'javascript' ? 'JavaScript' : 'Java'}
@@ -401,16 +403,15 @@ const ProblemPage = () => {
                     Console
                   </button>
                 </div>
-                <div className="flex gap-2">
-                  <button
+                
+                   
+                  
+                  <div className="flex gap-2">
+                    <button
                     className={`btn btn-outline btn-sm ${loading ? 'loading' : ''}`}
                     onClick={handleRun}
                     disabled={loading}
                   > Run</button>
-                    </div>
-                   
-                  
-                  <div className="flex gap-2">
                   <button
                     className={`btn btn-primary btn-sm ${loading ? 'loading' : ''}`}
                     onClick={handleSubmitCode}
