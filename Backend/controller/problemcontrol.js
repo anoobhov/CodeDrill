@@ -24,7 +24,7 @@ const problemCreate = async (req,res) => {
 
 
         const submitResult = await submitBatch(submissions);
-        console.log(submitResult);
+        // console.log(submitResult);
 
         const resultToken = submitResult.map((value)=> value.token);
         

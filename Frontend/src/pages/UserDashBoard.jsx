@@ -122,7 +122,9 @@ if (!userdata || !totalProblems) {
             {submissions.map((submission, index) => (
               <tr key={submission._id}>
                 <th>{index + 1}</th>
+                <NavLink to= {`/problem/${submission.problemId._id}`}>
                 <td>{submission.problemId.title}</td>
+                </NavLink>
                 <td>
                   <span className={`badge ${
                     submission.status === 'accepted' 

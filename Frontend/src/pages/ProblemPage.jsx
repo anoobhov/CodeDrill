@@ -32,12 +32,12 @@ const ProblemPage = () => {
       try {
         
         const response = await axiosClient.get(`/problem/problembyId/${problemId}`);
-
+        
         const initialCode = response.data.startCode.find((sc) => {
         
         if (sc.language == "C++" && selectedLanguage == 'cpp')
         return true;
-        else if (sc.language == "Java" && selectedLanguage == 'java')
+        else if (sc.language == "Python" && selectedLanguage == 'python')
         return true;
         else if (sc.language == "Javascript" && selectedLanguage == 'javascript')
         return true;
@@ -48,7 +48,7 @@ const ProblemPage = () => {
         // console.log(initialCode);
         setProblem(response.data);        
 
-        // console.log(initialCode);
+        console.log(initialCode);
         setCode(initialCode);
         setLoading(false);
         
@@ -73,6 +73,7 @@ const ProblemPage = () => {
     if (problem) {
       const initialCode = problem.startCode.find(sc => sc.language === selectedLanguage)?.initialCode || '';
       setCode(initialCode);
+      console.log(initialCode)
     }
   }, [selectedLanguage, problem]);
 
@@ -94,6 +95,7 @@ const ProblemPage = () => {
 
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
+    // console.log('Available languages:', monaco.languages.getLanguages());
   };
 
   const handleLanguageChange = (language) => {
@@ -109,7 +111,7 @@ const ProblemPage = () => {
         code,
         language: selectedLanguage
       });
-      console.log(response)
+      // console.log(response)
       setRunResult(response.data);
       setLoading(false);
       setActiveRightTab('testcase');
@@ -164,6 +166,7 @@ const ProblemPage = () => {
       case 'javascript': return 'javascript';
       case 'java': return 'java';
       case 'cpp': return 'cpp';
+      case 'python': return 'python';
       default: return 'javascript';
     }
   };
