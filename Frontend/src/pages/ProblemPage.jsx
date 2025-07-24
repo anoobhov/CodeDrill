@@ -5,11 +5,10 @@ import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import HintAi from '../components/HintAi';
 import Editorial from '../components/Editorial';
-import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal} from 'lucide-react';
+import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal, AlarmClock} from 'lucide-react';
 import SubmissionHistory from '../components/SubmissionHistory';
 import Loading from '../components/loading';
-import Nav from '../components/nav';
-
+import { NavLink } from 'react-router';
 
 const ProblemPage = () => {
   const [problem, setProblem] = useState(null);
@@ -190,12 +189,43 @@ const ProblemPage = () => {
 //     setIsLiked(true)
 //   }
   return (
-    <div className="h-screen flex bg-gradient-to-r from-gray-600 to-black">
-      <Nav/>
+    <div className="h-screen flex bg-gradient-to-bl from-gray-200 to-black">
+      <nav id="navbar" className="navbar bg-gradient-to-l from-gray-500 via-gray-800 to-gray-950 border-b-2 border-black  px-4 fixed top-0 left-0 z-40">
+                <div className="flex-1">
+                    <NavLink to="/problemset" className="btn btn-ghost text-xl  hover:bg-transparent hover:text-purple-400">&lt;-  Problem List</NavLink>
+                </div>
+                <div className="flex flex-row justify-between  w-[50vw] ">
+                  <div className="tabs tabs-bordered bg-base-200 px-4">
+          <button 
+            className={`tab ${activeRightTab === 'code' ? 'tab-active' : ''}`}
+            onClick={() => setActiveRightTab('code')}
+          >
+            Code
+          </button>
+          <button 
+            className={`tab ${activeRightTab === 'testcase' ? 'tab-active' : ''}`}
+            onClick={() => setActiveRightTab('testcase')}
+          >
+            Testcase
+          </button>
+          <button 
+            className={`tab ${activeRightTab === 'result' ? 'tab-active' : ''}`}
+            onClick={() => setActiveRightTab('result')}
+          >
+            Result
+          </button>
+        </div>
+        <div>
+                      <button className="btn"><AlarmClock/></button>
+                    </div>
+                </div>
+                
+            </nav>
+
       {/* Left Panel */}
-      <div className="w-1/2 flex flex-col border-r border-white">
+      <div className="w-2/5 flex flex-col border-r border-white mt-15">
         {/* Left Tabs */}
-        <div className="tabs tabs-bordered bg-base-200 px-4">
+        <div className="tabs tabs-bordered bg-gradient-to-tl from-gray-500 to-black px-4">
           <button 
             className={`tab ${activeLeftTab === 'description' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('description')}
@@ -229,7 +259,7 @@ const ProblemPage = () => {
         </div>
 
         {/* Left Content */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto scrollbar-hide p-6">
           {problem && (
             <>
               {activeLeftTab === 'description' && (
@@ -252,12 +282,12 @@ const ProblemPage = () => {
                     <h3 className="text-lg font-semibold mb-4">Examples:</h3>
                     <div className="space-y-4">
                       {problem.visibleTestCases.map((example, index) => (
-                        <div key={index} className="bg-base-200 p-4 ">
-                          <h4 className="font-semibold mb-2">Example {index + 1}:</h4>
+                        <div key={index} className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md p-4 ">
+                          <h4 className="font-semibold mb-2 text-gray-400 ">Example {index + 1}:</h4>
                           <div className="space-y-2 text-sm font-mono">
-                            <div><strong>Input:</strong> {example.input}</div>
-                            <div><strong>Output:</strong> {example.output}</div>
-                            <div><strong>Explanation:</strong> {example.explanation}</div>
+                            <div><strong className='text-blue-400'>Input:</strong> {example.input}</div>
+                            <div ><strong className='text-blue-400'>Output:</strong> {example.output}</div>
+                            <div ><strong className='text-cyan-400'>Explanation:</strong> {example.explanation}</div>
                           </div>
                         </div>
                       ))}
@@ -319,29 +349,7 @@ const ProblemPage = () => {
       </div>
 
       {/* Right Panel */}
-      <div className="w-1/2 flex flex-col">
-        {/* Right Tabs */}
-        <div className="tabs tabs-bordered bg-base-200 px-4">
-          <button 
-            className={`tab ${activeRightTab === 'code' ? 'tab-active' : ''}`}
-            onClick={() => setActiveRightTab('code')}
-          >
-            Code
-          </button>
-          <button 
-            className={`tab ${activeRightTab === 'testcase' ? 'tab-active' : ''}`}
-            onClick={() => setActiveRightTab('testcase')}
-          >
-            Testcase
-          </button>
-          <button 
-            className={`tab ${activeRightTab === 'result' ? 'tab-active' : ''}`}
-            onClick={() => setActiveRightTab('result')}
-          >
-            Result
-          </button>
-        </div>
-
+      <div className="w-3/5 flex flex-col mt-15 bg-gradient-to-l from-gray-500 via-gray-800 to-gray-950">
         {/* Right Content */}
         <div className="flex-1 flex flex-col">
           {activeRightTab === 'code' && (
@@ -349,13 +357,13 @@ const ProblemPage = () => {
               {/* Language Selector */}
               <div className="flex justify-between items-center p-4 border-b border-base-300">
                 <div className="flex gap-2">
-                  {['javascript', 'java', 'cpp'].map((lang) => (
+                  {['javascript', 'python', 'cpp'].map((lang) => (
                     <button
                       key={lang}
                       className={`btn btn-sm ${selectedLanguage === lang ? 'text-primary' : 'btn-ghost'}`}
                       onClick={() => handleLanguageChange(lang)}
                     >
-                      {lang === 'cpp' ? 'C++' : lang === 'javascript' ? 'JavaScript' : 'Java'}
+                      {lang === 'cpp' ? 'C++' : lang === 'javascript' ? 'JavaScript' : 'Python'}
                     </button>
                   ))}
                 </div>
@@ -395,17 +403,6 @@ const ProblemPage = () => {
 
               {/* Action Buttons */}
               <div className="p-4 border-t border-base-300 flex justify-between">
-                <div className="flex gap-2">
-                  <button 
-                    className="btn btn-ghost btn-sm"
-                    onClick={() => setActiveRightTab('testcase')}
-                  >
-                    Console
-                  </button>
-                </div>
-                
-                   
-                  
                   <div className="flex gap-2">
                     <button
                     className={`btn btn-outline btn-sm ${loading ? 'loading' : ''}`}
@@ -457,7 +454,7 @@ const ProblemPage = () => {
                       </div>
                     ) : (
                       <div>
-                        <h4 className="font-bold">❌ Error</h4>
+                        <h4 className="font-bold shadow-2xl shadow-black">❌ Error</h4>
                         <div className="mt-4 space-y-2">
                           {runResult.testCases?.map((tc, i) => (
                             <div key={i} className="bg-gray-200 p-5 rounded text-s w-142">
@@ -479,8 +476,11 @@ const ProblemPage = () => {
                   </div>
                 </div>
               ) : (
-                <div className="text-gray-500">
+                <div className="text-gray-400">
                   Click "Run" to test your code with the example test cases.
+                  {/* {problem.visibleTestCases.map((testcase)=>{
+                    testCase
+                  })} */}
                 </div>
               )}
             </div>
@@ -513,7 +513,7 @@ const ProblemPage = () => {
                   </div>
                 </div>
               ) : (
-                <div className="text-gray-500">
+                <div className="text-gray-400">
                   Click "Submit" to submit your solution for evaluation.
                 </div>
               )}

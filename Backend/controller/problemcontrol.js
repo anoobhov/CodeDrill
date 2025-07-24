@@ -30,7 +30,7 @@ const problemCreate = async (req,res) => {
         
        const testResult = await submitToken(resultToken);
 
-       console.log(testResult);
+      //  console.log(testResult);
 
        for(const test of testResult){
         if(test.status_id!=3){
