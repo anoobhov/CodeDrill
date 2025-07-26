@@ -5,7 +5,7 @@
 Welcome to **CodeDrill**, the ultimate military-themed DSA platform built to help you become an elite code commando. Whether you're a raw recruit or a battle-hardened programmer, CodeDrill is your mission control for mastering Data Structures, Algorithms, and competitive programming.
 
 ---
-
+### “Code not just to solve problems, but to build discipline. CodeDrill is your training ground.”
 <img width="947" height="444" alt="image" src="https://github.com/user-attachments/assets/3d388a39-408a-4947-a205-6db093ec0c20" />
 <!-- Replace with actual image path -->
 
