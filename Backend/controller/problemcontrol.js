@@ -66,7 +66,7 @@ const problemUpdate = async (req,res) => {
       if(!id)
         throw new Error("Wrong id in problemUpdate")
 
-      const existing_problem = await Problem.findById('id')
+      const existing_problem = await Problem.findById(id)
       if(!existing_problem)
         throw new Error("Problem don't exist.")
       for(const {language,completeCode} of referenceSolution){

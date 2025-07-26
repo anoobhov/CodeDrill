@@ -9,6 +9,14 @@ import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal
 import SubmissionHistory from '../components/SubmissionHistory';
 import Loading from '../components/loading';
 import { NavLink } from 'react-router';
+import Stopwatch from '../components/stopwatch';
+
+const mapLang = {
+  'cpp': 'C++',
+  'python': 'Python',
+  'javascript': 'Javascript'
+};
+
 
 const ProblemPage = () => {
   const [problem, setProblem] = useState(null);
@@ -16,6 +24,8 @@ const ProblemPage = () => {
   const [likedProblems,setLikedProblems] = useState([])
   const [selectedLanguage, setSelectedLanguage] = useState('javascript');
   const [code, setCode] = useState('');
+
+  const [isRunning, setIsRunning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [runResult, setRunResult] = useState(null);
   const [submitResult, setSubmitResult] = useState(null);
@@ -33,17 +43,22 @@ const ProblemPage = () => {
         
         const response = await axiosClient.get(`/problem/problembyId/${problemId}`);
         
-        const initialCode = response.data.startCode.find((sc) => {
+        // const initialCode = response.data.startCode.find((sc) => {
         
-        if (sc.language == "C++" && selectedLanguage == 'cpp')
-        return true;
-        else if (sc.language == "Python" && selectedLanguage == 'python')
-        return true;
-        else if (sc.language == "Javascript" && selectedLanguage == 'javascript')
-        return true;
+        // if (sc.language == "C++" && selectedLanguage == 'cpp')
+        // return true;
+        // else if (sc.language == "Python" && selectedLanguage == 'python')
+        // return true;
+        // else if (sc.language == "Javascript" && selectedLanguage == 'javascript')
+        // return true;
 
-        return false;
-        })?.initialCode || 'Hello';
+
+        // return false;
+        // })?.initialCode || 'Hello';
+
+        const initialCode = response.data.startCode.find((sc) => 
+        sc.language.toLowerCase() === mapLang[selectedLanguage].toLowerCase()
+        )?.initialCode || 'Hello';
 
         // console.log(initialCode);
         setProblem(response.data);        
@@ -71,7 +86,10 @@ const ProblemPage = () => {
   // Update code when language changes
   useEffect(() => {
     if (problem) {
-      const initialCode = problem.startCode.find(sc => sc.language === selectedLanguage)?.initialCode || '';
+      // const initialCode = problem.startCode.find(sc => sc.language === selectedLanguage)?.initialCode || '';
+      const initialCode = problem.startCode.find(
+      sc => sc.language.toLowerCase() === mapLang[selectedLanguage].toLowerCase()
+    )?.initialCode || '';
       setCode(initialCode);
       console.log(initialCode)
     }
@@ -141,6 +159,7 @@ const ProblemPage = () => {
   }
   const handleSubmitCode = async () => {
     setLoading(true);
+    setIsRunning(false)
     setSubmitResult(null);
     
     try {
@@ -219,7 +238,7 @@ const ProblemPage = () => {
           </button>
         </div>
         <div>
-                      <button className="btn"><AlarmClock/></button>
+                      <Stopwatch isRunning={isRunning} setIsRunning={setIsRunning}/>
                     </div>
                 </div>
                 
