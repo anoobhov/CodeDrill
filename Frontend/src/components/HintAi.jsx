@@ -6,8 +6,7 @@ import { Send } from 'lucide-react';
 
 function HintAi({problem}){
     const [messages,setMessages] = useState([
-        { role: 'model', parts:[{text: "Hi, How are you"}]},
-        { role: 'user', parts:[{text: "I am Good"}]}
+        { role: 'model', parts:[{text: "Hi,I am here to help you to solve this problem"}]},
     ])
 const { register, handleSubmit, reset,formState: {errors} } = useForm();
     const messagesEndRef = useRef(null);
@@ -66,7 +65,7 @@ const { register, handleSubmit, reset,formState: {errors} } = useForm();
             >
                 <div className="flex items-center">
                     <input 
-                        placeholder="Ask me anything" 
+                        placeholder="Ask anything regarding this question" 
                         className="input input-bordered flex-1" 
                         {...register("message", { required: true, minLength: 2 })}
                     />

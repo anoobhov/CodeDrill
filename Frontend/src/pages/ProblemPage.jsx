@@ -5,7 +5,7 @@ import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import HintAi from '../components/HintAi';
 import Editorial from '../components/Editorial';
-import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal, AlarmClock} from 'lucide-react';
+import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal, RefreshCw, CodeXml, FlaskConical, Zap} from 'lucide-react';
 import SubmissionHistory from '../components/SubmissionHistory';
 import Loading from '../components/loading';
 import { NavLink } from 'react-router';
@@ -26,6 +26,16 @@ const ProblemPage = () => {
   const [code, setCode] = useState('');
 
   const [isRunning, setIsRunning] = useState(false);
+
+
+const [editorTheme, setEditorTheme] = useState('vs-dark');
+const [fontSize, setFontSize] = useState(14);
+
+
+const [cooldown, setCooldown] = useState(0);
+const cooldownRef = useRef(null);
+
+
   const [loading, setLoading] = useState(false);
   const [runResult, setRunResult] = useState(null);
   const [submitResult, setSubmitResult] = useState(null);
@@ -164,6 +174,8 @@ const ProblemPage = () => {
     }
   }
   const handleSubmitCode = async () => {
+     if (cooldown > 0) return;
+
     setLoading(true);
     setIsRunning(false)
     setSubmitResult(null);
@@ -183,6 +195,19 @@ const ProblemPage = () => {
       setSubmitResult(null);
       setLoading(false);
       setActiveRightTab('result');
+    }finally{
+      setLoading(false);
+    // Start cooldown timer
+    setCooldown(15);
+    cooldownRef.current = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(cooldownRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     }
   };
 
@@ -223,23 +248,26 @@ const ProblemPage = () => {
                     <NavLink to="/problemset" className="btn btn-ghost text-xl  hover:bg-transparent hover:text-purple-400">&lt;-  Problem List</NavLink>
                 </div>
                 <div className="flex flex-row justify-between  w-[50vw] ">
-                  <div className="tabs tabs-bordered bg-base-200 px-4">
+                  <div className="tabs tabs-bordered bg-base-200">
           <button 
-            className={`tab ${activeRightTab === 'code' ? 'tab-active' : ''}`}
+            className={`tab ${activeRightTab === 'code' ? 'tab-active text-green-300' : ''}`}
             onClick={() => setActiveRightTab('code')}
           >
+            <CodeXml/>
             Code
           </button>
           <button 
-            className={`tab ${activeRightTab === 'testcase' ? 'tab-active' : ''}`}
+            className={`tab ${activeRightTab === 'testcase' ? 'tab-active text-red-300' : ''}`}
             onClick={() => setActiveRightTab('testcase')}
           >
+            <FlaskConical/>
             Testcase
           </button>
           <button 
-            className={`tab ${activeRightTab === 'result' ? 'tab-active' : ''}`}
+            className={`tab ${activeRightTab === 'result' ? 'tab-active text-purple-300' : ''}`}
             onClick={() => setActiveRightTab('result')}
           >
+            <Zap/>
             Result
           </button>
         </div>
@@ -394,9 +422,39 @@ const ProblemPage = () => {
     <option value="python">Python</option>
     <option value="cpp">C++</option>
   </select>
+
+
+<select
+    className="select select-sm"
+    value={editorTheme}
+    onChange={(e) => setEditorTheme(e.target.value)}
+  >
+    <option value="vs-dark">Dark</option>
+    <option value="light">Light</option>
+    <option value="hc-black">High Contrast</option>
+  </select>
+
+  <div className="flex flex-col items-start gap-2 w-full max-w-sm">
+  <label className="label">
+    <span className="label-text text-sm">Font Size:</span>
+    <span className="text-sm text-gray-500">{fontSize}px</span>
+  </label>
+
+  <input
+    type="range"
+    min="10"
+    max="24"
+    value={fontSize}
+    onChange={(e) => setFontSize(parseInt(e.target.value))}
+     className="w-full h-1 appearance-none bg-accent rounded-md [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-gray-400 [&::-webkit-slider-thumb]:shadow-md focus:outline-none"
+  />
+</div>
+  
                 </div>
-                <div>
-                  <button className='btn' onClick={() => handleReset(selectedLanguage)}>Reset</button>
+                <div className="tooltip tooltip-bottom" data-tip="Reset Code">
+                  <button className='btn btn-ghost' onClick={() => handleReset(selectedLanguage)}
+                    ><RefreshCw/></button>
+                  
                 </div>
               </div>
 
@@ -408,9 +466,9 @@ const ProblemPage = () => {
                   value={code}
                   onChange={handleEditorChange}
                   onMount={handleEditorDidMount}
-                  theme="vs-dark"
+                  theme={editorTheme}
                   options={{
-                    fontSize: 14,
+                    fontSize: fontSize,
                     minimap: { enabled: false },
                     scrollBeyondLastLine: false,
                     automaticLayout: true,
@@ -441,12 +499,14 @@ const ProblemPage = () => {
                     disabled={loading}
                   > Run</button>
                   <button
-                    className={`btn btn-primary btn-sm ${loading ? 'loading' : ''}`}
-                    onClick={handleSubmitCode}
-                    disabled={loading}
-                  >
-                    Submit
-                  </button>
+  onClick={handleSubmitCode}
+  disabled={loading || cooldown > 0}
+  className={`btn btn-primary btn-sm transition-all duration-300 ${
+    cooldown > 0 ? 'opacity-50 cursor-not-allowed' : ''
+  }`}
+>
+  {cooldown > 0 ? `Please wait ${cooldown}s` : 'Submit Code'}
+</button>
                 </div>
               </div>
             </div>
