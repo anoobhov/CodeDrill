@@ -351,7 +351,26 @@ const cooldownRef = useRef(null);
                       ))}
                     </div>
                   </div>
-                  <div className={`absolute bottom-5 left-4 font-bold text-white flex btn ${isLiked? "btn-secondary": "btn-primary" } p-1`} onClick={handleLike}><ThumbsUp/>{problem.likes}</div>
+                  <div className="absolute bottom-5 left-4 z-10 flex items-center gap-2 bg-black">
+  <div className="tooltip tooltip-right" data-tip={isLiked ? "Unlike" : "Like"}>
+    <button
+      className="btn btn-ghost btn-circle bg-black"
+      onClick={handleLike}
+      aria-label={isLiked ? "Unlike this problem" : "Like this problem"}
+    >
+      <ThumbsUp
+         className={`w-5 h-5 transition-colors duration-200 ${
+    isLiked
+      ? 'text-blue-500 fill-blue-500' // When liked, set both text and fill to blue
+      : 'text-gray-400 fill-gray-400' // When not liked, set both text and fill to gray
+  }`}
+      />
+    </button>
+  </div>
+  <span className="text-lg font-semibold text-gray-300">
+    {problem.likes}
+  </span>
+</div>
                 </div>
               )}
 
