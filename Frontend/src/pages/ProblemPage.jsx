@@ -63,7 +63,7 @@ const ProblemPage = () => {
         // console.log(initialCode);
         setProblem(response.data);        
 
-        console.log(initialCode);
+        // console.log(initialCode);
         setCode(initialCode);
         setLoading(false);
         
@@ -119,7 +119,13 @@ const ProblemPage = () => {
   const handleLanguageChange = (language) => {
     setSelectedLanguage(language);
   };
-
+  const handleReset = (language) => {
+  if (!problem) return;
+  const initialCode = problem.startCode.find(
+    sc => sc.language.toLowerCase() === mapLang[language].toLowerCase()
+  )?.initialCode || '';
+  setCode(initialCode);
+};
   const handleRun = async () => {
     setLoading(true);
     setRunResult(null);
@@ -379,15 +385,18 @@ const ProblemPage = () => {
               {/* Language Selector */}
               <div className="flex justify-between items-center p-4 border-b border-base-300">
                 <div className="flex gap-2">
-                  {['javascript', 'python', 'cpp'].map((lang) => (
-                    <button
-                      key={lang}
-                      className={`btn btn-sm ${selectedLanguage === lang ? 'text-primary' : 'btn-ghost'}`}
-                      onClick={() => handleLanguageChange(lang)}
-                    >
-                      {lang === 'cpp' ? 'C++' : lang === 'javascript' ? 'JavaScript' : 'Python'}
-                    </button>
-                  ))}
+                  <select
+    className="select select-sm"
+    value={selectedLanguage}
+    onChange={(e) => handleLanguageChange(e.target.value)}
+  >
+    <option value="javascript">JavaScript</option>
+    <option value="python">Python</option>
+    <option value="cpp">C++</option>
+  </select>
+                </div>
+                <div>
+                  <button className='btn' onClick={() => handleReset(selectedLanguage)}>Reset</button>
                 </div>
               </div>
 

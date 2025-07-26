@@ -91,7 +91,7 @@ const SubmissionHistory = ({problemId}) =>{
                 </tr>
               </thead>
               <tbody>
-                {submissions.map((sub, index) => (
+                {submissions?.map((sub, index) => (
                   <tr key={sub._id}>
                     <td>{index + 1}</td>
                     <td className="font-mono">{sub.language}</td>
