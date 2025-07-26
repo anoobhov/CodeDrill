@@ -20,6 +20,7 @@
     "lucide-react": "^0.523.0",
     "monaco-editor": "^0.52.2",
     "react": "^19.1.0",
+    "react-calendar-heatmap": "^1.10.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.58.1",
     "react-loading-indicators": "^1.0.1",

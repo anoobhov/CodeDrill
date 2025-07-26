@@ -7,6 +7,7 @@ import { Trophy, ChartNoAxesCombined } from "lucide-react";
 import Nav from "../components/nav";
 import AnimateBg from "../components/bg_animation";
 import Loading from "../components/loading";
+import Heatmap from "../components/UserStats/heatmap";
 
 function ProgressBar({ solved, total, difficulty }) {
   const percentage = (solved / total) * 100;
@@ -27,13 +28,13 @@ function ProgressBar({ solved, total, difficulty }) {
   const bggetColor = (level) => {
     switch (level?.toLowerCase()) {
       case 'easy':
-        return 'bg-green-500';
+        return 'bg-gradient-to-l from-green-800 via-green-200 to-green-800';
       case 'medium':
-        return 'bg-orange-500';
+        return 'bg-gradient-to-l from-orange-500 via-orange-200 to-orange-500';
       case 'hard':
-        return 'bg-red-500';
+        return 'bg-gradient-to-l from-red-800 via-red-200 to-red-800';
       default:
-        return 'bg-blue-400'; // fallback
+        return 'bg-gradient-to-l from-blue-800 via-blue-200 to-blue-800'; // fallback
     }
   };
   return (
@@ -44,7 +45,7 @@ function ProgressBar({ solved, total, difficulty }) {
         {solved} / {total}
       </div>
       </div>
-      <div className="w-full bg-gray-300 rounded-full h-2">
+      <div className="w-full bg-gray-300  rounded-full h-2">
         <div
           className={`${bggetColor(difficulty)} h-2 rounded-full transition-all duration-300`}
           style={{ width: `${percentage}%` }}
@@ -59,6 +60,7 @@ function UserDash() {
   const [userdata, setUserData] = useState(null);
   const [totalProblems, setTotalProblems] = useState(null);
   const [submissions,setSubmissions] = useState(null)
+  const [dailyCounts,setDailyCounts] = useState(null)
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -67,6 +69,7 @@ function UserDash() {
       setUserData(data.user);
       setTotalProblems(data.totalprobs);
       setSubmissions(data.userTotalSubmissions)
+      setDailyCounts(data.dailyCounts)
     };
     fetchUserData();
   }, []);
@@ -94,7 +97,7 @@ if (!userdata || !totalProblems) {
       {/* Right */}
       <div className="w-full flex-col p-4 text-white rounded-2xl">
         {/* Stats */}
-        <div className=" bg-gray-700 p-4 mb-4 transition-all duration-300 inner-shadow-hover rounded-2xl">
+        <div className=" bg-gradient-to-l from-gray-900 via-gray-700 to-gray-900 p-4 mb-4 transition-all duration-300 inner-shadow-hover rounded-2xl">
           <h1 className="text-lg font-bold flex items-center text-yellow-400 pl-2 pb-2"><ChartNoAxesCombined/>Your Stats: </h1>
           <div className="p-2 border rounded-2xl">
             <h3 className="mb-2 flex items-center"><Trophy/>Problems Solved:</h3>
@@ -108,6 +111,13 @@ if (!userdata || !totalProblems) {
             <h3>Submission Success:</h3>
             <ProgressBar solved={3} total={10} difficulty="submission" />
           </div>
+        </div>
+
+        {/* HEat map */}
+        <div className=" bg-gradient-to-l from-gray-900 via-gray-700 to-gray-900 p-4 mb-4 transition-all duration-300 inner-shadow-hover rounded-2xl">
+  <div className="border rounded-2xl p-3">
+          <Heatmap dailyCounts={dailyCounts}/>
+</div>
         </div>
 
         {/* Submission History */}

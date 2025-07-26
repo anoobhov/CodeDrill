@@ -402,8 +402,9 @@ const solvedProblem = async (req,res)=> {
     const userId = req.result._id
     const user = await User.findById(userId).populate({
     path:'problemSolved',
-    select:'_id title difficulty tags likes'
+    select:'_id title difficulty tags likes createdAt'
   })
+  
   res.status(200).send(user.problemSolved)
   } catch (error) {
     res.send("Problem Db error"+error)
@@ -416,11 +417,12 @@ const submissionsPerProblem = async (req,res) => {
     const problemId = req.params.pid
 
     const ans = await Submissions.find({userId,problemId})
-    if(ans.length==0)
-      res.send("No submission till now")
+    if(ans.length==0){
+      return res.send("No submission till now")
+    }
     res.send(ans)
   } catch (error) {
-    res.send("Error"+err)
+    res.send("Error"+error)
   }
 }
 module.exports = {problemCreate,

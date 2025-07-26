@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router';
 import {Users ,NotepadText, Flame} from "lucide-react";
 import Nav from "../components/nav";
+import Footer from '../components/footer';
 
 
 function Homepage(){
@@ -92,6 +93,7 @@ From smart code reviews and encrypted hints to tactical debugging and logic reco
 {/* Pricing */}
 {/* ScreenShots */}
 {/* Footer */}
+<Footer/>
 
 
     </div>)

@@ -78,7 +78,13 @@ const userStats = async (req,res) => {
 
     const userTotalSubmissions = await Submissions.find({userId:user._id}).populate("problemId","title")
 
-    res.json({user,totalprobs,userTotalSubmissions})
+    const dailyCounts = {};
+userTotalSubmissions.forEach(sub => {
+  const date = sub.createdAt.toISOString().slice(0, 10);
+  dailyCounts[date] = (dailyCounts[date] || 0) + 1;
+});
+
+    res.json({user,totalprobs,userTotalSubmissions,dailyCounts})
 
 
   } catch (error) {
