@@ -6,7 +6,9 @@ import { Send } from 'lucide-react';
 
 function HintAi({problem}){
     const [messages,setMessages] = useState([
+
         { role: 'model', parts:[{text: "Hi,I am here to help you to solve this problem"}]},
+        { role: 'user', parts:[{text: "Hello"}]},
     ])
 const { register, handleSubmit, reset,formState: {errors} } = useForm();
     const messagesEndRef = useRef(null);
@@ -52,7 +54,7 @@ const { register, handleSubmit, reset,formState: {errors} } = useForm();
                         key={index} 
                         className={`chat ${msg.role === "user" ? "chat-end" : "chat-start"}`}
                     >
-                        <div className="chat-bubble bg-base-200 text-base-content">
+                        <div className={`chat-bubble ${msg.role === "user" ?"bg-green-700":"bg-gray-700"} bg-base-200 text-base-content`}>
                             {msg.parts[0].text}
                         </div>
                     </div>
@@ -61,11 +63,11 @@ const { register, handleSubmit, reset,formState: {errors} } = useForm();
             </div>
             <form 
                 onSubmit={handleSubmit(onSubmit)} 
-                className="sticky bottom-0 p-4 bg-base-100 border-t"
+                className="sticky bottom-0 p-4"
             >
                 <div className="flex items-center">
                     <input 
-                        placeholder="Ask anything regarding this question" 
+                        placeholder="Ask anything regarding question" 
                         className="input input-bordered flex-1" 
                         {...register("message", { required: true, minLength: 2 })}
                     />

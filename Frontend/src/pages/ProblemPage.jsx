@@ -27,6 +27,8 @@ const ProblemPage = () => {
 
   const [isRunning, setIsRunning] = useState(false);
 
+  const [isHintAiOpen, setIsHintAiOpen] = useState(false);
+
 
 const [editorTheme, setEditorTheme] = useState('vs-dark');
 const [fontSize, setFontSize] = useState(14);
@@ -281,7 +283,7 @@ const cooldownRef = useRef(null);
       {/* Left Panel */}
       <div className="w-2/5 flex flex-col border-r border-white mt-15">
         {/* Left Tabs */}
-        <div className="tabs tabs-bordered bg-gradient-to-tl from-gray-500 to-black px-4">
+        <div className="tabs tabs-bordered bg-gradient-to-tl from-gray-500 to-black p-4">
           <button 
             className={`tab ${activeLeftTab === 'description' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('description')}
@@ -306,12 +308,12 @@ const cooldownRef = useRef(null);
           >
             <History/>Submissions
           </button>
-          <button 
+          {/* <button 
             className={`tab ${activeLeftTab === 'HintAi' ? 'tab-active' : ''}`}
             onClick={() => setActiveLeftTab('HintAi')}
           >
            <HandHelping /> HintAi
-            </button>
+            </button> */}
         </div>
 
         {/* Left Content */}
@@ -391,14 +393,14 @@ const cooldownRef = useRef(null);
                 </div>
               )}
 
-              {activeLeftTab === 'HintAi' && (
+              {/* {activeLeftTab === 'HintAi' && (
                 <div className="prose max-w-none">
                   <h2 className="text-xl font-bold mb-4">Ask AI</h2>
                   <div className="whitespace-pre-wrap text-sm leading-relaxed">
                     <HintAi problem={problem}></HintAi>
                   </div>
                 </div>
-              )}
+              )} */}
             </>
           )}
         </div>
@@ -612,6 +614,34 @@ const cooldownRef = useRef(null);
           )}
         </div>
       </div>
+      {isHintAiOpen && (
+  <div className="fixed inset-y-0 right-0 w-1/3 bg-gradient-to-tl from-green-800 to-black z-40 transform transition-transform duration-300 ease-in-out border-l border-base-300 overflow-y-auto p-6">
+    <div className="flex justify-between items-center mb-4">
+      <h2 className="text-xl font-bold">AI Hint</h2>
+      <button
+        className="btn btn-sm btn-ghost"
+        onClick={() => setIsHintAiOpen(false)}
+        aria-label="Close"
+      >
+        ✕
+      </button>
+    </div>
+    {problem ? (
+      <HintAi problem={problem} />
+    ) : (
+      <p>Loading problem details...</p>
+    )}
+  </div>
+)}
+      <div className="fixed bottom-4 right-4 z-50">
+  <button
+    className="btn btn-primary btn-circle shadow-lg"
+    onClick={() => setIsHintAiOpen(!isHintAiOpen)}
+    aria-label="Open AI Hint"
+  >
+    <HandHelping size={24} />
+  </button>
+</div>
     </div>
   );
 };
