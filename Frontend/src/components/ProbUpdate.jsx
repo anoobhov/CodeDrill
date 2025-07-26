@@ -194,6 +194,9 @@ function ProblemUpdation() {
                   <option value="linkedList">Linked List</option>
                   <option value="graph">Graph</option>
                   <option value="dp">DP</option>
+                   <option value="math">Maths</option>
+                    <option value="bitwise">Bitwise</option>
+                    <option value="string">String</option>
                 </select>
               </div>
             </div>
@@ -299,7 +302,7 @@ function ProblemUpdation() {
             {[0, 1, 2].map((index) => (
               <div key={index} className="space-y-2">
                 <h3 className="font-medium">
-                  {index === 0 ? 'C++' : index === 1 ? 'Python' : 'JavaScript'}
+                  {index === 0 ? 'JavaScript' : index === 1 ? 'Python' : 'C++'}
                 </h3>
                 
                 <div className="form-control">

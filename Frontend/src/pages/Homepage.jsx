@@ -15,9 +15,9 @@ return(<div className='bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900'
 
             {/* left SIde */}
             <div className="w-full md:w-1/2 space-y-4">
-            <h1 className="text-5xl text-gray-200">Master Data Structures & Algorithms. </h1>
+            <h1 className="text-5xl text-gray-200">Master Data Structures & Algorithms </h1>
             <h3 className="text-3xl mt-7 text text-transparent bg-clip-text py-2 bg-gradient-to-r from-orange-500 via-white to-green-600 ">From Typing Code to Topping Contests</h3>
-            <div className="px-3 py-1 rounded-full text-sm font-semibold inline-block text-[#FFD700] bg-[#1F1F00] border border-[#FFD700] shadow-[0_0_10px_#FF61C3] animate-pulse">
+            <div className="px-3 py-1 rounded-full text-sm font-semibold inline-block text-[#FFD700] bg-[#1F1F00] border border-[#FFD700] shadow-[0_0_10px_#FF61C3]">
   ✨ The Ultimate DSA Platform
 </div>
 
@@ -31,7 +31,9 @@ return(<div className='bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900'
             <div className="md:w-1/2 ml-3 text-right">
             <span className="inline-block pl-10 text-xl text-gray-400">Enlist as a coding recruit and rise to an elite code commando. From raw recruit to logic-special forces—train with purpose.</span>
             <div className="flex flex-col items-end space-y-2 mt-3">
+              <NavLink to="/problemset">
             <button className="btn w-45 mt-3 rounded-2xl hover:shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-300">EXPLORE SHEETS —&gt;  </button>
+            </NavLink>
             <button className="btn w-45 mt-3 rounded-2xl hover:shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-300">Start Drill —&gt;  </button>
             </div>
             </div>
@@ -45,9 +47,9 @@ return(<div className='bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900'
     {/* cards */}
     <div className="flex gap-10 justify-center">
         {/* card */}
-    <div className="card bg-gradient-to-tl from-yellow-400 via-white to-yellow-400 w-80 shadow-sm mt-3 border-white border-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-300">
+    <div className="card bg-gradient-to-tl from-yellow-400 via-white to-yellow-400 w-80 shadow-sm mt-3 border-white border-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-300">
   <figure className="pt-7">
-        <Bomb className="bg-gray-400 p-1" width={50} height={50}/>
+         <div className="w-[50px] h-[60px] text-5xl">💣</div>
   </figure>
   <div className="card-body items-center text-center">
     <h2 className="card-title text-2xl text-black">Targeted Drills</h2>
@@ -58,9 +60,10 @@ Each mission is grouped by combat pattern (topic), threat level (difficulty), an
   </div>
 </div>
 
- <div className="card bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900 w-80 shadow-sm mt-3 border-white border-1 hover:shadow-[0_0_10px_#0ff] hover:animate-pulse transition-all duration-300">
+ <div className="card bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900 w-80 shadow-sm mt-3 border-white border-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-gray-300">
   <figure className="pt-7">
-        <Bomb className="bg-gray-400 p-1" width={50} height={50}/>
+    <div className="w-[50px] h-[60px] text-5xl">⚔️</div>
+         
   </figure>
   <div className="card-body items-center text-center">
     <h2 className="card-title text-2xl">Tactical Advisor</h2>
@@ -73,9 +76,9 @@ From smart code reviews and encrypted hints to tactical debugging and logic reco
   </div>
 </div>
 
- <div className="card bg-gradient-to-tl from-yellow-600 via-yellow-100 to-yellow-600 w-80 mt-3 border-white border-1 hover:shadow-[0_0_10px_#0ff] hover:animate-pulse transition-all duration-300">
+ <div className="card bg-gradient-to-tl from-yellow-600 via-yellow-100 to-yellow-600 w-80 mt-3 border-white border-1 transition-transform duration-300 ease-in-out hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-800">
   <figure className="pt-7">
-        <Bomb className="bg-gray-400 p-1" width={50} height={50}/>🪖
+        <div className="w-[50px] h-[60px] text-5xl">🪖</div>
   </figure>
   <div className="card-body items-center text-center">
     <h2 className="card-title text-2xl text-black">Code Drills</h2>
@@ -88,6 +91,7 @@ From smart code reviews and encrypted hints to tactical debugging and logic reco
 {/* Pricing */}
 {/* ScreenShots */}
 {/* Footer */}
+
 
     </div>)
 }

@@ -16,13 +16,13 @@ function Nav(){
                 <div className="flex-1">
                     <NavLink to="/" className="btn btn-ghost text-xl transition-all duration-400 ease-in-out hover:scale-105 hover:tracking-widest">&lt;CodeDrill&gt;</NavLink>
                 </div>
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center gap-2">
                     <div>
                         <NavLink to="/problemset">
-                        <button className="btn">Problem Set</button></NavLink>
+                        <button className="btn btn-dash">Problem Set</button></NavLink>
                     </div>
                     <div className="dropdown dropdown-end">
-                        <div tabIndex={0} className="btn transition-all duration-300 ease-in-out">
+                        <div tabIndex={0} className="btn btn-dash transition-all duration-300 ease-in-out">
                             {user?.firstName}
                         </div>
                         <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-black rounded-box w-52">

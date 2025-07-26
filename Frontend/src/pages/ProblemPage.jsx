@@ -167,7 +167,7 @@ const cooldownRef = useRef(null);
       const {liked , totalLikes} = response.data
       setProblem(prev => ({ ...prev, likes: totalLikes }));
       setIsLiked(liked)
-      console.log(isLiked)
+      // console.log(isLiked)
       // setProblem(problem.push(totalLikes))
     } catch (error) {
       
