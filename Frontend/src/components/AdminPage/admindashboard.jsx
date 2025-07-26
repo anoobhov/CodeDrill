@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react"
 import { useSelector } from "react-redux";
-import axiosClient from "../utils/axiosClient"
+import axiosClient from "../../utils/axiosClient"
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 function AdminStats(){

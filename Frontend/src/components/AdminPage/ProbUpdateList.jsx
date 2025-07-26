@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axiosClient from "../utils/axiosClient"
+import axiosClient from "../../utils/axiosClient"
 // import { Navigate } from "react-router"
 import { useNavigate } from "react-router"
 

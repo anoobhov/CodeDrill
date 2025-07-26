@@ -1,6 +1,6 @@
 import {ArrowUpNarrowWide} from "lucide-react"
 import { NavLink } from "react-router";
-import AdminStats from "../components/admindashboard";
+import AdminStats from "../components/AdminPage/admindashboard";
 
 function Adminpage()
 {

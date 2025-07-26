@@ -3,13 +3,13 @@ import { useState, useEffect, useRef } from 'react';
 import Editor from '@monaco-editor/react';
 import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
-import HintAi from '../components/HintAi';
-import Editorial from '../components/Editorial';
+import HintAi from '../components/ProblemPage/HintAi';
+import Editorial from '../components/ProblemPage/Editorial';
 import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal, RefreshCw, CodeXml, FlaskConical, Zap} from 'lucide-react';
-import SubmissionHistory from '../components/SubmissionHistory';
+import SubmissionHistory from '../components/ProblemPage/SubmissionHistory';
 import Loading from '../components/loading';
 import { NavLink } from 'react-router';
-import Stopwatch from '../components/stopwatch';
+import Stopwatch from '../components/ProblemPage/stopwatch';
 
 const mapLang = {
   'cpp': 'C++',

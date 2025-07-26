@@ -1,44 +1,40 @@
-import { useEffect, useState } from 'react';
-import axiosClient from '../utils/axiosClient'
-import { NavLink } from 'react-router';
+import { useEffect, useState } from "react"
+import axiosClient from "../../utils/axiosClient"
 
-const VideoControl = () => {
-  const [problems, setProblems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const POTD = () =>{
+    const [problems,setProblems] = useState([])
+    const [loading,setLoading] = useState(true)
+    const [error,setError] = useState(false)
 
-
-  useEffect(() => {
-    fetchProblems();
-  }, []);
-
-  const fetchProblems = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axiosClient.get('/problem/allproblems');
-      setProblems(data);
-    } catch (err) {
-      setError('Failed to fetch problems');
-      console.error(err);
-    } finally {
-      setLoading(false);
+    const fetchProblems = async ()=>{
+        try{
+            const {data}=await axiosClient.get('problem/allproblems')
+            setProblems(data)
+        }catch(error){
+            setError("Error while fetching Problems: "+error)
+        }finally{
+            setLoading(false)
+        }
     }
-  };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this problem?')) return;
-    
-    try {
-      await axiosClient.delete(`/video/delete/${id}`);
-      setProblems(problems.filter(problem => problem._id !== id));
-    } catch (err) {
-      setError(err);
-      console.log(err);
+    useEffect(()=>{
+        fetchProblems()
+    },[])
+
+    const handleSubmit = async(id)=>{
+
+        if (!window.confirm('Are you sure you want to make this problem POTD?')) return;
+
+        try{
+            await axiosClient.get(`problem/potd_update/${id}`)
+        }catch(error){
+            setError("Error while selecting POTD : "+error)
+        }
     }
-  };
 
 
-  if (loading) {
+
+    if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
         <span className="loading loading-spinner loading-lg"></span>
@@ -53,16 +49,16 @@ const VideoControl = () => {
           <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span>{error.response.data.error}</span>
+          <span>{error}</span>
         </div>
       </div>
     );
   }
 
-  return (
+  return(
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Video Upload and Delete</h1>
+        <h1 className="text-3xl font-bold">Select Problem</h1>
       </div>
 
       <div className="overflow-x-auto">
@@ -83,9 +79,9 @@ const VideoControl = () => {
                 <td>{problem.title}</td>
                 <td>
                   <span className={`badge ${
-                    problem.difficulty === 'Easy' 
+                    problem.difficulty === 'easy' 
                       ? 'badge-success' 
-                      : problem.difficulty === 'Medium' 
+                      : problem.difficulty === 'medium' 
                         ? 'badge-warning' 
                         : 'badge-error'
                   }`}>
@@ -98,22 +94,12 @@ const VideoControl = () => {
                   </span>
                 </td>
                 <td>
-                  <div className="flex space-x-1">
-                     <NavLink 
-                        to={`/admin/upload/${problem._id}`}
-                        className={`btn bg-blue-600`}
-                        >
-                        Upload
-                    </NavLink>
-                  </div>
-                </td>
-                <td>
                   <div className="flex space-x-2">
                     <button 
-                      onClick={() => handleDelete(problem._id)}
-                      className="btn btn-sm btn-error"
+                      onClick={() => handleSubmit(problem._id)}
+                      className="btn btn-sm btn-soft"
                     >
-                      Delete
+                      Select
                     </button>
                   </div>
                 </td>
@@ -123,7 +109,7 @@ const VideoControl = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default VideoControl;
+export default POTD
