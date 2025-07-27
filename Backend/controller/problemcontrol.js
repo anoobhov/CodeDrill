@@ -181,12 +181,20 @@ const problemFetch = async (req,res) => {
 
 const getAllProblem = async (req,res) => {
     try {
-      const selected_problem = await Problem.find({}).select('_id title difficulty tags likes');
+      const { query = '' } = req.query;
+      const regexQuery = new RegExp(query, 'i');
+      //const skip = (page - 1) * limit;
+      const selected_problem = await Problem.find({title: { $regex: regexQuery }})
+      .select('_id title difficulty tags likes')
+      ///.skip(parseInt(skip))
+      //.limit(parseInt(limit));
+
+      const total_problem = await Problem.countDocuments({ title: { $regex: regexQuery }})
       if(selected_problem.length==0)
         throw new Error("NO problem db")
-      res.status(201).send(selected_problem);
+      res.status(201).json({selected_problem,total_problem});
     }catch (error) {
-            console.log("heelo")
+
         res.status(400).send("Error:hnm "+error);
     }
 }

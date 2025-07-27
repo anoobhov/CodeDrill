@@ -11,6 +11,10 @@ function ProblemSet(){
     const [problems,setProblems] = useState([])
     const [potd,setPotd] = useState(null)
     const [solvedproblems,setSolvedproblems]=useState([])
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [term,setDebouncedSearchTerm] = useState('')
+
     const [likedproblems,setlikedproblems]=useState([])
     const [filters,setFilters] = useState({
         difficulty:"all",
@@ -19,16 +23,38 @@ function ProblemSet(){
         likes:"none"
     })
 
+
+     useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 400); // 400ms debounce delay
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+
     useEffect(()=>{
-        const fetchProblems = async () => {
+      const fetchProblems = async () => {
             try {
-                const {data}=await axiosClient.get('/problem/allproblems')
-                setProblems(data)
+                const {data}=await axiosClient.get(`/problem/allproblems`,{
+                  params:{ query: term }
+                });
+                setProblems(data.selected_problem)
+
+                
+
+  
             } catch (error) {
                 alert("Error occured: "+error)
             }
-        }
 
+        }
+        fetchProblems()
+    },[term])
+    useEffect(()=>{
+        
         const fetchSolvedProblems = async () => {
             try {
                 const {data}=await axiosClient.get("/problem/user")
@@ -51,7 +77,7 @@ function ProblemSet(){
         }
      };
         fetchPOTD()
-        fetchProblems()
+        
         fetchSolvedProblems()
 
 
@@ -64,7 +90,7 @@ function ProblemSet(){
           }
         }
         fetchLikedProblems()
-    },[])
+    },[searchTerm])
 
     
    
@@ -155,7 +181,13 @@ function ProblemSet(){
       <path d="m21 21-4.3-4.3"></path>
     </g>
   </svg>
-  <input type="search" className="grow" placeholder="Search Problems" />
+  <input type="search" 
+  className="grow" 
+  placeholder="Search Problems"
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+
+   />
                 </label>
                 {/* Problem Lists */}
                 <div className="grid gap-4">

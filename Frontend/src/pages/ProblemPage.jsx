@@ -308,14 +308,7 @@ const cooldownRef = useRef(null);
           >
             <History/>Submissions
           </button>
-          {/* <button 
-            className={`tab ${activeLeftTab === 'HintAi' ? 'tab-active' : ''}`}
-            onClick={() => setActiveLeftTab('HintAi')}
-          >
-           <HandHelping /> HintAi
-            </button> */}
         </div>
-
         {/* Left Content */}
         <div className="flex-1 overflow-y-auto scrollbar-hide p-6">
           {problem && (
@@ -411,15 +404,6 @@ const cooldownRef = useRef(null);
                   </div>
                 </div>
               )}
-
-              {/* {activeLeftTab === 'HintAi' && (
-                <div className="prose max-w-none">
-                  <h2 className="text-xl font-bold mb-4">Ask AI</h2>
-                  <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                    <HintAi problem={problem}></HintAi>
-                  </div>
-                </div>
-              )} */}
             </>
           )}
         </div>
@@ -470,7 +454,6 @@ const cooldownRef = useRef(null);
      className="w-full h-1 appearance-none bg-accent rounded-md [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-gray-400 [&::-webkit-slider-thumb]:shadow-md focus:outline-none"
   />
 </div>
-  
                 </div>
                 <div className="tooltip tooltip-bottom" data-tip="Reset Code">
                   <button className='btn btn-ghost' onClick={() => handleReset(selectedLanguage)}
@@ -590,9 +573,6 @@ const cooldownRef = useRef(null);
               ) : (
                 <div className="text-gray-400">
                   Click "Run" to test your code with the example test cases.
-                  {/* {problem.visibleTestCases.map((testcase)=>{
-                    testCase
-                  })} */}
                 </div>
               )}
             </div>
