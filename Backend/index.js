@@ -11,7 +11,7 @@ const redisClient = require("./database/redis")
 const cors = require('cors')
 
 app.use(cors({
-    origin:"https://code-drill-one.vercel.app/",
+    origin:"https://code-drill-one.vercel.app",
     credentials:true
 }))
 
