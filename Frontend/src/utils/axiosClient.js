@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosClient =  axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://https://codedrill-c3ki.onrender.com/',
     withCredentials: true,//token bhi bhejna
     headers: {
         'Content-Type': 'application/json'
