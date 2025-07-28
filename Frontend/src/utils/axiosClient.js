@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosClient =  axios.create({
-    baseURL: 'https://codedrill-c3ki.onrender.com/',
+    baseURL: import.meta.env.VITE_API_URL,
     withCredentials: true,//token bhi bhejna
     headers: {
         'Content-Type': 'application/json'
