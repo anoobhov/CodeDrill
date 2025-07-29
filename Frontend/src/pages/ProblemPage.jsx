@@ -1,15 +1,17 @@
-import { useState, useEffect, useRef } from 'react';
-// import { useForm } from 'react-hook-form';
-import Editor from '@monaco-editor/react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import axiosClient from "../utils/axiosClient"
 import HintAi from '../components/ProblemPage/HintAi';
 import Editorial from '../components/ProblemPage/Editorial';
-import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History,Terminal,Timer, Cpu,BookCheck,TestTubeDiagonal, RefreshCw, CodeXml, FlaskConical, Zap} from 'lucide-react';
+import { NotebookText,TvMinimalPlay,Users,HandHelping, ThumbsUp,History, CodeXml, FlaskConical, Zap} from 'lucide-react';
 import SubmissionHistory from '../components/ProblemPage/SubmissionHistory';
 import Loading from '../components/loading';
 import { NavLink } from 'react-router';
 import Stopwatch from '../components/ProblemPage/stopwatch';
+import SolutionTab from '../components/ProblemPage/SolutionTab';
+import RunResult from '../components/ProblemPage/RunResult';
+import SubmitResult from '../components/ProblemPage/SubmitResult';
+import CodeEditor from '../components/ProblemPage/CodeEditor';
 
 const mapLang = {
   'cpp': 'C++',
@@ -28,22 +30,12 @@ const ProblemPage = () => {
   const [isRunning, setIsRunning] = useState(false);
 
   const [isHintAiOpen, setIsHintAiOpen] = useState(false);
-
-
-const [editorTheme, setEditorTheme] = useState('vs-dark');
-const [fontSize, setFontSize] = useState(14);
-
-
-const [cooldown, setCooldown] = useState(0);
-const cooldownRef = useRef(null);
-
-
   const [loading, setLoading] = useState(false);
   const [runResult, setRunResult] = useState(null);
   const [submitResult, setSubmitResult] = useState(null);
   const [activeLeftTab, setActiveLeftTab] = useState('description');
   const [activeRightTab, setActiveRightTab] = useState('code');
-  const editorRef = useRef(null);
+  
   let {problemId}  = useParams();
 
 //   const { handleSubmit } = useForm();
@@ -119,49 +111,7 @@ const cooldownRef = useRef(null);
   }
 }, [problem, likedProblems]);
 
-  const handleEditorChange = (value) => {
-    setCode(value || '');
-  };
-
-  const handleEditorDidMount = (editor) => {
-    editorRef.current = editor;
-    // console.log('Available languages:', monaco.languages.getLanguages());
-  };
-
-  const handleLanguageChange = (language) => {
-    setSelectedLanguage(language);
-  };
-  const handleReset = (language) => {
-  if (!problem) return;
-  const initialCode = problem.startCode.find(
-    sc => sc.language.toLowerCase() === mapLang[language].toLowerCase()
-  )?.initialCode || '';
-  setCode(initialCode);
-};
-  const handleRun = async () => {
-    setLoading(true);
-    setRunResult(null);
-    
-    try {
-      const response = await axiosClient.post(`/problem/run/${problemId}`, {
-        code,
-        language: selectedLanguage
-      });
-      // console.log(response)
-      setRunResult(response.data);
-      setLoading(false);
-      setActiveRightTab('testcase');
-      
-    } catch (error) {
-      console.error('Error running code:', error);
-      setRunResult({
-        success: false,
-        error: 'Internal server error'
-      });
-      setLoading(false);
-      setActiveRightTab('testcase');
-    }
-  };
+  
 
   const handleLike = async () => {
     try {
@@ -175,54 +125,7 @@ const cooldownRef = useRef(null);
       
     }
   }
-  const handleSubmitCode = async () => {
-     if (cooldown > 0) return;
-
-    setLoading(true);
-    setIsRunning(false)
-    setSubmitResult(null);
-    
-    try {
-        const response = await axiosClient.post(`/problem/submit/${problemId}`, {
-        code:code,
-        language: selectedLanguage
-      });
-
-       setSubmitResult(response.data);
-       setLoading(false);
-       setActiveRightTab('result');
-      
-    } catch (error) {
-      console.error('Error submitting code:', error);
-      setSubmitResult(null);
-      setLoading(false);
-      setActiveRightTab('result');
-    }finally{
-      setLoading(false);
-    // Start cooldown timer
-    setCooldown(15);
-    cooldownRef.current = setInterval(() => {
-      setCooldown((prev) => {
-        if (prev <= 1) {
-          clearInterval(cooldownRef.current);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    }
-  };
-
-  const getLanguageForMonaco = (lang) => {
-    switch (lang) {
-      case 'javascript': return 'javascript';
-      case 'java': return 'java';
-      case 'cpp': return 'cpp';
-      case 'python': return 'python';
-      default: return 'javascript';
-    }
-  };
-
+  
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
       case 'easy': return 'text-green-500';
@@ -237,12 +140,6 @@ const cooldownRef = useRef(null);
       <Loading/>
     );
   }
-
- 
-// const likedIds = likedProblems.map(p => p._id.toString())
-//   if(likedIds.includes(problem._id.toString())){
-//     setIsLiked(true)
-//   }
   return (
     <div className="h-screen flex bg-gradient-to-bl from-gray-200 to-black">
       <nav id="navbar" className="navbar bg-gradient-to-l from-gray-500 via-gray-800 to-gray-950 border-b-2 border-black  px-4 fixed top-0 left-0 z-40">
@@ -377,23 +274,7 @@ const cooldownRef = useRef(null);
               )}
 
               {activeLeftTab === 'solutions' && (
-                <div>
-                  <h2 className="text-xl font-bold mb-4">Solutions</h2>
-                  <div className="space-y-6">
-                    {problem.referenceSolution?.map((solution, index) => (
-                      <div key={index} className="border border-base-300 rounded-lg">
-                        <div className="bg-base-200 px-4 py-2 rounded-t-lg">
-                          <h3 className="font-semibold">{problem?.title} - {solution?.language}</h3>
-                        </div>
-                        <div className="p-4">
-                          <pre className="bg-base-300 p-4 rounded text-sm overflow-x-auto">
-                            <code>{solution?.completeCode}</code>
-                          </pre>
-                        </div>
-                      </div>
-                    )) || <p className="text-gray-500">Solutions will be available after you solve the problem.</p>}
-                  </div>
-                </div>
+                <SolutionTab problem={problem}/>
               )}
 
               {activeLeftTab === 'submissions' && (
@@ -414,202 +295,28 @@ const cooldownRef = useRef(null);
         {/* Right Content */}
         <div className="flex-1 flex flex-col">
           {activeRightTab === 'code' && (
-            <div className="flex-1 flex flex-col">
-              {/* Language Selector */}
-              <div className="flex justify-between items-center p-4 border-b border-base-300">
-                <div className="flex gap-2">
-                  <select
-    className="select select-sm"
-    value={selectedLanguage}
-    onChange={(e) => handleLanguageChange(e.target.value)}
-  >
-    <option value="javascript">JavaScript</option>
-    <option value="python">Python</option>
-    <option value="cpp">C++</option>
-  </select>
-
-
-<select
-    className="select select-sm"
-    value={editorTheme}
-    onChange={(e) => setEditorTheme(e.target.value)}
-  >
-    <option value="vs-dark">Dark</option>
-    <option value="light">Light</option>
-    <option value="hc-black">High Contrast</option>
-  </select>
-
-  <div className="flex flex-col items-start gap-2 w-full max-w-sm">
-  <label className="label">
-    <span className="label-text text-sm">Font Size:</span>
-    <span className="text-sm text-gray-500">{fontSize}px</span>
-  </label>
-
-  <input
-    type="range"
-    min="10"
-    max="24"
-    value={fontSize}
-    onChange={(e) => setFontSize(parseInt(e.target.value))}
-     className="w-full h-1 appearance-none bg-accent rounded-md [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-gray-400 [&::-webkit-slider-thumb]:shadow-md focus:outline-none"
-  />
-</div>
-                </div>
-                <div className="tooltip tooltip-bottom" data-tip="Reset Code">
-                  <button className='btn btn-ghost' onClick={() => handleReset(selectedLanguage)}
-                    ><RefreshCw/></button>
-                  
-                </div>
-              </div>
-
-              {/* Monaco Editor */}
-              <div className="flex-1">
-                <Editor
-                  height="100%"
-                  language={getLanguageForMonaco(selectedLanguage)}
-                  value={code}
-                  onChange={handleEditorChange}
-                  onMount={handleEditorDidMount}
-                  theme={editorTheme}
-                  options={{
-                    fontSize: fontSize,
-                    minimap: { enabled: false },
-                    scrollBeyondLastLine: false,
-                    automaticLayout: true,
-                    tabSize: 2,
-                    insertSpaces: true,
-                    wordWrap: 'on',
-                    lineNumbers: 'on',
-                    glyphMargin: false,
-                    folding: true,
-                    lineDecorationsWidth: 10,
-                    lineNumbersMinChars: 3,
-                    renderLineHighlight: 'line',
-                    selectOnLineNumbers: true,
-                    roundedSelection: false,
-                    readOnly: false,
-                    cursorStyle: 'line',
-                    mouseWheelZoom: true,
-                  }}
-                />
-              </div>
-
-              {/* Action Buttons */}
-              <div className="p-4 border-t border-base-300 flex justify-between">
-                  <div className="flex gap-2">
-                    <button
-                    className={`btn btn-outline btn-sm ${loading ? 'loading' : ''}`}
-                    onClick={handleRun}
-                    disabled={loading}
-                  > Run</button>
-                  <button
-  onClick={handleSubmitCode}
-  disabled={loading || cooldown > 0}
-  className={`btn btn-primary btn-sm transition-all duration-300 ${
-    cooldown > 0 ? 'opacity-50 cursor-not-allowed' : ''
-  }`}
->
-  {cooldown > 0 ? `Please wait ${cooldown}s` : 'Submit Code'}
-</button>
-                </div>
-              </div>
-            </div>
+            <CodeEditor code={code} 
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+            setLoading={setLoading}
+            setActiveRightTab={setActiveRightTab}
+             setRunResult={setRunResult} 
+            //  setSubmitResult={setSubmitResult}
+             setCode={setCode} 
+             submitResult={submitResult} 
+             setIsRunning={setIsRunning}
+             setSubmitResult={setSubmitResult}
+             problemId={problemId} 
+             loading={loading}
+             problem={problem} />
           )}
 
           {activeRightTab === 'testcase' && (
-            <div className="flex-1 p-4 overflow-y-auto">
-              <h3 className="font-semibold mb-4">Test Results</h3>
-              {runResult ? (
-                <div className={`alert ${runResult.success ? 'alert-success' : 'alert-error'} mb-4`}>
-                  <div>
-                    {runResult.success ? (
-                      <div>
-                        <h4 className="font-bold flex items-center gap-1"><BookCheck /> All test cases passed!</h4>
-                        <p className="text-sm mt-2 flex items-center gap-1"><Timer/> Runtime: {runResult.runtime+" sec"}</p>
-                        <p className="text-sm flex items-center gap-1"><Cpu/> Memory: {runResult.memory+" KB"}</p>
-                        
-                        <div className="mt-4 space-y-2">
-                          {runResult.testCases.map((tc, i) => (
-                            <div key={i} className="bg-gray-200 p-5 rounded text-s w-142">
-                              <div className="font-mono">
-                                <div className='inline'><strong><Terminal className='inline'/>TestCase:</strong> {i+1}</div>
-                                <hr></hr>
-                                <div><strong>Input:</strong> {tc.stdin}</div>
-                                <div><strong>Expected:</strong> {tc.expected_output}</div>
-                                <div><strong>Output:</strong> {tc.stdout}</div>
-                                <div><strong>Runtime:</strong> {tc.time} sec</div>
-                                <div><strong>Memory:</strong> {tc.memory} KB</div>
-                                <div className={'text-green-500'}>
-                                  {'✓ Passed'}
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <h4 className="font-bold shadow-2xl shadow-black">❌ Error</h4>
-                        <div className="mt-4 space-y-2">
-                          {runResult.testCases?.map((tc, i) => (
-                            <div key={i} className="bg-gray-200 p-5 rounded text-s w-142">
-                              <div className="font-mono">
-                                <div className='inline'><strong><Terminal className='inline'/>TestCase:</strong> {i+1}</div>
-                                <hr></hr>
-                                <div><strong>Input:</strong> {tc.stdin}</div>
-                                <div><strong>Expected:</strong> {tc.expected_output}</div>
-                                <div><strong>Output:</strong> {tc.stdout}</div>
-                                <div className={tc.status_id==3 ? 'text-green-600' : 'text-red-600'}>
-                                  {tc.status_id==3 ? '✓ Passed' : '✗ Failed'}
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="text-gray-400">
-                  Click "Run" to test your code with the example test cases.
-                </div>
-              )}
-            </div>
+            <RunResult runResult={runResult}/>
           )}
 
           {activeRightTab === 'result' && (
-            <div className="flex-1 p-4 overflow-y-auto">
-              <h3 className="font-semibold mb-4">Submission Result</h3>
-              {submitResult ? (
-                <div className={`alert ${submitResult.accepted ? 'alert-success' : 'alert-error'}`}>
-                  <div>
-                    {submitResult.accepted ? (
-                      <div>
-                        <h4 className="font-bold text-lg">🎉 Accepted</h4>
-                        <div className="mt-4 space-y-2 bg-white rounded-2xl p-3">
-                          <p className='flex items-center gap-1'><TestTubeDiagonal/>Test Cases Passed: {submitResult.passedTestCases}/{submitResult.totalTestCases}</p>
-                          <hr></hr>
-                          <p className='flex items-center gap-1'><Timer/>Runtime: {submitResult.runtime + " sec"}</p>
-                          <p className='flex items-center gap-1'><Cpu/>Memory: {submitResult.memory + "KB"} </p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <h4 className="font-bold text-lg">❌ {submitResult.error}</h4>
-                        <div className="mt-4 space-y-2">
-                          <p>Test Cases Passed: {submitResult.passedTestCases}/{submitResult.totalTestCases}</p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="text-gray-400">
-                  Click "Submit" to submit your solution for evaluation.
-                </div>
-              )}
-            </div>
+            <SubmitResult submitResult={submitResult}/>
           )}
         </div>
       </div>

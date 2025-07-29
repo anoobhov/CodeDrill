@@ -129,7 +129,7 @@ function ProblemSet(){
                 {/* filter */}
                 <div className="flex flex-wrap gap-4 mb-1 mt-15">
                     <select
-                    className="select select-secondary w-auto"
+                    className="select select-secondary w-auto hover:shadow-secondary hover:shadow-md"
                     value={filters.status}
                     onChange={(e)=>setFilters({...filters,status:e.target.value})}>
                         <option value='all'>All Problems</option>
@@ -139,7 +139,7 @@ function ProblemSet(){
                     </select>
 
                     <select
-                    className="select select-accent w-auto"
+                    className="select select-accent w-auto hover:shadow-accent hover:shadow-md"
                     value={filters.difficulty}
                     onChange={(e)=>setFilters({...filters,difficulty:e.target.value})}>
                         <option value='all'>All Difficulties</option>
@@ -149,7 +149,7 @@ function ProblemSet(){
                     </select>
                     
                     <select
-                    className="select select-info w-auto"
+                    className="select select-info w-auto hover:shadow-info hover:shadow-md"
                     value={filters.tag}
                     onChange={(e)=>setFilters({...filters,tag:e.target.value})}>
                         <option value='all'>All tags</option>
@@ -249,7 +249,7 @@ function ProblemSet(){
                   </span>
                 </td>
                 <td>
-                  <span className={`badge ${likedIds.includes(problem._id.toString()) ? 'badge-success' : ''}`}>
+                  <span className={`badge py-4 ${likedIds.includes(problem._id.toString()) ? 'badge-success' : ''}`}>
                     {problem.likes}
                   </span>
                 </td>
