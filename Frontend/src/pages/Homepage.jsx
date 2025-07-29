@@ -1,10 +1,11 @@
 import Nav from "../components/nav";
 import Footer from '../components/footer';
-import Pricing from '../components/Homepage/pricing';
+import Pricing from '../components/Homepage/Pricing';
 import Features from '../components/Homepage/Features';
 import Main from '../components/Homepage/Main';
 
 function Homepage(){
+
 return(<div className='bg-gradient-to-tl from-gray-900 via-gray-500 to-gray-900 scroll-smooth'>
     <Nav/>
     {/* main */}

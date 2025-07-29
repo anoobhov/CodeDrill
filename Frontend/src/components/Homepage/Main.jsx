@@ -22,7 +22,7 @@ function Main(){
             <span className="inline-block pl-10 text-xl text-gray-400">Enlist as a coding recruit and rise to an elite code commando. From raw recruit to logic-special forces—train with purpose.</span>
             <div className="flex flex-col items-end space-y-2 mt-3">
               
-            <a  className="btn w-45 mt-3 rounded-2xl hover:shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-300" href='#sheets'>EXPLORE SHEETS —&gt;</a>
+            <a  className="btn w-45 mt-3 rounded-2xl  transition-all duration-400 ease-in-out hover:shadow-[0_0_15px_rgba(255,255,255,0.8)] " href='#sheets'>EXPLORE SHEETS —&gt;</a>
             <NavLink to="/problemset">
             <button className="btn w-45 mt-3 rounded-2xl hover:shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-300">Start Drill —&gt;  </button>
             </NavLink>

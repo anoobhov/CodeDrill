@@ -25,8 +25,8 @@ function Features()
     }, []);
     return(
         <>
-        <div className="text-5xl mb-5 font-bold" >Features (you'll love)</div>
-    <span className="text-xl">Our platform is designed to help you master algorithms and ace technical interviews through deliberate practice and visual learning.</span>
+        <span className="text-5xl mb-5 font-bold" >Features </span><span className="text-5xl mb-5 font-bold text-pink-400">(you'll love)</span>
+    <span className="text-xl block">Our platform is designed to help you master algorithms and ace technical interviews through deliberate practice and visual learning.</span>
     {/* cards */}
     <div className="flex justify-center relative gap-0 transition-all duration-1000 ease-in-out opacity-0 translate-y-10"
      id="card-containers"
