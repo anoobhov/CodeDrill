@@ -32,12 +32,12 @@ function Nav(){
     return(
         <div className="flex justify-center w-[100vw]">
     <nav id="navbar" className={`navbar bg-gradient-to-tr backdrop-blur-md bg-opacity-60 px-4 fixed top-0 z-40 transition-all duration-500 ease-in-out ${
-          scrolled ? "w-[100vw] px-10" : "w-[70%]  py-7"
+          scrolled ? "w-[100vw] px-10" : "w-[70%]  pt-6"
         }`}>
                 <div className="flex-1">
-                    <NavLink to="/" className="text-2xl font-bold transition-all duration-400 ease-in-out hover:shadow-2xl hover:shadow-white ">CodeDrill
-                    {/* <img src="./logo.png" alt="CodeDrill Logo" className="h-15 w-20" /> */}
-                    </NavLink>
+                    <NavLink to="/" className={`text-2xl font-bold transition-all duration-400 ease-in-out`}>
+                <img src={scrolled? "/logo_big.png":"/logo_small.png"} className={`${scrolled?"w-auto h-15":"h-15 w-auto"}`}></img>
+                </NavLink>
                 </div>
                 <div className="flex flex-row items-center gap-2">
                     <div>
