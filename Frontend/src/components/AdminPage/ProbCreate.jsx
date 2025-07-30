@@ -1,7 +1,8 @@
-import { useForm , useFieldArray} from "react-hook-form";
+import { useForm , useFieldArray,Controller} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {useNavigate} from 'react-router'
+import Select from 'react-select';
 import axiosClient from "../../utils/axiosClient";
 
 //making the problem Schema
@@ -9,7 +10,7 @@ const problemSchema = z.object({
     title:z.string().min(1,"Title is Missing"),
     description:z.string().min(1,"Description is Required"),
     difficulty:z.enum(['easy','medium','hard']),
-    tags:z.enum(['array',"dp",'linkedlist',"graph","math","bitwise"]),
+    tags:z.array(z.enum(['array',"dp",'linkedlist',"graph","math","bitwise"])),
     visibleTestCases:z.array(
         z.object({
             input:z.string().min(1,"Input is missing"),
@@ -38,7 +39,14 @@ const problemSchema = z.object({
   ).length(3, 'All three languages required')
 })
 
-
+const tagOptions = [
+  { value: "array", label: "Array" },
+  { value: "linkedlist", label: "Linked List" },
+  { value: "graph", label: "Graph" },
+  { value: "dp", label: "DP" },
+  { value: "math", label: "Maths" },
+  { value: "bitwise", label: "Bitwise" },
+];
 
 function ProblemCreation() {
   const navigate = useNavigate()
@@ -59,7 +67,8 @@ function ProblemCreation() {
         { language: 'C++', completeCode: '' },
         { language: 'Python', completeCode: '' },
         { language: 'JavaScript', completeCode: '' }
-      ]
+      ],
+      tags:[]
     }
   })
   const {
@@ -140,19 +149,76 @@ function ProblemCreation() {
 
               <div className="form-control w-1/2">
                 <label className="label">
-                  <span className="label-text">Tag</span>
+                  <span className="label-text">Tags</span>
                 </label>
-                <select
-                  {...register('tags')}
-                  className={`select select-bordered ${errors.tags && 'select-error'}`}
-                >
-                  <option value="array">Array</option>
-                  <option value="linkedList">Linked List</option>
-                  <option value="graph">Graph</option>
-                  <option value="dp">DP</option>
-                  <option value="math">Maths</option>
-                  <option value="bitwise">Bitwise</option>
-                </select>
+                <Controller
+        name="tags"
+        control={control}
+        render={({ field }) => (
+          <Select
+            {...field}
+            options={tagOptions}
+            isMulti
+            isSearchable
+            placeholder="Select/Search Tag (Multiple)"
+            classNamePrefix="react-select"
+              styles={{
+    control: (base) => ({
+      ...base,
+      backgroundColor: '#1f2937', // Tailwind gray-800
+      color: '#fff',
+      borderColor: '#3b82f6',
+    }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: '#1f2937',
+      color: '#fff',
+    }),
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isFocused
+        ? '#2563eb33'
+        : state.isSelected
+        ? '#3b82f6'
+        : 'transparent',
+      color: state.isSelected ? '#fff' : '#d1d5db', // Tailwind gray-300
+      cursor: 'pointer',
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: '#3b82f6', // Tailwind blue-500
+    }),
+    multiValueLabel: (base) => ({
+      ...base,
+      color: '#fff',
+    }),
+    multiValueRemove: (base) => ({
+      ...base,
+      color: '#fff',
+      ':hover': {
+        backgroundColor: '#1e40af', // Tailwind blue-800
+        color: 'white',
+      },
+    }),
+    placeholder: (base) => ({
+      ...base,
+      color: '#9ca3af', // Tailwind gray-400
+    }),
+    input: (base) => ({
+      ...base,
+      color: '#fff',
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: '#fff',
+    }),
+  }}
+             value={tagOptions.filter((opt) => field.value.includes(opt.value))}
+            onChange={(selected) => field.onChange(selected.map((opt) => opt.value))}
+          />
+        )}
+      />
+
               </div>
             </div>
           </div>

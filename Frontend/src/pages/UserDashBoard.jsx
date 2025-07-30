@@ -83,7 +83,7 @@ if (!userdata || !totalProblems) {
 <>
 <AnimateBg/>
 <Nav/>
-  <div className="grid grid-cols-[1fr_2fr] gap-4 mt-20 bg-cover bg-center bg-no-repeat">
+  <div className="grid grid-cols-[1fr_2fr] gap-4 mt-25 bg-cover bg-center bg-no-repeat">
       {/* Left */}
       <div className="h-[43%] inline-block bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border rounded-xl p-6 shadow-xl text-white  mt-3 transition-all duration-300 border-yellow-300 hover:shadow-xl shadow-amber-300">
         <div className="text-3xl font-bold mb-3">{user.firstName}'s Dashboard</div>

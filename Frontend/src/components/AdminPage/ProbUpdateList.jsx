@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axiosClient from "../../utils/axiosClient"
 // import { Navigate } from "react-router"
 import { useNavigate } from "react-router"
+import Loading from "../loading"
 
 const ProblemUpdationList = () =>{
     const navigate = useNavigate();
@@ -12,7 +13,8 @@ const ProblemUpdationList = () =>{
     const fetchProblems = async ()=>{
         try{
             const {data}=await axiosClient.get('problem/allproblems')
-            setProblems(data)
+            setProblems(data.selected_problem)
+            console.log(data)
         }catch(error){
             setError("Error while fetching Problems: "+error)
         }finally{
@@ -42,12 +44,8 @@ const ProblemUpdationList = () =>{
     }
 
 
-   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
+   if (!problems) {
+    <Loading/>
   }
 
   if (error) {

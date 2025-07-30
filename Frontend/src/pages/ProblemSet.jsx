@@ -39,8 +39,10 @@ function ProblemSet(){
       const fetchProblems = async () => {
             try {
                 const {data}=await axiosClient.get(`/problem/allproblems`,{
+                 
                   params:{ query: term }
                 });
+                 console.log(data)
                 setProblems(data.selected_problem)
 
                 
@@ -125,7 +127,7 @@ function ProblemSet(){
             {/* nav bar */}
             <Nav/>
             {/* Main contents */}
-            <div className="container mt-5 mx-auto p-4">
+            <div className="container mt-8 mx-auto p-4">
                 {/* filter */}
                 <div className="flex flex-wrap gap-4 mb-1 mt-15">
                     <select
@@ -244,9 +246,12 @@ function ProblemSet(){
                   </span>
                 </td>
                 <td>
-                  <span className="badge  ">
-                    {problem.tags}
-                  </span>
+                  {Array.isArray(problem.tags) && problem.tags.map((tag, idx) => (
+    <span key={idx} className="badge badge-outline mr-1">{tag}</span>
+  ))}
+                 
+                    
+                  
                 </td>
                 <td>
                   <span className={`badge py-4 ${likedIds.includes(problem._id.toString()) ? 'badge-success' : ''}`}>
