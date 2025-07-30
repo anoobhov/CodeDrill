@@ -98,7 +98,7 @@ function ProblemSet(){
    
     let filterproblems = problems.filter((problem)=>{
         const  difficultyMatch = filters.difficulty === 'all' || problem.difficulty ===filters.difficulty
-        const  tagMatch = filters.tag === 'all' || problem.tags ===filters.tag
+        const  tagMatch = filters.tag === 'all' || problem.tags.some(tag => tag.toLowerCase().trim() === filters.tag.toLowerCase().trim())
         const  statusMatch = filters.status === 'all' ||(filters.status === 'solved'&& solvedproblems.some(sp=>sp._id === problem._id))|| 
                 (filters.status === 'unsolved' && !solvedproblems.some(sp => sp._id === problem._id))||
                 (filters.status === 'liked'&& likedproblems.some(sp=>sp._id === problem._id));
