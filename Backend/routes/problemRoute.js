@@ -20,7 +20,7 @@ const problemRouter = express.Router()
 
 //admin can do that
 problemRouter.post("/problemcreate",authmidware,adminmidware,problemCreate)
-problemRouter.put("/problemUpdate/:id",authmidware,adminmidware,problemUpdate)
+problemRouter.patch("/problemUpdate/:id",authmidware,adminmidware,problemUpdate)
 problemRouter.delete("/problemDelete/:id",authmidware,adminmidware,problemDelete)
 problemRouter.get('/potd_update/:id',authmidware,adminmidware,POTD_update)
 

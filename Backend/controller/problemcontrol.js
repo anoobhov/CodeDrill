@@ -69,9 +69,18 @@ const problemUpdate = async (req,res) => {
       const existing_problem = await Problem.findById(id)
       if(!existing_problem)
         throw new Error("Problem don't exist.")
+
+      const shouldRejudge =
+      visibleTestCases &&
+      JSON.stringify(visibleTestCases) !== JSON.stringify(existing_problem.visibleTestCases) ||
+      hiddenTestCases &&
+      JSON.stringify(hiddenTestCases) !== JSON.stringify(existing_problem.hiddenTestCases) ||
+      referenceSolution &&
+      JSON.stringify(referenceSolution) !== JSON.stringify(existing_problem.referenceSolution);
+
+      if(shouldRejudge){
       for(const {language,completeCode} of referenceSolution){
         const languageId = getLanguageById(language);
-          
         // I am creating Batch submission
         const submissions = visibleTestCases.map((testcase)=>({
             source_code:completeCode,
@@ -97,8 +106,8 @@ const problemUpdate = async (req,res) => {
        }
 
       }
-
-
+    }
+    
       // We can store it in our DB
 
     req.body.problemCreator = req.result._id
@@ -190,8 +199,7 @@ const getAllProblem = async (req,res) => {
       //.limit(parseInt(limit));
 
       const total_problem = await Problem.countDocuments({ title: { $regex: regexQuery }})
-      if(selected_problem.length==0)
-        throw new Error("NO problem db")
+      
       res.status(201).json({selected_problem,total_problem});
     }catch (error) {
 
