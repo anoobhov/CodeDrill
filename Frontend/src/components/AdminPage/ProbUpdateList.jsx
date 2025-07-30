@@ -95,9 +95,9 @@ const ProblemUpdationList = () =>{
                   </span>
                 </td>
                 <td>
-                  <span className="badge badge-outline">
-                    {problem.tags}
-                  </span>
+                  {problem.tags.map((tag, idx) => (
+    <span key={idx} className="badge badge-outline mr-1">{tag}</span>
+  ))}
                 </td>
                 <td>
                   <div className="flex space-x-2">

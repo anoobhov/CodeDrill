@@ -246,7 +246,7 @@ function ProblemSet(){
                   </span>
                 </td>
                 <td>
-                  {Array.isArray(problem.tags) && problem.tags.map((tag, idx) => (
+                  {problem.tags.map((tag, idx) => (
     <span key={idx} className="badge badge-outline mr-1">{tag}</span>
   ))}
                  
