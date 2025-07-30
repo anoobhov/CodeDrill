@@ -242,7 +242,7 @@ function ProblemSet(){
                         ? 'badge-warning' 
                         : 'badge-error'
                   }`}>
-                    {problem.difficulty}
+                   {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
                   </span>
                 </td>
                 <td>

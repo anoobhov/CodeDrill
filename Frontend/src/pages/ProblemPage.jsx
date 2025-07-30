@@ -217,7 +217,9 @@ const ProblemPage = () => {
                     <div className={`badge badge-outline ${getDifficultyColor(problem.difficulty)}`}>
                       {problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}
                     </div>
-                    <div className="badge badge-primary">{problem.tags}</div>
+                    {problem.tags.map((tag, idx) => (
+    <span key={idx} className="badge badge-primary">{tag}</span>
+  ))}
                   </div>
 
                   <div className="prose max-w-none">
