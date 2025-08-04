@@ -84,9 +84,42 @@ userTotalSubmissions.forEach(sub => {
   dailyCounts[date] = (dailyCounts[date] || 0) + 1;
 });
 
-    res.json({user,totalprobs,userTotalSubmissions,dailyCounts})
 
+const allDates = Object.keys(dailyCounts);
+    if (allDates.length === 0) return 0;
 
+    // Step 1: Sort the dates
+    const sortedDates = allDates.sort();
+    const startDate = new Date(sortedDates[0]);
+    const endDate = new Date(sortedDates[sortedDates.length - 1]);
+
+    // Step 2: Fill all days between min and max
+    const dateMap = {};
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const dateStr = d.toISOString().split("T")[0];
+        dateMap[dateStr] = dailyCounts[dateStr] || 0;
+    }
+
+    // Step 3: Traverse from the end and count consecutive non-zero days
+    // const dateEntries = Object.entries(dateMap);
+    let currentStreak = 0;
+    let longestStreak = 0;
+
+    for (const date of Object.keys(dateMap)) {
+        if (dateMap[date] > 0) {
+            currentStreak++;
+            longestStreak = Math.max(longestStreak, currentStreak);
+        } else {
+            currentStreak = 0;
+        }
+    }
+      const streaks = {
+        currentStreak,
+        longestStreak
+      }
+
+    res.json({user,totalprobs,userTotalSubmissions,dailyCounts,streaks})
+      
   } catch (error) {
     
   }

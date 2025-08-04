@@ -61,7 +61,7 @@ function UserDash() {
   const [totalProblems, setTotalProblems] = useState(null);
   const [submissions,setSubmissions] = useState(null)
   const [dailyCounts,setDailyCounts] = useState(null)
-
+  const [streak,setStreak] = useState(null)
   useEffect(() => {
     const fetchUserData = async () => {
       const { data } = await axiosClient.get("/stats/userstats");
@@ -70,6 +70,7 @@ function UserDash() {
       setTotalProblems(data.totalprobs);
       setSubmissions(data.userTotalSubmissions)
       setDailyCounts(data.dailyCounts)
+      setStreak(data.streaks)
     };
     fetchUserData();
   }, []);
@@ -91,7 +92,8 @@ if (!userdata || !totalProblems) {
         <hr className="mt-2" />
         <div className=" my-7 py-3">Email:<br></br> {user.emailId}</div>
         <div className="py-3 my-7">Member Since: {userdata.createdAt}</div>
-        <div>Current Streak: </div>
+        <div>Current Streak: {streak.currentStreak} </div>
+        <div>Longest Streak: {streak.longestStreak} </div>
       </div>
 
       {/* Right */}
