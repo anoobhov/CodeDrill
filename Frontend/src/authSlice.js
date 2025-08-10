@@ -71,13 +71,27 @@ export const logoutUser = createAsyncThunk(
         }
     }
 )
+
+export const fetchStreaks = createAsyncThunk(
+    'auth/fetchstreaks',
+    async(_,{rejectWithValue}) =>{
+        try{
+           const {data} = await axiosClient.get('stats/userstats')
+           return data.streaks
+        }catch(error){
+
+        }
+    }
+)
 const authSlice = createSlice({
     name:'auth',
     initialState:{
         user:null,
         isAuthenticated:false,
         loading:false,
-        error:null
+        error:null,
+        currentStreak: null,
+        longestStreak: null
     },
     reducer:{},
     extraReducers:(builder)=>{
@@ -154,7 +168,22 @@ const authSlice = createSlice({
         state.error = action.payload?.message || 'Something went wrong';
         state.isAuthenticated = false;
         state.user = null;
-      });
+      })
+
+    //   streaks
+    .addCase(fetchStreaks.pending, (state) => {
+    state.loading = false;
+    state.error = null;
+})
+.addCase(fetchStreaks.fulfilled, (state, action) => {
+    state.loading = false;
+    state.currentStreak = action.payload.currentStreak;
+    state.longestStreak = action.payload.longestStreak;
+})
+.addCase(fetchStreaks.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.payload?.message || "Failed to fetch streaks";
+})
     }
 })
 

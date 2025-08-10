@@ -1,19 +1,13 @@
-import { LogOut, User, Shield } from "lucide-react";
+import { LogOut, User, Shield, Flame, FlameKindling } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from 'react-router';
 import { useEffect, useState } from "react";
-import { logoutUser } from "../authSlice"
+import { logoutUser,fetchStreaks } from "../authSlice"
 function Nav(){
     const dispatch = useDispatch()
-    const [showName, setShowName] = useState(false);
+    const currentStreak = useSelector((state) => state.auth.currentStreak);
+    const longestStreak = useSelector((state) => state.auth.longestStreak);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowName(true);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
      const [scrolled, setScrolled] = useState(false);
     const {user} = useSelector((state)=>state.auth) 
     const handleLogout = () =>{
@@ -25,9 +19,15 @@ function Nav(){
       setScrolled(window.scrollY > 10);
     };
 
+   
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+   useEffect(() => {
+    dispatch(fetchStreaks());
+}, [dispatch]);
 
     return(
         <div className="flex justify-center w-[100vw]">
@@ -40,16 +40,26 @@ function Nav(){
                 </NavLink>
                 </div>
                 <div className="flex flex-row items-center gap-2">
+
+                <div>
+                        <button className={`btn border-0 bg-green-300/80 text-green-700 transition-all duration-2000 ease-in-out ${scrolled? "":"rounded-4xl"}
+                        `}>{currentStreak}<Flame/></button>
+                    </div>
+                    <div>
+                        <button className={`btn border-0 bg-red-300 text-red-700 transition-all duration-2000 ease-in-out ${scrolled? "":"rounded-4xl"}
+                        `}>{longestStreak}<FlameKindling/></button>
+                    </div>
                     <div>
                         <NavLink to="/problemset">
                         <button className={`btn btn-dash transition-all duration-2000 ease-in-out ${scrolled? "":"rounded-4xl"}
                         `}>Problem Set</button></NavLink>
                     </div>
+
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} className={`btn btn-dash 
                             transition-all duration-2000 ease-in-out font-bold ${scrolled? "":"rounded-4xl"}
                             `}>
-                            {showName?`` : "Namaste, "}{user?.firstName}
+                            {user?.firstName}
                         </div>
                         <ul className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-black rounded-box w-52">
                         <li className=" font-bold"><NavLink to='/dashboard'><User />My Profile</NavLink></li>

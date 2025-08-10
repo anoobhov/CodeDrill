@@ -12,9 +12,9 @@ function Main(){
 </div>
 
             <div className="flex gap-2 mt-20">
-                <button className="btn btn-ghost border-1 border-gray-200 hover:border-green-600 hover:bg-transparent duration-300"><Users className="text-green-500"/>1000+ Active Users</button>
-                <button className="btn btn-ghost border-1 border-gray-200 transition-all hover:border-cyan-600 hover:bg-transparent duration-300"><NotepadText className="text-cyan-500"/>10+ Special Sheets</button>
-                <button className="btn btn-ghost border-1 border-gray-200 transition-all hover:border-orange-600 hover:bg-transparent duration-300"><Flame className="text-orange-500"/>24/7 Support</button>
+                <button className="btn btn-ghost border-1 border-gray-200 hover:border-green-600 hover:bg-transparent duration-300 shadow-none"><Users className="text-green-500"/>1000+ Active Users</button>
+                <button className="btn btn-ghost border-1 border-gray-200 transition-all hover:border-cyan-600 hover:bg-transparent duration-300 shadow-none"><NotepadText className="text-cyan-500"/>10+ Special Sheets</button>
+                <button className="btn btn-ghost border-1 border-gray-200 transition-all hover:border-orange-600 hover:bg-transparent duration-300 shadow-none"><Flame className="text-orange-500"/>24/7 Support</button>
             </div>
             </div>
             {/* RIght side */}
